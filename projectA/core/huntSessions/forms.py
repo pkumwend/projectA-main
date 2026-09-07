@@ -6,4 +6,4 @@ from .models import Hunt
 class HuntForm(forms.ModelForm):
     class Meta:
         model = Hunt
-        fields = ['hunt_Name','location']
+        fields = ['hunt_name','location']

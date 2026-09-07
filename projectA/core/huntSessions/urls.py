@@ -30,6 +30,11 @@ urlpatterns = [
     views.manage_hunts,
     name="manage_hunts"),
 
+    #adding path <int:hunt_id> is to load a page that references the scavenger hunt from dataabse to edit
+    path("dashboard/manage/hunts/edit/<int:hunt_id>/",
+         views.edit_hunt,
+         name="edit_hunt"),
+
     path("dashboard/questions/",
     views.question_pool,
     name="question_pool"),
@@ -42,7 +47,12 @@ urlpatterns = [
     views.create_hunt,
     name="create_hunt"),
 
+    path("dashboard/manage/hunts/delete/<int:hunt_id>/",
+         views.delete_hunt,
+         name="delete_hunt"),
+
     path("dashboard/questions/create/",
     views.create_question,
     name="create_question"),
+
 ]

@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>Edit Hunt | Ecu scavenger Hunt</title>
 
 <link
@@ -22,23 +21,27 @@
 
 <main class="container">
 
-<h1>Edit Hunt</h1>
+<h1>Delete Hunt</h1>
 
 <div class="accent-line"></div>
 
 <form method="POST">
     {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button type="submit">
-        Save Changes
+    <p>
+    Name : {{ hunt.hunt_name }}
+    </p>
+    <p>
+    Location : {{ hunt.location  }}
+    </p>
+    <button type="submit", style="color: crimson;">
+        Confirm?
     </button>
 </form>
-
+<p>
 <a href="{% url 'manage_hunts' %}">
     Back to Manage Hunts
 </a>
+</p>
 
 </main>
 

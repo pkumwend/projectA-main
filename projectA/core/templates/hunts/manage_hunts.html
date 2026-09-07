@@ -42,10 +42,18 @@
 
             <div class="hunt-card">
 
-                <h3>{{ hunt.hunt_Name }}</h3>
+                <h3>Name : {{ hunt.hunt_name }}</h3>
 
-                <p>{{ hunt.location }}</p>
-<!-- here add a method for editing the scavenger hunts-->
+                <p>Location : {{ hunt.location }}</p>
+                <p><a href="{% url 'edit_hunt' hunt.hunt_id %}">
+                    Edit hunt
+                </a>
+                </p>
+                <p>
+                <a href="{% url 'delete_hunt'  hunt.hunt_id %}">
+                    Delete hunt
+                </a>
+                </p>
             </div>
 
         {% endfor %}

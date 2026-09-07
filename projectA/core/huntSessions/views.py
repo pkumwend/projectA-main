@@ -122,4 +122,42 @@ def create_hunt(request):
     else:
         form = HuntForm()
 
-    return render(request, "hunts/create_hunt.html",{'form': form})
+    return render(request, "hunts/create_hunt.html",{'form': form}) 
+
+@login_required(login_url="staff_login")
+def edit_hunt(request,hunt_id):
+    
+    if not request.user.is_staff:
+        return redirect("staff_login")
+
+    instance = Hunt.objects.get(hunt_id=hunt_id)
+
+    form = HuntForm(instance= instance)
+
+
+    if request.method == "POST":
+        form = HuntForm(request.POST,instance=instance)
+
+        if form.is_valid():
+            form.save()
+            return redirect("manage_hunts")
+    
+
+    return render(request, "hunts/edit_hunt.html", {'form' : form})
+
+@login_required(login_url="staff_login")
+def delete_hunt(request,hunt_id):
+
+    if not request.user.is_staff:
+        return redirect("staff_login")
+
+    instance = Hunt.objects.get(hunt_id=hunt_id)
+
+    form = HuntForm(instance= instance)
+
+    if request.method == "POST":
+            form = HuntForm(request.POST,instance=instance)
+            instance.delete()
+            return redirect("manage_hunts")
+
+    return render(request, "hunts/delete_hunt.html", {'hunt' : instance})

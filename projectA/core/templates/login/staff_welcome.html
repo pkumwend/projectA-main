@@ -34,15 +34,21 @@
             You are logged in as a staff member.
         </p>
         <div class = "Dashboard actions">
+            <p>
             <a href=" {% url 'manage_hunts' %}" class="Dashboard-button">
                 Manage Hunts
             </a>
+            </p>
+            <p>
             <a href="{% url 'question_pool' %}" class="Dashboard-button">
                 Question Pool
             </a>
+            </p>
+            <p>
             <a href="{% url 'manage_sessions' %}" class="Dashboard-button">
                 Manage Sessions
             </a>
+            </p>
         </div>
 
         <form
