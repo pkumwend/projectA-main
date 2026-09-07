@@ -105,7 +105,7 @@ def edit_question(request,question_id):
         form = QuestionForm(request.POST,instance=instance)
         if form.is_valid():
             form.save()
-            return redirect("manage_questions")
+            return redirect("question_pool")
     return render(request, "questions/edit_question.html", {'form' : form})
 
 
