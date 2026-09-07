@@ -8,10 +8,12 @@ class Hunt(models.Model):
     hunt_name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
 
-'''
+question_types = [("multiple choice","Multiple Choice"),
+                  ("short answer","Short Answer"),
+                  ("picture","Picture Submission"),]
+
 class Question(models.Model):
     question_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=1000)
-    question_type = models.CharField(max_length=50)
-    answer = models.CharField(max_length=250)
-'''
+    question_type = models.CharField(max_length=50,choices=question_types)
+    

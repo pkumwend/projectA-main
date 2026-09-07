@@ -35,6 +35,10 @@ urlpatterns = [
          views.edit_hunt,
          name="edit_hunt"),
 
+    path("dashboard/questions/edit/<int:question_id>/",
+             views.edit_question,
+             name="edit_question"),
+
     path("dashboard/questions/",
     views.question_pool,
     name="question_pool"),
@@ -51,8 +55,14 @@ urlpatterns = [
          views.delete_hunt,
          name="delete_hunt"),
 
+    path("dashboard/questions/delete/<int:question_id>/",
+        views.delete_question,
+        name="delete_question"),
+
     path("dashboard/questions/create/",
     views.create_question,
     name="create_question"),
+
+    
 
 ]

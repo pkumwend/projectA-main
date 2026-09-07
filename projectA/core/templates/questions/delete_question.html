@@ -8,8 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>Edit Hunt | Ecu scavenger Hunt</title>
+<title>Delete Question | Ecu scavenger Hunt</title>
 
 <link
     rel="stylesheet"
@@ -22,23 +21,27 @@
 
 <main class="container">
 
-<h1>Edit Hunt</h1>
+<h1>Delete question</h1>
 
 <div class="accent-line"></div>
 
 <form method="POST">
     {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button type="submit">
-        Save Changes
+    <p>
+    Name : {{ question.description }}
+    </p>
+    <p>
+    Location : {{ question.question_type  }}
+    </p>
+    <button type="submit", style="color: crimson;">
+        Confirm?
     </button>
 </form>
- 
-<a href="{% url 'manage_hunts' %}">
-    Back to Manage Hunts
+<p>
+<a href="{% url 'question_pool' %}">
+    Back to Question pool
 </a>
+</p>
 
 </main>
 

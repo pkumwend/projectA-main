@@ -34,7 +34,7 @@
 
     </div>
 
-    <h2>Questions</h2>
+    <h2>Questions Pool</h2>
 
     {% if questions %}
 
@@ -42,16 +42,19 @@
 
             <div class="question-card">
 
-                <h3>{{ question.text }}</h3>
+                <h3>Q : {{ question.description }}</h3>
 
                 <p>
                     Type: {{ question.question_type }}
                 </p>
-
-                <a href="{% url 'edit_question' question.id %}">
+                <p>
+                <a href="{% url 'edit_question' question.question_id %}">
                     Edit Question
                 </a>
-
+            </p>
+            <a href="{% url 'delete_question' question.question_id %}">
+                Delete Question
+            </a> 
             </div>
 
         {% endfor %}
