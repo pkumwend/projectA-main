@@ -1,10 +1,11 @@
 from django import forms
 from .models import Hunt
 from .models import Question
+from .models import HuntSession
 
 #the model fors for the huntSessions app
 
-
+ 
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -18,12 +19,7 @@ class HuntForm(forms.ModelForm):
         model = Hunt
         fields = ["hunt_name","location","questions"]
         
-
-'''
-class QuizQuestionsForm(forms.ModelForm):
+class HuntSessionForm(forms.ModelForm):
     class Meta:
-        model = Question
-        fields = ["description","question_type"]
-
-        Questions = forms.ModelMultipleChoiceField(queryset=)
-'''
+        model = HuntSession
+        fields = ["hunt","status","join_code"]

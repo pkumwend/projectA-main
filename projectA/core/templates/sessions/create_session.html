@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Session | ECU Scavenger Hunt</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style_css/style.css' %}"
+    >
+</head>
+ 
+<body>
+
+<main class="container">
+
+    <h1>Create New Session</h1>
+
+    <div class="accent-line"></div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        
+        <button type="submit">
+            Create Session
+        </button>
+
+    </form>
+
+    <a href="{% url 'manage_sessions' %}">
+        Back to Sessions
+    </a>
+
+</main>
+
+</body>
+</html>

@@ -26,26 +26,41 @@
         View and manage currently active scavenger hunt sessions.
     </p>
     
+    <div class="accent-line"></div>
 
-    {% if sessions %}
+    <p>
+        Create a new hunt or manage one of your existing hunts.
+    </p>
 
-        {% for session in sessions %}
+    <div class="dashboard-actions">
+
+        <a href="{% url 'create_session' %}" class="dashboard-button">
+            Create New Session
+        </a>
+
+    </div>
+    <h2> Available Hunts</h2>
+
+    {% if Sessions %}
+
+        {% for Session in Sessions %}
 
             <div class="session-card">
 
-                <h2>{{ session.hunt.title }}</h2>
+                <h2>{{ Session.Hunt.hunt_name }}</h2>
 
                 <p>
                     Join Code:
-                    <strong>{{ session.join_code }}</strong>
+                    <strong>{{ Session.join_code }}</strong>
                 </p>
 
                 <p>
                     Participants:
-                    {{ session.participants.count }}
+                    0 for now, will implmenet shortly
                 </p>
+                <p> Status : {{Session.status}}</p>
 
-                <a href="{% url 'session_detail' session.id %}">
+                <a href="{% url 'session_detail' Session.Session_id %}">
                     View Session
                 </a>
                 
@@ -57,7 +72,7 @@
     {% else %}
 
         <p>
-            There are currently no active sessions.
+            There are currently no sessions.
         </p>
 
     {% endif %}

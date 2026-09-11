@@ -9,9 +9,17 @@ from .models import Hunt
 from .forms import QuestionForm
 from .models import Question
 
-def is_allowed(user):
-    return user.is_superuser
+from .forms import HuntSessionForm
+from .models import HuntSession
 
+
+
+################################################################################
+#Admin and staff login section
+
+def is_admin(user):
+    return user.is_superuser
+ 
 def staff_login(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
@@ -60,16 +68,6 @@ def staff_dashboard(request):
         return redirect("admin_dashboard")
     return render(request, "login/staff_welcome.html")
 
-@login_required(login_url="staff_login")
-def manage_hunts(request):
-    hunts = Hunt.objects.all()
-    return render(request, "hunts/manage_hunts.html", {'hunts' : hunts})
-
-
-
-@login_required(login_url="staff_login")
-def manage_sessions(request):
-    return render(request, "sessions/manage_sessions.html")
 
 def staff_logout(request):
     if request.method == "POST":
@@ -78,6 +76,7 @@ def staff_logout(request):
     return redirect("staff_login")
 
 ##################################################################################################
+#questions related
 
 @login_required(login_url="staff_login")
 def create_question(request):
@@ -120,8 +119,8 @@ def delete_question(request,question_id):
 
     return render(request, "questions/delete_question.html", {'question' : instance})
 
-####################################################################
-#forms views for getting data from user on 
+################################################################################################
+#hunts related
 
 
 @login_required(login_url="staff_login")
@@ -134,6 +133,11 @@ def create_hunt(request):
     else:
         form = HuntForm()
     return render(request, "hunts/create_hunt.html",{'form': form}) 
+
+@login_required(login_url="staff_login")
+def manage_hunts(request):
+    hunts = Hunt.objects.all()
+    return render(request, "hunts/manage_hunts.html", {'hunts' : hunts})
 
 @login_required(login_url="staff_login")
 def edit_hunt(request,hunt_id):
@@ -159,3 +163,38 @@ def delete_hunt(request,hunt_id):
             return redirect("manage_hunts")
 
     return render(request, "hunts/delete_hunt.html", {'hunt' : instance})
+
+
+###############################################################################################
+#sessions related
+
+@login_required(login_url="staff_login")
+def create_session(request):
+    if request.method == "POST":
+        form = HuntSessionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("manage_sessions")
+    else:
+        form = HuntSessionForm()
+    return render(request, "sessions/create_session.html",{'form': form})     
+
+
+@login_required(login_url="staff_login")
+def manage_sessions(request):
+    Sessions = HuntSession.objects.all()
+    hunts = Hunt.objects.all()
+    return render(request, "sessions/manage_sessions.html", {"Sessions":Sessions})
+
+
+@login_required(login_url="staff_login")
+def session_detail(request,Session_id):
+    
+    instance = HuntSession.objects.get(SEssion_id=Session_id)
+    form = HuntForm(instance= instance)
+    if request.method == "POST":
+        form = HuntForm(request.POST,instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect("manage_sessions")
+    return render(request, "sessions/sessdion_detail.html", {'form' : form})

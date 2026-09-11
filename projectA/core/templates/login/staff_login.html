@@ -2,66 +2,133 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Staff Login | ECU Scavenger Hunt</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{% static 'style_css/style.css' %}">
 </head>
 
-<body>
-    <main class="container">
-        <h1>ECU Scavenger Hunt</h1>
+<body class="start-page">
 
-        <div class="accent-line"></div>
+    <main class="container start-container">
 
-        <p class="welcome-text">
-            Staff and administrator login
-        </p>
+        <!-- Black header -->
+        <div class="hunt-top">
 
-        {% if messages %}
-            {% for message in messages %}
-                <p class="message {{ message.tags }}">
-                    {{ message }}
-                </p>
-            {% endfor %}
-        {% endif %}
+            <img src="{% static 'ecu-logo-black.png' %}"
+                 alt="Edith Cowan University Logo"
+                 class="ecu-logo">
 
-        <form method="post">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="username">Username</label>
-
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    required
-                >
-            </div>
- 
-            <div class="form-group">
-                <label for="password">Password</label>
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-                >
+            <div class="clock-display">
+                <span id="clock"></span>
             </div>
 
-            <button type="submit">
-                Login
-            </button>
-        </form>
+        </div>
+
+        <!-- Teal line -->
+        <div class="header-accent"></div>
+
+        <!-- Login content -->
+        <div class="start-content">
+
+            <h1>ECU Scavenger Hunt</h1>
+
+            <div class="group-section">
+                Staff Portal
+            </div>
+
+            <h2>Staff Login</h2>
+
+            <p class="welcome-text">
+                Enter your username and password to continue.
+            </p>
+
+            <!-- Django messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message {{ message.tags }}" role="alert">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Login form -->
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+        </div>
+
     </main>
+
+    <!-- Clock -->
+    <script>
+        function updateClock() {
+            const currentTime = new Date();
+
+            const formattedTime =
+                currentTime.toLocaleTimeString("en-AU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                });
+
+            document.getElementById("clock").textContent =
+                formattedTime.toUpperCase();
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
 </body>
+
+</html>
