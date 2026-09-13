@@ -39,7 +39,7 @@
         </a>
 
     </div>
-    <h2> Available Hunts</h2>
+    <h2> Available Hunt Session</h2>
 
     {% if Sessions %}
 
@@ -53,18 +53,21 @@
                     Join Code:
                     <strong>{{ Session.join_code }}</strong>
                 </p>
-
+                <p> Status : {{Session.status}}
                 <p>
-                    Participants:
-                    0 for now, will implmenet shortly
-                </p>
-                <p> Status : {{Session.status}}</p>
-
                 <a href="{% url 'session_detail' Session.Session_id %}">
                     View Session
                 </a>
-                
-
+                </p> 
+                </p>
+                <p><a href="{%url 'edit_session' Session.Session_id%}">
+                    Edit Session
+                </a>
+                </p>
+                <p><a href="{%url 'delete_session' Session.Session_id%}">
+                    Delete Session
+                </a>
+                </p>
             </div>
 
         {% endfor %}

@@ -35,16 +35,16 @@ urlpatterns = [
         views.create_session,
         name="create_session"),
     path("dashboard/manage/sessions/edit/<int:Session_id>/",
-         views.edit_hunt,
+         views.edit_session,
          name="edit_session"),
 
-    path("dashboard/manange/sessions/details/<int:Session_id>/",
+    path("dashboard/manage/sessions/details/<int:Session_id>/",
     views.session_detail,
     name="session_detail"),
 
     path("dashboard/manage/sessions/delete/<int:Session_id>/",
-         views.delete_hunt,
-         name="delete_sesssion"),
+         views.delete_session,
+         name="delete_session"),
 
     ########################hunts#############################################
     path("dashboard/manage/hunts/",

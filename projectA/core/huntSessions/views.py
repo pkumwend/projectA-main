@@ -181,6 +181,17 @@ def create_session(request):
 
 
 @login_required(login_url="staff_login")
+def edit_session(request,Session_id):
+    instance = HuntSession.objects.get(Session_id=Session_id)
+    form = HuntSessionForm(instance= instance)
+    if request.method == "POST":
+        form = HuntSessionForm(request.POST,instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect("manage_sessions")
+    return render(request, "sessions/edit_session.html", {'form' : form})
+
+@login_required(login_url="staff_login")
 def manage_sessions(request):
     Sessions = HuntSession.objects.all()
     hunts = Hunt.objects.all()
@@ -189,12 +200,15 @@ def manage_sessions(request):
 
 @login_required(login_url="staff_login")
 def session_detail(request,Session_id):
-    
-    instance = HuntSession.objects.get(SEssion_id=Session_id)
-    form = HuntForm(instance= instance)
+    Session = HuntSession.objects.get(Session_id=Session_id)
+    return render(request, "sessions/session_detail.html", {"Session":Session}) 
+
+@login_required(login_url="staff_login")
+def delete_session(request,Session_id):
+    instance = HuntSession.objects.get(Session_id=Session_id)
+    form = HuntSessionForm(instance= instance)
     if request.method == "POST":
-        form = HuntForm(request.POST,instance=instance)
-        if form.is_valid():
-            form.save()
+            form = HuntSessionForm(request.POST,instance=instance)
+            instance.delete()
             return redirect("manage_sessions")
-    return render(request, "sessions/sessdion_detail.html", {'form' : form})
+    return render(request, "sessions/delete_session.html", {'Session' : instance})

@@ -1,0 +1,64 @@
+
+
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Session Details</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style_css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<main class="container">
+
+<h1>Session Details</h1>
+
+<div class="accent-line"></div>
+
+<h2>{{ Session.quiz.quiz_name }}</h2>
+
+<p>
+    <strong>Location:</strong>
+    {{ Session.hunt.location }}
+</p>
+
+<p>
+    <strong>Number of Questions:</strong>
+    {{ Session.hunt.questions.count }}
+</p>
+
+<p>
+    <strong>Join Code:</strong>
+    {{ Session.join_code }}
+</p>
+
+<p>
+    <strong>Status:</strong>
+    {{ Session.get_status_display }}
+</p>
+
+<p>
+    <strong>Participants:</strong>
+    0
+</p>
+
+<a href="{% url 'manage_sessions' %}">
+    Back to Manage Sessions
+</a>
+
+</main>
+
+</body>
+</html>
