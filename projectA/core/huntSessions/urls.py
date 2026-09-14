@@ -21,7 +21,7 @@ urlpatterns = [
         views.admin_dashboard,
         name="admin_dashboard"
     ),
-
+ 
     path(
         "dashboard/staff/",
         views.staff_dashboard,
@@ -74,4 +74,10 @@ urlpatterns = [
     path("dashboard/questions/",
         views.question_pool,
         name="question_pool"),
+
+    ######################home and join stuff###################################
+
+    path("", views.homepage, name="homepage"),
+    path("join/", views.join_hunt, name="join_hunt"),
+    path("questions/", views.start_hunt, name="start_hunt"),
 ]

@@ -13,6 +13,10 @@ from .forms import HuntSessionForm
 from .models import HuntSession
 
 
+from .forms import PlayerForm
+from .models import Player
+
+from .forms import JoinCodeForm
 
 ################################################################################
 #Admin and staff login section
@@ -212,3 +216,43 @@ def delete_session(request,Session_id):
             instance.delete()
             return redirect("manage_sessions")
     return render(request, "sessions/delete_session.html", {'Session' : instance})
+
+#########################  home and quiz ################################################
+def homepage(request):
+    if request.method == "POST":
+        form = JoicCodeForm(request.POST)
+        if form.is_valid():
+            join_code = form.cleaned_data["join_code"]
+            session = get_object_or_404(HuntSession,join_code=join_code)
+
+            request.session["hunt_session_id"] = session.Session_id
+
+            return redirect("join_hunt")
+    else:
+        form =  JoinCodeForm()
+    return render(request, "home/home.html", {"form":form})
+
+
+def join_hunt(request):
+    if request.Method == "POST":
+        form = PlayerForm(request.POST)
+        if form.is_valid():
+            session_id = request.session.get("hunt_session_id")
+            session = get_object_or_404(HuntSession,join_code=join_code)
+            Player = form.save(commit=False)
+            player.session = session
+            player.save()
+            request.session["player_id"] = Player.player_id
+            return redirect("start_hunt")
+    else:
+        form = PlayerForm()
+    return render(request, "home/join_hunt.html", {"form":form})
+
+def start_hunt(request):
+    palyer_id = request.sesssion.get("player_id")
+    player = get_object_or_404(Player,player_id=player_id)
+    session = player.session
+    hunt = session.hunt
+    questions = hunt.questions.all()
+
+    return render(request, "home/questions.html",{"player":player,"session":session,"hunt":hunt,"questions":questions})

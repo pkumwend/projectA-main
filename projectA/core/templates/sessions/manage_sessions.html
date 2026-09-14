@@ -8,81 +8,108 @@
 
     <title>Manage Sessions | ECU Scavenger Hunt</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
 </head>
 
-<body>
+<body class="start-page">
 
 <main class="container">
 
-    <h1>Manage Sessions</h1>
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}"
+             alt="Edith Cowan University Logo"
+             class="ecu-logo">
 
-    <div class="accent-line"></div>
+        <div class="clock-display">
+            <span id="clock"></span>
+        </div>
+    </div>
 
-    <p>
-        View and manage currently active scavenger hunt sessions.
-    </p>
-    
-    <div class="accent-line"></div>
+    <div class="header-accent"></div>
 
-    <p>
-        Create a new hunt or manage one of your existing hunts.
-    </p>
+    <div class="questions-content">
 
-    <div class="dashboard-actions">
+        <h1>Manage Sessions</h1>
 
-        <a href="{% url 'create_session' %}" class="dashboard-button">
+        <p class="welcome-text start-text">
+            View and manage currently active scavenger hunt sessions.
+        </p>
+
+        <a href="{% url 'create_session' %}" class="button-link">
             Create New Session
         </a>
 
-    </div>
-    <h2> Available Hunt Session</h2>
+        <h2>Available Hunt Sessions</h2>
 
-    {% if Sessions %}
+        {% if Sessions %}
 
-        {% for Session in Sessions %}
+            {% for Session in Sessions %}
 
-            <div class="session-card">
+                <div class="question-row">
 
-                <h2>{{ Session.Hunt.hunt_name }}</h2>
+                    <div class="question-content">
 
-                <p>
-                    Join Code:
-                    <strong>{{ Session.join_code }}</strong>
-                </p>
-                <p> Status : {{Session.status}}
-                <p>
-                <a href="{% url 'session_detail' Session.Session_id %}">
-                    View Session
-                </a>
-                </p> 
-                </p>
-                <p><a href="{%url 'edit_session' Session.Session_id%}">
-                    Edit Session
-                </a>
-                </p>
-                <p><a href="{%url 'delete_session' Session.Session_id%}">
-                    Delete Session
-                </a>
-                </p>
-            </div>
+                        <p>
+                            {{ Session.Hunt.hunt_name }}
+                        </p>
 
-        {% endfor %}
+                        <p style="font-size: 16px; margin-top: 5px;">
+                            Join Code:
+                            <strong>{{ Session.join_code }}</strong>
+                        </p>
 
-    {% else %}
+                        <p style="font-size: 16px; margin-top: 5px;">
+                            Status: {{ Session.status }}
+                        </p>
 
-        <p>
-            There are currently no sessions.
+                    </div>
+
+                    <div class="answer-content">
+
+                        <p>
+                            <a href="{% url 'session_detail' Session.Session_id %}" class="back-link">
+                                View Session
+                            </a>
+                        </p>
+
+                        <p>
+                            <a href="{% url 'edit_session' Session.Session_id %}" class="back-link">
+                                Edit Session
+                            </a>
+                        </p>
+
+                        <p>
+                            <a href="{% url 'delete_session' Session.Session_id %}" class="back-link">
+                                Delete Session
+                            </a>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="welcome-text">
+                There are currently no sessions.
+            </p>
+
+        {% endif %}
+
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'staff_dashboard' %}" class="back-link">
+                Back to Dashboard
+            </a>
         </p>
 
-    {% endif %}
-        <a href="{% url 'staff_dashboard' %}">
-        Back to Dashboard
-    </a>
+    </div>
+
 </main>
+
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

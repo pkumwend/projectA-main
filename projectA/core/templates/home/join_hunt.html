@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Join Quiz</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style_css/style.css' %}"
+    >
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Join Quiz</h1>
+
+        <div class="accent-line"></div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Continue
+            </button>
+
+        </form>
+
+    </main>
+
+</body>
+</html>

@@ -1,64 +1,71 @@
-
-
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Session Details</title>
+    <title>Session Details | ECU Scavenger Hunt</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
-
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}"
 </head>
 
-<body>
+<body class="start-page">
 
 <main class="container">
 
-<h1>Session Details</h1>
+    <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-<div class="accent-line"></div>
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
 
-<h2>{{ Session.quiz.quiz_name }}</h2>
+    <div class="header-accent"></div>
 
-<p>
-    <strong>Location:</strong>
-    {{ Session.hunt.location }}
-</p>
+    <div class="questions-content">
 
-<p>
-    <strong>Number of Questions:</strong>
-    {{ Session.hunt.questions.count }}
-</p>
+        <h1>Session Details</h1>
 
-<p>
-    <strong>Join Code:</strong>
-    {{ Session.join_code }}
-</p>
+        <p class="welcome-text start-text">View the details for this scavenger hunt session</p>
 
-<p>
-    <strong>Status:</strong>
-    {{ Session.get_status_display }}
-</p>
+        <div class="question-row">
 
-<p>
-    <strong>Participants:</strong>
-    0
-</p>
+            <div class="question-content">
 
-<a href="{% url 'manage_sessions' %}">
-    Back to Manage Sessions
-</a>
+                <p><strong>Location:</strong>
+                    {{ Session.hunt.location }}
+                </p>
+
+                <p style="margin-top: 10px;"><strong>Number of Questions:</strong>
+                    {{ Session.hunt.questions.count }}
+                </p>
+
+                <p style="margin-top: 10px;"><strong>Join Code:</strong>
+                    {{ Session.join_code }}
+                </p>
+
+                <p style="margin-top: 10px;"><strong>Status:</strong>
+                    {{ Session.get_status_display }}
+                </p>
+
+                <p style="margin-top: 10px;"><strong>Participants:</strong> 
+                    {{ Session.players.count }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'manage_sessions' %}" class="back-link">Back to Manage Sessions</a>
+        </p>
+
+    </div>
 
 </main>
+
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

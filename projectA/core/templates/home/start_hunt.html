@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ hunt.hunt_name }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style_css/style.css' %}"
+    >
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>{{ hunt.hunt_name }}</h1>
+
+        <div class="accent-line"></div>
+
+        <p>
+            Welcome {{ Player.name }}!
+        </p>
+
+        <p>
+            Location: {{ hunt.location }}
+        </p>
+
+        <h2>Questions</h2>
+
+        {% for question in questions %}
+
+            <div class="question">
+
+                <h3>
+                    Question {{ forloop.counter }}
+                </h3>
+
+                <p>
+                    {{ question.description }}
+                </p>
+
+            </div>
+
+        {% empty %}
+
+            <p>
+                This quiz doesn't have any questions yet.
+            </p>
+
+        {% endfor %}
+
+    </main>
+
+</body>
+</html>

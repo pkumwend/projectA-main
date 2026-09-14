@@ -23,14 +23,18 @@ body { /* set the overall appearance and layout of the webpage */
     overflow: hidden;
 }
 
-.start-content { padding: 40px 35px; } /* add spacing inside the start page content */
+.start-content { /* add spacing inside the start page content */
+    padding: 40px 35px;
+}
 
 .start-container form { /* set the width and position of the start page form */
     max-width: 500px;
     margin: 0 auto;
 }
 
-.form-group { margin-bottom: 30px; } /* add space below each form group */
+.form-group { /* add space below each form group */
+    margin-bottom: 30px;
+}
 
 .hunt-top { /* style and position the ecu logo and clock in the top header */
     background-color: #1A1919;
@@ -64,7 +68,9 @@ body { /* set the overall appearance and layout of the webpage */
     z-index: 10;
 }
 
-.questions-content { padding: 50px; } /* add spacing around the content on the questions page */
+.questions-content { /* add spacing around the content on the questions page */
+    padding: 50px;
+}
 
 h1 { /* style and centre the main page heading */
     margin: 0;
@@ -82,11 +88,11 @@ h2 { /* style and centre the questions heading */
     width: fit-content;
     max-width: 100%;
     margin: 35px auto;
-    padding: 14px 22px;
+    padding: 20px 32px;
     background-color: #EFF4F2;
     border-left: 6px solid #26B298;
     border-radius: 20px;
-    font-size: 23px;
+    font-size: 27px;
     font-weight: bold;
     text-align: center;
 }
@@ -98,16 +104,21 @@ h2 { /* style and centre the questions heading */
     margin: 0 0 30px;
 }
 
-.start-text { margin-top: 10px; } /* add space above the start page instruction text */
+.start-text { /* add space above the start page instruction text */
+    margin-top: 10px;
+}
 
-label { /* style the labels displayed above the input fields */
+label { /* style the labels displayed above the form fields */
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: bold;
 }
 
-input { /* style the input fields used for student responses */
+input,
+select,
+textarea { /* style the form fields */
+    display: block;
     width: 100%;
     padding: 12px;
     font: 17px Barlow, sans-serif;
@@ -116,7 +127,9 @@ input { /* style the input fields used for student responses */
     background-color: #EFF4F2;
 }
 
-input:focus { /* highlight an input field when it is selected */
+input:focus,
+select:focus,
+textarea:focus { /* highlight a form field when it is selected */
     border-color: #26B298;
     outline: 2px solid #24A78E;
     outline-offset: 2px;
@@ -132,7 +145,21 @@ button { /* style for the buttons used on the scavenger hunt pages */
     font: bold 17px Barlow, sans-serif;
 }
 
-button:hover { background-color: #26B298; } /* change button colour when hovered/tapped */
+button:hover { /* change button colour when hovered/tapped */
+    background-color: #26B298;
+}
+
+.back-link,
+.back-link:visited { /* style links used to return to the previous page */
+    color: #000000;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.back-link:hover { /* change the back link colour when hovered */
+    color: #26B298;
+    text-decoration: none;
+}
 
 .question-row { /* style and arrange each question and its answer section */
     display: flex;
@@ -148,8 +175,13 @@ button:hover { background-color: #26B298; } /* change button colour when hovered
 }
 
 /* set the flexible widths of the question and answer sections */
-.question-content { flex: 1 1 250px; }
-.answer-content { flex: 1 1 220px; }
+.question-content { 
+    flex: 1 1 250px; 
+}
+
+.answer-content { 
+    flex: 1 1 220px; 
+}
 
 .question-content p { /* style the question text inside each question card */
     margin: 0;
@@ -164,6 +196,7 @@ button:hover { background-color: #26B298; } /* change button colour when hovered
     margin: 30px auto 0;
 }
 
+
 /* mobile */
 @media (max-width: 480px) { /* adjust the layout for mobile screens 480px wide or smaller */
 
@@ -172,27 +205,38 @@ button:hover { background-color: #26B298; } /* change button colour when hovered
         margin: 20px auto;
     }
 
-    .start-content { padding: 30px 20px; }
+    .start-content { 
+        padding: 30px 20px; 
+    }
 
     .hunt-top { /* adjust the header spacing */
         padding: 16px 18px;
     }
 
-    .ecu-logo { width: 105px; } /* adjust the ecu logo size */
+    .ecu-logo { /* adjust the ecu logo size */
+        width: 105px;
+    }
 
     .clock-display { /* adjust the clock size */
         font-size: 21px;
     }
 
-    .questions-content { padding: 28px 20px; } /* adjust the questions page spacing */
+    .questions-content { /* adjust the questions page spacing */
+        padding: 28px 20px;
+    }
 
-    h1 { font-size: 27px; } /* reduce the main heading size */
+    h1 { /* reduce the main heading size */
+        font-size: 27px;
+    }
 
-    h2 { font-size: 22px; } /* reduce the questions heading size */
+    h2 { /* reduce the questions heading size */
+        font-size: 22px;
+    }
 
     .group-section { /* adjust the group name display */
         width: 100%;
-        font-size: 20px;
+        padding: 18px 20px;
+        font-size: 24px;
     }
 
     .question-row { /* stack the question and answer sections vertically on mobile */
@@ -207,5 +251,7 @@ button:hover { background-color: #26B298; } /* change button colour when hovered
         width: 100%;
     }
 
-    .submit-button { width: 100%; } /* make the submit button use the full width */
+    .submit-button { /* make the submit button use the full width */
+        width: 100%;
+    }
 }

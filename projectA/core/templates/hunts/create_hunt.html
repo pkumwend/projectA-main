@@ -8,36 +8,49 @@
 
     <title>Create Hunt | ECU Scavenger Hunt</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
- 
-<body>
 
-<main class="container">
+<body class="start-page">
 
-    <h1>Create New Hunt</h1>
+    <main class="container">
 
-    <div class="accent-line"></div>
+        <div class="hunt-top">
 
-    <form method="POST">
-        {% csrf_token %}
+            <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-        {{ form.as_p }}
-        
-        <button type="submit">
-            Create hunt
-        </button>
+            <div class="clock-display"><span id="clock"></span>
+            </div>
 
-    </form>
+        </div>
 
-    <a href="{% url 'manage_hunts' %}">
-        Back to hunts
-    </a>
+        <div class="header-accent"></div>
 
-</main>
+        <div class="start-content">
+
+            <h1>Create New Hunt</h1>
+
+            <p class="welcome-text start-text">Enter the hunt details below</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit">Create Hunt</button>
+
+            </form>
+
+            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+                <a href="{% url 'manage_hunts' %}" class="back-link">Back to Hunts</a>
+            </p>
+
+        </div>
+
+    </main>
+
+    <script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

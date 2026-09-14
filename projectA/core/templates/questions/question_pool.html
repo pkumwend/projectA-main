@@ -8,69 +8,73 @@
 
     <title>Question Pool | ECU Scavenger Hunt</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body>
 
 <main class="container">
 
-    <h1>Question Pool</h1>
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-    <div class="accent-line"></div>
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
 
-    <p>
-        Create, view and manage reusable questions.
-    </p>
+    <div class="header-accent"></div>
 
-    <div class="dashboard-actions">
+    <div class="questions-content">
 
-        <a href="{% url 'create_question' %}" class="dashboard-button">
-            Create New Question
-        </a>
+        <h1>Question Pool</h1>
+
+        <p class="welcome-text start-text">Create, edit and manage questions</p>
+
+        <a href="{% url 'create_question' %}" class="button-link">Create New Question</a>
+
+        <h2>Questions</h2>
+
+        {% if questions %}
+
+            {% for question in questions %}
+
+                <div class="question-row">
+
+                    <div class="question-content">
+                        <p>Q: {{ question.description }}</p>
+
+                        <p class="question-type">
+                            Type: {{ question.question_type }}
+                        </p>
+                    </div>
+
+                    <div class="answer-content">
+
+                        <a href="{% url 'edit_question' question.question_id %}" class="back-link">Edit Question</a>
+
+                        <br><br>
+
+                        <a href="{% url 'delete_question' question.question_id %}" class="back-link">Delete Question</a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="welcome-text">No questions have been created yet</p>
+
+        {% endif %}
+
+        <p class="welcome-text back-dashboard"><a href="{% url 'staff_dashboard' %}" class="back-link">Back to Dashboard</a></p>
 
     </div>
 
-    <h2>Questions Pool</h2>
-
-    {% if questions %}
-
-        {% for question in questions %}
-
-            <div class="question-card">
-
-                <h3>Q : {{ question.description }}</h3>
-
-                <p>
-                    Type: {{ question.question_type }}
-                </p>
-                <p>
-                <a href="{% url 'edit_question' question.question_id %}">
-                    Edit Question
-                </a>
-            </p>
-            <a href="{% url 'delete_question' question.question_id %}">
-                Delete Question
-            </a> 
-            </div>
-
-        {% endfor %}
-
-    {% else %}
-
-        <p>
-            No questions have been created yet.
-        </p>
-
-    {% endif %}
-    <a href="{% url 'staff_dashboard' %}">
-        Back to Dashboard
-    </a>
-
 </main>
+
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

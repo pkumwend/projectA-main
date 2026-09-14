@@ -8,68 +8,82 @@
 
     <title>Manage Hunts | ECU Scavenger Hunt</title>
 
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
-<body>
+<body class="start-page">
 
-<main class="container">
+    <main class="container">
 
-    <h1>Manage Hunts</h1>
+        <div class="hunt-top">
 
-    <div class="accent-line"></div>
+            <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-    <p>
-        Create a new hunt or manage one of your existing hunts.
-    </p>
-
-    <div class="dashboard-actions">
-
-        <a href="{% url 'create_hunt' %}" class="dashboard-button">
-            Create New Hunt
-        </a>
-
-    </div>
- 
-    <h2>Existing Hunts</h2>
-
-    {% if hunts %}
-
-        {% for hunt in hunts %}
-
-            <div class="hunt-card">
-
-                <h3>Name : {{ hunt.hunt_name }}</h3>
-
-                <p>Location : {{ hunt.location }}</p>
-                <p><a href="{% url 'edit_hunt' hunt.hunt_id %}">
-                    Edit hunt
-                </a>
-                </p>
-                <p>
-                <a href="{% url 'delete_hunt'  hunt.hunt_id %}">
-                    Delete hunt
-                </a>
-                </p>
+            <div class="clock-display"><span id="clock"></span>
             </div>
 
-        {% endfor %}
+        </div>
 
-    {% else %}
+        <div class="header-accent"></div>
 
-        <p>
-            No hunts have been created yet.
-        </p>
-        
+        <div class="questions-content">
 
-    {% endif %}
-    <a href="{% url 'staff_dashboard' %}">
-        Back to Dashboard
-    </a>
-</main>
+            <h1>Manage Hunts</h1>
+
+            <p class="welcome-text start-text">Create a new hunt or manage one of your existing hunts</p>
+
+            <a href="{% url 'create_hunt' %}" class="button-link">Create New Hunt</a>
+
+            <h2>Existing Hunts</h2>
+
+            {% if hunts %}
+
+                {% for hunt in hunts %}
+
+                    <div class="question-row">
+
+                        <div class="question-content">
+
+                            <p>
+                                {{ hunt.hunt_name }}
+                            </p>
+
+                            <p class="question-type">Location: {{ hunt.location }}</p>
+
+                        </div>
+
+                        <div class="answer-content">
+
+                            <p>
+                                <a href="{% url 'edit_hunt' hunt.hunt_id %}" class="back-link">Edit Hunt</a>
+                            </p>
+
+                            <p>
+                                <a href="{% url 'delete_hunt' hunt.hunt_id %}" class="back-link">Delete Hunt</a>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="welcome-text">No hunts have been created yet</p>
+
+            {% endif %}
+
+            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+                <a href="{% url 'staff_dashboard' %}" class="back-link">Back to Dashboard</a>
+            </p>
+
+        </div>
+
+    </main>
+
+    <script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

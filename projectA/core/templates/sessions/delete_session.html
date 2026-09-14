@@ -1,49 +1,67 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delete Session | Ecu scavenger Hunt</title>
+    <title>Delete Session | ECU Scavenger Hunt</title>
 
-<link
-    rel="stylesheet"
-    href="{% static 'style_css/style.css' %}"
->
-
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
 </head>
 
-<body>
+<body class="start-page">
 
 <main class="container">
 
-<h1>Delete Session</h1>
+    <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-<div class="accent-line"></div>
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
 
-<form method="POST">
-    {% csrf_token %}
-    <p>
-    Name : {{ Session.hunt.hunt_name }}
-    </p>
-    <p>
-    Location : {{ Session.hunt.location  }}
-    </p>
-    <button type="submit", style="color: crimson;">
-        Confirm?
-    </button>
-</form>
-<p>
-<a href="{% url 'manage_sessions' %}">
-    Back to Manage Sessions
-</a>
-</p>
+    <div class="header-accent"></div>
+
+    <div class="questions-content">
+
+        <h1>Delete Session</h1>
+
+        <p class="welcome-text start-text">Are you sure you want to delete this scavenger hunt session?</p>
+
+        <div class="question-row">
+
+            <div class="question-content">
+
+                <p><strong>Name:</strong>
+                    {{ Session.hunt.hunt_name }}
+                </p>
+
+                <p style="margin-top: 10px;"><strong>Location:</strong>
+                    {{ Session.hunt.location }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <button type="submit" style="background-color: rgb(233, 35, 5); color: white; font-size: 17px;"
+                    onmouseover="this.style.backgroundColor='red'"
+                    onmouseout="this.style.backgroundColor='rgb(233, 35, 5)'">Confirm Delete</button>
+        </form>
+
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'manage_sessions' %}" class="back-link">Back to Manage Sessions</a>
+        </p>
+
+    </div>
 
 </main>
+
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

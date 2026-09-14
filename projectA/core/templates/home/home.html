@@ -1,0 +1,47 @@
+{% load static %} 
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <title>ECU Scavenger Hunt</title> 
+ 
+    <link 
+        rel="stylesheet" 
+        href="{% static 'style_css/style.css' %}" 
+    > 
+</head> 
+ 
+<body> 
+    <main class="container"> 
+        <h1>Welcome!</h1> 
+ 
+        <div class="accent-line"></div> 
+ 
+        <p class="welcome-text"> 
+            Welcome to the scavenger hunt! 
+        </p>
+
+        <h2>Join a Quiz</h2>
+        {% if messages %}
+                {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Join Quiz
+            </button>
+
+        </form>
+
+    </main> 
+</body> 
+</html>

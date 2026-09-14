@@ -32,24 +32,24 @@ class Hunt(models.Model):
  
 class HuntSession(models.Model):
     Session_id = models.AutoField(primary_key=True)
-    hunt = models.ForeignKey(Hunt,on_delete=models.CASCADE, related_name="huntSessions")
+    hunt = models.ForeignKey(Hunt,on_delete=models.CASCADE, related_name="hunt_sessions")
     status = models.CharField(max_length=20,choices=status_types)
     join_code = models.CharField(max_length=6,unique=True)
     def __str__(self):
-        return self.Session_id
-
-'''
-#habdle after  finishing the sessions stuff
+        return str(self.Session_id)
 
 class Player(models.Model):
     player_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=35)
-    sessions = models.ForeignKey(HuntSession,on_delete=models.CASCADE,related_name="playerSessions")
+    session = models.ForeignKey(HuntSession,on_delete=models.CASCADE,related_name="players")
 
+'''
 class Answer(models.Model):
     players_id = models.ForeignKey(Player, on_delete=models.CASCADE,related_name="playersId")
     question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name="question")
-    answer = CharField
+    answer = CharField(max_length=200)
 
 
 '''
+
+
