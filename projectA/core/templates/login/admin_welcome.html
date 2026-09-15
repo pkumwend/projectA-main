@@ -5,12 +5,95 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Admin Dashboard | ECU Scavenger Hunt</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{% static 'style_css/style.css' %}">
+
+    <style>
+        /* Centre the notification messages */
+        .start-content .message {
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Arrange the administrator dashboard buttons */
+        .start-content .dashboard-actions {
+            display: grid;
+            gap: 12px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 16px;
+        }
+
+        /* Align the Logout form with the dashboard buttons */
+        .start-content .logout-form {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /*  Apply the same style to the dashboard buttons and Logout */
+        .start-content .dashboard-button,
+        .start-content .logout-button {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 6px;
+            background-color: #000000;
+            color: #FFFFFF;
+
+            font: bold 17px Barlow, sans-serif;
+            line-height: 1.3;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .start-content .dashboard-button:hover,
+        .start-content .logout-button:hover {
+            background-color: #222222;
+        }
+
+        .start-content .dashboard-button:focus-visible,
+        .start-content .logout-button:focus-visible {
+            outline: 3px solid #26B298;
+            outline-offset: 3px;
+        }
+        /* Set the background and text colours of the dashboard buttons. */
+        .start-content .dashboard-button {
+            background-color: #25B197;
+            color: #000000;
+        }
+
+        /* Darken the background when hovering over a dashboard button. */
+        .start-content .dashboard-button:hover {
+            background-color: #1D957F;
+        }
+
+        /* Show when staff management has not been connected yet. */
+        .start-content .dashboard-button:disabled {
+            background-color: #DCE6E1;
+            color: #52615A;
+            cursor: not-allowed;
+        }
+
+        .start-content .dashboard-note {
+            margin: -4px 0 4px;
+            color: #555555;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body class="start-page">
@@ -20,9 +103,12 @@
         <!-- Black header -->
         <div class="hunt-top">
 
-            <img src="{% static 'ecu-logo-black.png' %}" class="ecu-logo">
+            <img src="{% static 'ecu-logo-black.png' %}"
+                 alt="Edith Cowan University Logo"
+                 class="ecu-logo">
 
-            <div class="clock-display"><span id="clock"></span>
+            <div class="clock-display">
+                <span id="clock"></span>
             </div>
 
         </div>
@@ -35,12 +121,15 @@
 
             <h1>ECU Scavenger Hunt</h1>
 
-            <div class="group-section">Administrator Portal
+            <div class="group-section">
+                Administrator Portal
             </div>
 
             <h2>Welcome, {{ user.username }}</h2>
 
-            <p class="welcome-text">You are logged in as an administrator</p>
+            <p class="welcome-text">
+                You are logged in as an administrator.
+            </p>
 
             <!-- Django messages -->
             {% if messages %}
@@ -51,12 +140,55 @@
                 {% endfor %}
             {% endif %}
 
+            <!-- Dashboard actions -->
+            <div class="dashboard-actions">
+
+                <!-- Resolve the staff-management URL without breaking this page if it is absent. -->
+                {% url 'manage_staff' as manage_staff_url %}
+                {% if manage_staff_url %}
+                    <a href="{{ manage_staff_url }}"
+                       class="dashboard-button">
+                        Manage Staff
+                    </a>
+                {% else %}
+                    <button type="button"
+                            class="dashboard-button"
+                            aria-describedby="staff-management-note"
+                            disabled>
+                        Manage Staff
+                    </button>
+                    <p id="staff-management-note" class="dashboard-note">
+                        Staff management is not available yet.
+                    </p>
+                {% endif %}
+
+
+                <a href="{% url 'manage_hunts' %}"
+                   class="dashboard-button">
+                    Manage Hunts
+                </a>
+
+                <a href="{% url 'question_pool' %}"
+                   class="dashboard-button">
+                    Question Pool
+                </a>
+
+                <a href="{% url 'manage_sessions' %}"
+                   class="dashboard-button">
+                    Manage Sessions
+                </a>
+
+            </div>
+
             <!-- Logout form -->
             <form method="post"
+                  class="logout-form"
                   action="{% url 'staff_logout' %}">
                 {% csrf_token %}
 
-                <button type="submit" class="logout-button">Logout</button>
+                <button type="submit" class="logout-button">
+                    Logout
+                </button>
 
             </form>
 
