@@ -36,25 +36,14 @@ def staff_login(request):
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
-
+        user = authenticate(request,username=username,password=password)
         if user is not None and user.is_staff:
             login(request, user)
             messages.success(request, "Login successful.")
-
             if user.is_superuser:
                 return redirect("admin_dashboard")
-
             return redirect("staff_dashboard")
-
-        messages.error(
-            request,
-            "Invalid username, password, or staff permission."
-        )
+        messages.error(request,"Invalid username, password, or staff permission.")
 
     return render(request, "login/staff_login.html")
 

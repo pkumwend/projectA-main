@@ -1,19 +1,20 @@
 * { box-sizing: border-box; }
 
-body {
+body { /* set the overall appearance and layout of the webpage */
     margin: 0;
     min-height: 100vh;
     font-family: Barlow, sans-serif;
     background-color: #EFF4F2;
+    color: #000000;
 }
 
-.start-page {
+.start-page { /* centre the start page content horizontally and vertically */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.container {
+.container { /* style the main content container */
     width: calc(100% - 40px);
     max-width: 750px;
     margin: 50px auto;
@@ -23,29 +24,45 @@ body {
     overflow: hidden;
 }
 
-.start-content { padding: 40px 35px; }
+.start-page .container { /* adjust the main container on the start page */
+    margin: 20px;
+}
 
-.start-container form {
+.start-container { /* set the maximum width of the start page container */
+    max-width: 650px;
+}
+
+.start-content { /* add spacing inside the start page content */
+    padding: 40px 35px;
+}
+
+.start-container form { /* set the width and position of the start page form */
+    width: 100%;
     max-width: 500px;
     margin: 0 auto;
 }
 
-.form-group { margin-bottom: 30px; }
+.form-group { /* add space below each form group */
+    margin-bottom: 30px;
+}
 
-.hunt-top {
+.hunt-top { /* style and position the ecu logo and clock in the top header */
+    width: 100%;
     background-color: #1A1919;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
     padding: 20px 40px;
 }
 
-.ecu-logo {
+.ecu-logo { /* set the size and display of the logo */
     width: 145px;
     height: auto;
+    display: block;
 }
 
-.clock-display {
+.clock-display { /* style the time displayed in the header */
     color: #FFFFFF;
     font-size: 25px;
     font-weight: bold;
@@ -53,65 +70,68 @@ body {
     margin-right: 10px;
 }
 
-.header-accent {
+.header-accent { /* teal line underneath the header */
+    width: 100%;
     height: 7px;
-    background-color: #26B298;
+    background-color: #26B298; 
 }
 
-.sticky-header {
+.sticky-header { /* keep the header visible while scrolling */
     position: sticky;
     top: 0;
     z-index: 10;
 }
 
-.questions-content { padding: 50px; }
+.questions-content { /* add spacing around the content on the questions page */
+    padding: 50px;
+}
 
-h1 {
+h1 { /* style and centre the main page heading */
     margin: 0;
     text-align: center;
     font-size: 33px;
 }
 
-h2 {
+h2 { /* style and centre the questions heading */
     margin: 0 0 20px;
     text-align: center;
     font-size: 28px;
 }
 
-.group-section {
+.group-section { /* style and position the student group name display */
     width: fit-content;
     max-width: 100%;
     margin: 35px auto;
-    padding: 20px 32px;
+    padding: 14px 22px;
     background-color: #EFF4F2;
     border-left: 6px solid #26B298;
     border-radius: 20px;
-    font-size: 27px;
+    font-size: 23px;
     font-weight: bold;
     text-align: center;
 }
 
-.welcome-text {
+.welcome-text { /* style the instruction text */
     text-align: center;
     color: #444444;
     font-size: 20px;
     margin: 0 0 30px;
 }
 
-.start-text { margin-top: 10px; }
+.start-text { /* add space above the start page instruction text */
+    margin-top: 10px;
+}
 
-label {
+label { /* style the labels displayed above the input fields */
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: bold;
 }
 
-input,
-select,
-textarea {
-    display: block;
+input { /* style the input fields used for student responses */
     width: 100%;
+    min-width: 0;
     padding: 12px;
     font: 17px Barlow, sans-serif;
     border: 1px solid #D6D6D6;
@@ -119,15 +139,13 @@ textarea {
     background-color: #EFF4F2;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
+input:focus { /* highlight an input field when it is selected */
     border-color: #26B298;
     outline: 2px solid #24A78E;
     outline-offset: 2px;
 }
 
-button {
+button { /* style for the buttons used on the scavenger hunt pages */
     width: 100%;
     padding: 15px;
     border: none;
@@ -135,39 +153,15 @@ button {
     background-color: #000000;
     color: #FFFFFF;
     font: bold 17px Barlow, sans-serif;
+    cursor: pointer;
 }
 
-button:hover { background-color: #26B298; }
-
-.back-link,
-.back-link:visited {
-    color: #000000;
-    text-decoration: none;
-    font-weight: normal;
+button:hover { /* change button colour when hovered/tapped */
+    background-color: #26B298;
 }
 
-.back-link:hover {
-    color: #26B298;
-    text-decoration: none;
-}
-
-.button-link,
-.button-link:visited {
-    display: block;
-    width: 220px;
-    margin: 25px auto 35px;
-    padding: 15px;
-    border-radius: 14px;
-    background-color: #000000;
-    color: #FFFFFF;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.button-link:hover { background-color: #26B298; }
-
-.question-row {
+.question-row { /* style and arrange each question and its answer section */
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -180,74 +174,209 @@ button:hover { background-color: #26B298; }
     border-radius: 17px;
 }
 
-.question-content { flex: 1 1 250px; }
-.answer-content { flex: 1 1 220px; }
+/* set the flexible widths of the question and answer sections */
+.question-content {
+    flex: 1 1 250px;
+}
 
-.question-content p {
+.answer-content {
+    flex: 1 1 220px;
+}
+
+.question-content p { /* style the question text inside each question card */
     margin: 0;
     color: #333333;
     font-size: 18px;
     font-weight: bold;
 }
 
-.question-type {
-    margin-top: 10px !important;
-    font-weight: normal !important;
-}
-
-.back-dashboard {
-    margin-top: 30px;
-    margin-bottom: 0;
-}
-
-.submit-button {
+.submit-button { /* set the size and position of the submit button */
     display: block;
     width: 220px;
     margin: 30px auto 0;
 }
 
 
-/* mobile */
-@media (max-width: 480px) {
+/* create hunt page */
 
-    .container {
+.create-hunt-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.create-hunt-content form p {
+    margin-bottom: 20px;
+}
+
+.create-hunt-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.create-hunt-content input,
+.create-hunt-content select,
+.create-hunt-content textarea {
+    width: 100%;
+    padding: 12px;
+    font: 17px Barlow, sans-serif;
+    border: 1px solid #D6D6D6;
+    border-radius: 10px;
+    background-color: #EFF4F2;
+}
+
+
+/* mobile */
+
+@media (max-width: 480px) { /* adjust the layout for mobile screens 480px wide or smaller */
+
+    .container { /* adjust the container size and spacing for mobile screens */
         width: calc(100% - 24px);
         margin: 20px auto;
     }
 
-    .start-content { padding: 30px 20px; }
-
-    .hunt-top { padding: 16px 18px; }
-
-    .ecu-logo { width: 105px; }
-
-    .clock-display { font-size: 21px; }
-
-    .questions-content { padding: 28px 20px; }
-
-    h1 { font-size: 27px; }
-
-    h2 { font-size: 22px; }
-
-    .group-section {
-        width: 100%;
-        padding: 18px 20px;
-        font-size: 24px;
+    /* reduce the space around the start page container on mobile */
+    .start-page .container {
+        margin: 12px;
     }
 
-    .question-row {
+    .start-content {
+        padding: 30px 20px;
+    }
+
+    .hunt-top { /* adjust the header spacing */
+        padding: 16px 18px;
+        gap: 12px;
+    }
+
+    .ecu-logo { /* adjust the ecu logo size */
+        width: 105px;
+    }
+
+    .clock-display { /* adjust the clock size */
+        font-size: 21px;
+    }
+
+    .questions-content { /* adjust the questions page spacing */
+        padding: 28px 20px;
+    }
+
+    h1 { /* reduce the main heading size */
+        font-size: 27px;
+    }
+
+    h2 { /* reduce the questions heading size */
+        font-size: 22px;
+    }
+
+    .group-section { /* adjust the group name display */
+        width: 100%;
+        font-size: 20px;
+    }
+
+    .question-row { /* stack the question and answer sections vertically on mobile */
         flex-direction: column;
         align-items: stretch;
     }
 
+    /* make the question and answer sections use the full width on mobile */
     .question-content,
     .answer-content {
         flex: none;
         width: 100%;
     }
 
-    .submit-button,
-    .button-link {
+    .submit-button { /* make the submit button use the full width */
         width: 100%;
+    }
+}
+
+/* Keep the login and dashboard links consistent with the form buttons. */
+.staff-login-button,
+.start-content .dashboard-button,
+.start-content .Dashboard-button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font: bold 17px Barlow, sans-serif;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.staff-login-button:hover,
+.start-content .dashboard-button:hover,
+.start-content .Dashboard-button:hover {
+    background-color: #26B298;
+}
+
+/* Stack dashboard links and align them with the Logout form. */
+.start-content .dashboard-actions,
+.start-content .Dashboard.actions {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 16px;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 22px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+    animation: message-appear 0.25s ease-out;
+}
+
+/* Centre successful login messages on both welcome pages. */
+.start-content .message.success {
+    justify-content: center;
+    text-align: center;
+}
+
+.message.error {
+    color: #8B1E1E;
+    background-color: #FFF0F0;
+    border: 2px solid #D32F2F;
+    border-left: 7px solid #D32F2F;
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.18);
+}
+
+/* Warning icon */
+.message.error::before {
+    content: "!";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    color: #FFFFFF;
+    background-color: #D32F2F;
+    border-radius: 50%;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+@keyframes message-appear {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
