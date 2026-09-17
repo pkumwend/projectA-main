@@ -42,14 +42,19 @@ class Player(models.Model):
     player_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=35)
     session = models.ForeignKey(HuntSession,on_delete=models.CASCADE,related_name="players")
-
 '''
+class QuestionChoice(models.Model):
+    option = models.CharField(max_length=50)
+    question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name="choices")
+    is_correct = models.BooleanField(default=False)
+
+
+
+
 class Answer(models.Model):
-    players_id = models.ForeignKey(Player, on_delete=models.CASCADE,related_name="playersId")
+    player = models.ForeignKey(Player, on_delete=models.CASCADE,related_name="answers")
     question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name="question")
-    answer = CharField(max_length=200)
-
-
+    answer = models.CharField(max_length=200)
+    pic = models.ImageField()
 '''
-
 
