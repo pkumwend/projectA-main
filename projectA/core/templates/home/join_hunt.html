@@ -8,33 +8,70 @@
 
     <title>Join Quiz</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
     <link
         rel="stylesheet"
         href="{% static 'style_css/style.css' %}"
     >
 </head>
 
-<body>
+<body class="start-page">
 
     <main class="container">
 
-        <h1>Join Quiz</h1>
+        <!-- ECU logo and clock -->
+        <div class="hunt-top">
+            <img src="{% static 'style_css/ecu-logo-black.png' %}"
+                 alt="Edith Cowan University Logo"
+                 class="ecu-logo">
 
-        <div class="accent-line"></div>
+            <div class="clock-display">
+                <span id="clock"></span>
+            </div>
+        </div>
 
-        <form method="POST">
+        <!-- Teal line -->
+        <div class="header-accent"></div>
 
-            {% csrf_token %}
+        <div class="start-content">
+            <h1>Join Quiz</h1>
 
-            {{ form.as_p }}
+            <form method="POST">
 
-            <button type="submit">
-                Continue
-            </button>
+                {% csrf_token %}
 
-        </form>
+                {{ form.as_p }}
+
+                <button type="submit">
+                    Continue
+                </button>
+
+            </form>
+        </div>
 
     </main>
+
+    <!-- Clock -->
+    <script>
+        function updateClock() {
+            const currentTime = new Date();
+
+            const formattedTime =
+                currentTime.toLocaleTimeString("en-AU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                });
+
+            document.getElementById("clock").textContent =
+                formattedTime.toUpperCase();
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
 
 </body>
 </html>
