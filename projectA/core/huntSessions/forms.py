@@ -1,21 +1,45 @@
 from django import forms
+from django.forms.models import inlineformset_factory, BaseInlineFormSet
+
 from .models import Hunt
-from .models import Question
+from .models import Question, QuestionChoice
 from .models import HuntSession
 from .models import Player
+
+from .models import QuestionChoice, Answer
+
 ####################imgae related##############
 
+from PIL import Image
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 #the model fors for the huntSessions app
 
- 
+
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ["description","question_type"]
- 
+class QuestionChoiceForm(forms.ModelForm):
+    class Meta:
+        model = QuestionChoice
+        fields = ["option", "is_correct"]
+        labels = {"option":"answer option",
+                    "is_correct": "correct answer"}
+
+
+QuestionFormSet = inlineformset_factory(
+    Question,QuestionChoice,
+        form = QuestionChoiceForm,
+        extra=4,
+        can_delete=True)
+EditQuestionFormSet = inlineformset_factory(
+    Question,QuestionChoice,
+        form=QuestionChoiceForm,
+        extra=0,
+        can_delete=True)
 
 class HuntForm(forms.ModelForm):
     questions = forms.ModelMultipleChoiceField(queryset=Question.objects.all(),widget=forms.CheckboxSelectMultiple)
@@ -35,8 +59,21 @@ class PlayerForm(forms.ModelForm):
     class Meta:
         model = Player
         fields = ["name"]
-'''
-class SubmitPicture(forms.Form):
-    file = FileField()
 
-'''
+##### answer forms #########
+class ShortAnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ["answer"]
+
+class MultipleChoiceForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ["choice"]
+
+
+class PictureForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ["picture"]
+         

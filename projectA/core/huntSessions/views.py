@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 
 from .forms import HuntForm
 from .models import Hunt
 
-from .forms import QuestionForm
+from .forms import QuestionForm,QuestionFormSet,EditQuestionFormSet
 from .models import Question
 
 from .forms import HuntSessionForm
@@ -75,12 +75,18 @@ def staff_logout(request):
 def create_question(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)
+        
         if form.is_valid():
-            form.save()
-            return redirect("question_pool")
+            question = form.save()
+            formset = QuestionFormSet(request.POST,instance=question)
+            if formset.is_valid():
+                formset.save()
+                return redirect("question_pool")
     else:
         form = QuestionForm()
-    return render (request, "questions/create_question.html", {'form': form})
+        formset = QuestionFormSet()
+
+    return render (request, "questions/create_question.html", {'form':form,'formset': formset})
 
 @login_required(login_url="staff_login")
 def question_pool(request):
@@ -90,20 +96,23 @@ def question_pool(request):
 
 @login_required(login_url="staff_login")
 def edit_question(request,question_id):
-    instance = Question.objects.get(question_id=question_id)
+    instance =get_object_or_404(Question,question_id=question_id)
     form = QuestionForm(instance= instance)
+    formset = EditQuestionFormSet(instance= instance)
 
     if request.method == "POST":
         form = QuestionForm(request.POST,instance=instance)
-        if form.is_valid():
+        formset = EditQuestionFormSet(request.POST,instance=instance)
+        if form.is_valid() and formset.is_valid():
             form.save()
+            formset.save()
             return redirect("question_pool")
-    return render(request, "questions/edit_question.html", {'form' : form})
+    return render(request, "questions/edit_question.html", {'form' : form,'formset':formset})
 
 
 @login_required(login_url="staff_login")
 def delete_question(request,question_id):
-    instance = Question.objects.get(question_id=question_id)
+    instance = get_object_or_404(Question,question_id=question_id)
     form = QuestionForm(instance= instance)
     if request.method == "POST":
             form = QuestionForm(request.POST,instance=instance)
@@ -134,7 +143,7 @@ def manage_hunts(request):
 
 @login_required(login_url="staff_login")
 def edit_hunt(request,hunt_id):
-    instance = Hunt.objects.get(hunt_id=hunt_id)
+    instance = get_object_or_404(Hunt,hunt_id=hunt_id)
     form = HuntForm(instance= instance)
     if request.method == "POST":
         form = HuntForm(request.POST,instance=instance)
@@ -146,7 +155,7 @@ def edit_hunt(request,hunt_id):
 @login_required(login_url="staff_login")
 def delete_hunt(request,hunt_id):
 
-    instance = Hunt.objects.get(hunt_id=hunt_id)
+    instance = get_object_or_404(Hunt,hunt_id=hunt_id)
 
     form = HuntForm(instance= instance)
 
@@ -175,7 +184,7 @@ def create_session(request):
 
 @login_required(login_url="staff_login")
 def edit_session(request,Session_id):
-    instance = HuntSession.objects.get(Session_id=Session_id)
+    instance = get_object_or_404(HuntSession,Session_id=Session_id)
     form = HuntSessionForm(instance= instance)
     if request.method == "POST":
         form = HuntSessionForm(request.POST,instance=instance)
@@ -193,12 +202,12 @@ def manage_sessions(request):
 
 @login_required(login_url="staff_login")
 def session_detail(request,Session_id):
-    Session = HuntSession.objects.get(Session_id=Session_id)
+    Session = get_object_or_404(HuntSession,Session_id=Session_id)
     return render(request, "sessions/session_detail.html", {"Session":Session}) 
 
 @login_required(login_url="staff_login")
 def delete_session(request,Session_id):
-    instance = HuntSession.objects.get(Session_id=Session_id)
+    instance = get_object_or_404(HuntSession,Session_id=Session_id)
     form = HuntSessionForm(instance= instance)
     if request.method == "POST":
             form = HuntSessionForm(request.POST,instance=instance)

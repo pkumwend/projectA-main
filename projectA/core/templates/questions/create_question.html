@@ -37,6 +37,13 @@
                 {% csrf_token %}
 
                 {{ form.as_p }}
+                <h2>
+                    Choices
+                </h2>
+                {{formset.management_form}}
+                {%for choice_form in formset%}
+                    {{choice_form.as_p}}
+                {%endfor%}
 
                 <button type="submit">Add to Questions</button>
             </form>

@@ -35,6 +35,15 @@
 
             {{ form.as_p }}
 
+            {% if form.question_type.value == "multiple choice" %}
+                <h2>Choices</h2>
+                {{ formset.management_form }}
+                {% for choice_form in formset %}
+                    {{ choice_form.as_p }}
+                {% endfor %}
+
+            {% endif %}
+
             <button type="submit">Save Changes</button>
         </form>
 

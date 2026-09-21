@@ -1,4 +1,5 @@
 from django.db import models
+from PIL import Image
 
 # Create your models here.
 
@@ -42,19 +43,18 @@ class Player(models.Model):
     player_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=35)
     session = models.ForeignKey(HuntSession,on_delete=models.CASCADE,related_name="players")
-'''
+
 class QuestionChoice(models.Model):
     option = models.CharField(max_length=50)
     question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name="choices")
     is_correct = models.BooleanField(default=False)
 
 
-
-
 class Answer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE,related_name="answers")
-    question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name="question")
-    answer = models.CharField(max_length=200)
-    pic = models.ImageField()
-'''
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name="submitted_answers")
+    answer = models.CharField(max_length=200,blank=True)
+    picture = models.ImageField(blank=True)
+    choice = models.ForeignKey(QuestionChoice,on_delete=models.CASCADE,related_name="selected_answers",null=True,blank=True)
+
 
