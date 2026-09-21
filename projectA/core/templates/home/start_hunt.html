@@ -8,53 +8,90 @@
 
     <title>{{ hunt.hunt_name }}</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
     <link
         rel="stylesheet"
         href="{% static 'style_css/style.css' %}"
     >
 </head>
 
-<body>
+<body class="start-page">
 
     <main class="container">
 
-        <h1>{{ hunt.hunt_name }}</h1>
+        <!-- ECU logo and clock -->
+        <div class="hunt-top">
+            <img src="{% static 'style_css/ecu-logo-black.png' %}"
+                 alt="Edith Cowan University Logo"
+                 class="ecu-logo">
 
-        <div class="accent-line"></div>
-
-        <p>
-            Welcome {{ Player.name }}!
-        </p>
-
-        <p>
-            Location: {{ hunt.location }}
-        </p>
-
-        <h2>Questions</h2>
-
-        {% for question in questions %}
-
-            <div class="question">
-
-                <h3>
-                    Question {{ forloop.counter }}
-                </h3>
-
-                <p>
-                    {{ question.description }}
-                </p>
-
+            <div class="clock-display">
+                <span id="clock"></span>
             </div>
+        </div>
 
-        {% empty %}
+        <!-- Teal line -->
+        <div class="header-accent"></div>
+
+        <div class="start-content">
+            <h1>{{ hunt.hunt_name }}</h1>
 
             <p>
-                This quiz doesn't have any questions yet.
+                Welcome {{ Player.name }}!
             </p>
 
-        {% endfor %}
+            <p>
+                Location: {{ hunt.location }}
+            </p>
+
+            <h2>Questions</h2>
+
+            {% for question in questions %}
+
+                <div class="question">
+
+                    <h3>
+                        Question {{ forloop.counter }}
+                    </h3>
+
+                    <p>
+                        {{ question.description }}
+                    </p>
+
+                </div>
+
+            {% empty %}
+
+                <p>
+                    This quiz doesn't have any questions yet.
+                </p>
+
+            {% endfor %}
+        </div>
 
     </main>
+
+    <!-- Clock -->
+    <script>
+        function updateClock() {
+            const currentTime = new Date();
+
+            const formattedTime =
+                currentTime.toLocaleTimeString("en-AU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                });
+
+            document.getElementById("clock").textContent =
+                formattedTime.toUpperCase();
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
 
 </body>
 </html>
