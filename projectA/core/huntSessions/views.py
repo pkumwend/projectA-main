@@ -218,7 +218,7 @@ def delete_session(request,Session_id):
 #########################  home and quiz ################################################
 def homepage(request):
     if request.method == "POST":
-        form = JoicCodeForm(request.POST)
+        form = JoinCodeForm(request.POST)
         if form.is_valid():
             join_code = form.cleaned_data["join_code"]
             session = get_object_or_404(HuntSession,join_code=join_code)
