@@ -16,8 +16,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 #the model fors for the huntSessions app
 
-
-
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question

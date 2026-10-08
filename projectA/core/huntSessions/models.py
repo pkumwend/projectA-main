@@ -58,3 +58,4 @@ class Answer(models.Model):
     choice = models.ForeignKey(QuestionChoice,on_delete=models.CASCADE,related_name="selected_answers",null=True,blank=True)
 
 
+ 

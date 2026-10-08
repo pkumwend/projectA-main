@@ -13,7 +13,7 @@ from .forms import HuntSessionForm
 from .models import HuntSession
 
 
-from .forms import PlayerForm
+from .forms import PlayerForm,ShortAnswerForm,MultipleChoiceForm,PictureForm
 from .models import Player
 
 from .forms import JoinCodeForm
@@ -235,9 +235,9 @@ def join_hunt(request):
     if request.Method == "POST":
         form = PlayerForm(request.POST)
         if form.is_valid():
-            session_id = request.session.get("hunt_session_id")
-            session = get_object_or_404(HuntSession,join_code=join_code)
-            Player = form.save(commit=False)
+            session_id = request.session.get("hunt_session_id")#determine if the join code will be useful on this page
+            session = get_object_or_404(HuntSession)#,join_code=join_code)
+            player = form.save(commit=False)
             player.session = session
             player.save()
             request.session["player_id"] = Player.player_id
@@ -247,10 +247,28 @@ def join_hunt(request):
     return render(request, "home/join_hunt.html", {"form":form})
 
 def start_hunt(request):
-    palyer_id = request.sesssion.get("player_id")
+    #creating player instance and display questions
+    player_id = request.sesssion.get("player_id")
     player = get_object_or_404(Player,player_id=player_id)
     session = player.session
     hunt = session.hunt
     questions = hunt.questions.all()
 
+    #create forms for player to enter answers as a transaction 
+    #transfer to submission page where they can review answers before saving evrything
+    
+    if request.Method == "POST":
+        mcq_form = MultipleChoiceForm
+        short_form = ShortAnswerForm
+        pic_form = PictureForm
+
     return render(request, "home/questions.html",{"player":player,"session":session,"hunt":hunt,"questions":questions})
+
+def submission(request):
+    # take a tempory form of completed answers from the previus page
+    #if confirmed to submit, create a porper record in database
+    #if not take answers and return to start hunt page with their already uploaded answers
+    #deternmine how to remove player from active status in active session details
+
+
+    return render(request, "home/submission.html")
