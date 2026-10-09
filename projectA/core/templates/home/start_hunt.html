@@ -39,7 +39,7 @@
             <h1>{{ hunt.hunt_name }}</h1>
 
             <p>
-                Welcome {{ Player.name }}!
+                Welcome {{ player.name }}!
             </p>
 
             <p>
@@ -49,26 +49,19 @@
             <h2>Questions</h2>
 
             {% for question in questions %}
+                <section class="questions">
+                    <h3>Question {{forloop.counter}}</h3>
+                    <p>{{question.description}}</p>
+                    <form method="post"  enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- all the questions and form stuff -->
 
-                <div class="question">
-
-                    <h3>
-                        Question {{ forloop.counter }}
-                    </h3>
-
-                    <p>
-                        {{ question.description }}
-                    </p>
-
-                </div>
-
-            {% empty %}
-
-                <p>
-                    This quiz doesn't have any questions yet.
-                </p>
-
-            {% endfor %}
+                        <button type="submit">Submit Hunt</button>
+                    </form>
+                </section>
+            {%empty%}
+                <p>Ther eare no questions in this quiz...</p>
+            {%endfor%}
         </div>
 
     </main>

@@ -81,4 +81,6 @@ urlpatterns = [
     path("join/", views.join_hunt, name="join_hunt"),
     path("questions/", views.start_hunt, name="start_hunt"),
     path("submission/",views.submission,name="submission"),
+
+    path("questions/<int:question_id>/answer",views.save_answer,name="save_answer"),
 ]

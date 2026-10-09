@@ -232,15 +232,21 @@ def homepage(request):
 
 
 def join_hunt(request):
-    if request.Method == "POST":
+    session_id = request.session.get("hunt_session_id")
+    if not session_id:
+        return redirect("homepage")
+
+    hunt_session = get_object_or_404(HuntSession,Session_id=session_id,status="active") 
+
+
+    if request.method == "POST":
         form = PlayerForm(request.POST)
         if form.is_valid():
-            session_id = request.session.get("hunt_session_id")#determine if the join code will be useful on this page
-            session = get_object_or_404(HuntSession)#,join_code=join_code)
             player = form.save(commit=False)
             player.session = session
             player.save()
-            request.session["player_id"] = Player.player_id
+
+            request.session["player_id"] = player.player_id
             return redirect("start_hunt")
     else:
         form = PlayerForm()
@@ -248,21 +254,52 @@ def join_hunt(request):
 
 def start_hunt(request):
     #creating player instance and display questions
-    player_id = request.sesssion.get("player_id")
+    player_id = request.session.get("player_id")
     player = get_object_or_404(Player,player_id=player_id)
     session = player.session
     hunt = session.hunt
     questions = hunt.questions.all()
+    hunt_data = []
 
     #create forms for player to enter answers as a transaction 
     #transfer to submission page where they can review answers before saving evrything
     
-    if request.Method == "POST":
-        mcq_form = MultipleChoiceForm
-        short_form = ShortAnswerForm
-        pic_form = PictureForm
+    if request.method == "POST":
+       for question in questions:
+        prefix = f"question_{question_id}"
 
-    return render(request, "home/questions.html",{"player":player,"session":session,"hunt":hunt,"questions":questions})
+        if question.question_type == "multiple choice":
+            form = MultipleChoiceForm(request.POST, prefix=prefix, choices = question.choices or [])
+        elif question.question_type == "short answer":
+            form = ShortAnswerForm(request.POST, prefix=prefix)
+        elif question.question_type == "picture":
+            form = PictureForm(request.POST, prefix=prefix)
+
+        form.is_valid()
+        submitted = form.cleaned_data.get('answer')
+
+        if submitted_answer:
+            user_answer.objects.update_or_create(player=player,question=question,defaults={'sumbit_answer': submitted_answer})
+        else:
+            user_answer.objects.filter(player=player, question=question).delete()
+
+        return redirect('thank_you')
+    else:
+        for question in questions:
+            prefix = f"question_{question.question_id}"
+            current_answers = user_answer.objects.filter(player=player,question=question,defaults={'answers':current_answers})
+            start_data=  {'submit_answer':current_answers.submit_answer} if current_answers else {}
+
+        if question.question_type == "multiple choice":
+            form = MultipleChoiceForm(request.POST, prefix=prefix, choices = question.choices or [],current=current_answers)
+        elif question.question_type == "short answer":
+            form = ShortAnswerForm(request.POST, prefix=prefix,current=current_answers)
+        elif question.question_type == "picture":
+            form = PictureForm(request.POST, prefix=prefix,current=current_answers)
+
+        hunt_data.append({'question':question, 'form':form})
+
+    return render(request, "home/questions.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt,"questions":questions})
 
 def submission(request):
     # take a tempory form of completed answers from the previus page
@@ -270,5 +307,8 @@ def submission(request):
     #if not take answers and return to start hunt page with their already uploaded answers
     #deternmine how to remove player from active status in active session details
 
-
     return render(request, "home/submission.html")
+
+def save_answer(request,question_id):
+    #
+    return redirect("home/start_hunt,html")

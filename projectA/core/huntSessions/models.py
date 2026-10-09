@@ -1,5 +1,8 @@
 from django.db import models
 from PIL import Image
+#from django.utils import timezone
+
+#timezone stuff, pending working for a time contraint to prevent editing after a point 
 
 # Create your models here.
 
@@ -43,6 +46,7 @@ class Player(models.Model):
     player_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=35)
     session = models.ForeignKey(HuntSession,on_delete=models.CASCADE,related_name="players")
+    #submitted_at = models.DateTimeField(null=True, blank=True)
 
 class QuestionChoice(models.Model):
     option = models.CharField(max_length=50)
@@ -56,6 +60,7 @@ class Answer(models.Model):
     answer = models.CharField(max_length=200,blank=True)
     picture = models.ImageField(blank=True)
     choice = models.ForeignKey(QuestionChoice,on_delete=models.CASCADE,related_name="selected_answers",null=True,blank=True)
+    class Meta:
+        unique_together = ('player','question')
 
-
- 
+  
