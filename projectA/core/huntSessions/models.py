@@ -15,7 +15,7 @@ status_types = [("draft","Draft"),
                 ("finished","Finished")]
 
 locations = [("Joondalup","Joondalup"),
-             ("Bunburry","Bunbury"),
+             ("Bunbury","Bunbury"),
              ("City Campus","City Campus")]
 
 class Question(models.Model):
@@ -46,20 +46,26 @@ class Player(models.Model):
     player_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=35)
     session = models.ForeignKey(HuntSession,on_delete=models.CASCADE,related_name="players")
-    #submitted_at = models.DateTimeField(null=True, blank=True)
+    submitted_at = models.DateTimeField(null=True, blank=True)
+    def __str__(self):
+        return str(self.name)
 
 class QuestionChoice(models.Model):
     option = models.CharField(max_length=50)
     question = models.ForeignKey(Question,on_delete=models.CASCADE,related_name="choices")
     is_correct = models.BooleanField(default=False)
+    def __str__(self):
+        return str(self.option)
 
-
+# pictures uoloaded by students will be saved in the media/hunts folder
+#any pictures saved for later will be kept in the saved folder
+# later allow admin to delete them at any time or upload more?
 class Answer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE,related_name="answers")
     question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name="submitted_answers")
     answer = models.CharField(max_length=200,blank=True)
-    picture = models.ImageField(blank=True)
-    choice = models.ForeignKey(QuestionChoice,on_delete=models.CASCADE,related_name="selected_answers",null=True,blank=True)
+    picture = models.ImageField(blank=True,upload_to="media/hunts/")
+    choice = models.ForeignKey(QuestionChoice,on_delete=models.SET_NULL,related_name="selected_answers",null=True,blank=True)
     class Meta:
         unique_together = ('player','question') 
 

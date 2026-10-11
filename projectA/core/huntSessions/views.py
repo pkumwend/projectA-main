@@ -223,6 +223,8 @@ def homepage(request):
             join_code = form.cleaned_data["join_code"]
             session = get_object_or_404(HuntSession,join_code=join_code)
 
+            #check if the session is active else redirect back to the the homepahge again
+
             request.session["hunt_session_id"] = session.Session_id
 
             return redirect("join_hunt")
@@ -238,12 +240,12 @@ def join_hunt(request):
 
     hunt_session = get_object_or_404(HuntSession,Session_id=session_id,status="active") 
 
-
+    
     if request.method == "POST":
         form = PlayerForm(request.POST)
         if form.is_valid():
             player = form.save(commit=False)
-            player.session = session
+            player.session = hunt_session
             player.save()
 
             request.session["player_id"] = player.player_id
@@ -259,17 +261,10 @@ def start_hunt(request):
     session = player.session
     hunt = session.hunt
     questions = hunt.questions.all()
-    
-    print("Hunt:", Hunt.hunt_name)
-    print("Questions found:", questions.count())
 
-    for question in questions:
-        print(
-            "Question:", question.description,
-            "| Type:", repr(question.question_type)
-        )
-    
     hunt_data = []
+
+    
 
     #create forms for player to enter answers as a transaction 
     #transfer to submission page where they can review answers before saving evrything
@@ -281,8 +276,8 @@ def start_hunt(request):
         #check if theres already submitted answer and load them
         current_answers = Answer.objects.filter(player=player,question=question).first()
 
-        if question.question_type == "multiple_choice":
-            form = MultipleChoiceForm(request.POST, prefix=prefix,insstance=current_answers)
+        if question.question_type == "multiple choice":
+            form = MultipleChoiceForm(request.POST, prefix=prefix,instance=current_answers)
             form.fields['choice'].queryset = questions.choice.all()
         elif question.question_type == "short answer":
             form = ShortAnswerForm(request.POST, prefix=prefix,instance=current_answers)
@@ -293,7 +288,7 @@ def start_hunt(request):
 
         hunt_data.append({"question":question,"form":form})
 
-        return render(request, "home/questions.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt,"questions":questions})
+    return render(request, "home/questions.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt,"questions":questions})
 
        
 

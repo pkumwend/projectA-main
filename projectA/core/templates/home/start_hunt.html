@@ -45,7 +45,13 @@
             <p>
                 Location: {{ hunt.location }}
             </p>
+            <h2>Debug questions</h2>
 
+            {% for question in questions %}
+                <p>{{ question.description }}</p>
+            {% empty %}
+                <p>No questions are associated with this quiz.</p>
+            {% endfor %}
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 

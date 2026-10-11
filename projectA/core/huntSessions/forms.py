@@ -10,8 +10,10 @@ from .models import QuestionChoice, Answer
 
 ####################imgae related##############
 
-from PIL import Image
-from django.core.files.uploadedfile import SimpleUploadedFile
+#from PIL import Image
+#from django.core.files.uploadedfile import SimpleUploadedFile
+
+from django.utils.translation import ugettext as _
 
 
 #the model fors for the huntSessions app
@@ -68,10 +70,40 @@ class MultipleChoiceForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["choice"]
+        widgets = {"choice": forms.RadioSelect}
 
+    def __init__(self, *args, question=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if question is not None:
+            self.fields["choice"].queryset = question.choices.all()
 
 class PictureForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["picture"]
-         
+        
+def CleanPicture():
+        picture = self.cleaned_data.get('picture',False)
+        #check the photo's parameters and only accpet what fits crieteria
+
+        
+        if piacture:
+            #get parameters for diemensions
+            img = Image.open(picture)
+            width, height = img.size
+
+            #if required any dimension restrictions can be checked with the above parameter values
+
+            #validate content types or extensions of image files
+            #if theres any other accepted image types add to the list in if statement
+            main, sub = picture.content_type.split('/')
+            if not (main=='picture' and sub.lower() in ['jpeg', 'pjpeg', 'png', 'jpg']):
+                raise forms.ValidationError(_('Please use a JPEG or PNG image.'))
+            #check an rgb picture at these resolution for a size check
+            if len(picture) >(3*1024*1024*1.6):
+                raise forms.ValidationError(_('Image file too large ( maximum 5mb )'))
+
+        else:
+            raise forms.ValidationErrorraise(_("Couldn't read uploaded image"))
+        return picture

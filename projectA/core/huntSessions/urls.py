@@ -85,3 +85,5 @@ urlpatterns = [
     #path("questions/<int:question_id>/answer",views.save_answer,name="save_answer"),
     path("home/thank_you.html", views.thank_you,name="thank_you"),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
