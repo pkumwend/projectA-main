@@ -61,6 +61,6 @@ class Answer(models.Model):
     picture = models.ImageField(blank=True)
     choice = models.ForeignKey(QuestionChoice,on_delete=models.CASCADE,related_name="selected_answers",null=True,blank=True)
     class Meta:
-        unique_together = ('player','question')
+        unique_together = ('player','question') 
 
   

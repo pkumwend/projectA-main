@@ -46,22 +46,26 @@
                 Location: {{ hunt.location }}
             </p>
 
-            <h2>Questions</h2>
-
-            {% for question in questions %}
-                <section class="questions">
-                    <h3>Question {{forloop.counter}}</h3>
-                    <p>{{question.description}}</p>
-                    <form method="post"  enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <!-- all the questions and form stuff -->
-
-                        <button type="submit">Submit Hunt</button>
-                    </form>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {% for item in hunt_data %}
+                <section class="question">
+                    <h3>
+                        Question {{ forloop.counter }}
+                    </h3>
+                    <p>
+                        {{ item.question.description }}
+                    </p>
+                    {{ item.form.as_p }}
                 </section>
-            {%empty%}
-                <p>Ther eare no questions in this quiz...</p>
-            {%endfor%}
+                {%empty%}
+                    <p> there are no questions in this quiz</p>
+                {%endfor%}
+                <button type="submit">Review and submit</button>
+            </form>
+
+ 
         </div>
 
     </main>

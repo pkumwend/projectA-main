@@ -82,5 +82,6 @@ urlpatterns = [
     path("questions/", views.start_hunt, name="start_hunt"),
     path("submission/",views.submission,name="submission"),
 
-    path("questions/<int:question_id>/answer",views.save_answer,name="save_answer"),
+    #path("questions/<int:question_id>/answer",views.save_answer,name="save_answer"),
+    path("home/thank_you.html", views.thank_you,name="thank_you"),
 ]

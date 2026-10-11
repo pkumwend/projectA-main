@@ -14,7 +14,7 @@ from .models import HuntSession
 
 
 from .forms import PlayerForm,ShortAnswerForm,MultipleChoiceForm,PictureForm
-from .models import Player
+from .models import Player,Answer
 
 from .forms import JoinCodeForm
 
@@ -259,47 +259,43 @@ def start_hunt(request):
     session = player.session
     hunt = session.hunt
     questions = hunt.questions.all()
+    
+    print("Hunt:", Hunt.hunt_name)
+    print("Questions found:", questions.count())
+
+    for question in questions:
+        print(
+            "Question:", question.description,
+            "| Type:", repr(question.question_type)
+        )
+    
     hunt_data = []
 
     #create forms for player to enter answers as a transaction 
     #transfer to submission page where they can review answers before saving evrything
     
-    if request.method == "POST":
-       for question in questions:
-        prefix = f"question_{question_id}"
+    
+    for question in questions:
+        prefix = f"question_{question.question_id}"
 
-        if question.question_type == "multiple choice":
-            form = MultipleChoiceForm(request.POST, prefix=prefix, choices = question.choices or [])
+        #check if theres already submitted answer and load them
+        current_answers = Answer.objects.filter(player=player,question=question).first()
+
+        if question.question_type == "multiple_choice":
+            form = MultipleChoiceForm(request.POST, prefix=prefix,insstance=current_answers)
+            form.fields['choice'].queryset = questions.choice.all()
         elif question.question_type == "short answer":
-            form = ShortAnswerForm(request.POST, prefix=prefix)
+            form = ShortAnswerForm(request.POST, prefix=prefix,instance=current_answers)
         elif question.question_type == "picture":
-            form = PictureForm(request.POST, prefix=prefix)
-
-        form.is_valid()
-        submitted = form.cleaned_data.get('answer')
-
-        if submitted_answer:
-            user_answer.objects.update_or_create(player=player,question=question,defaults={'sumbit_answer': submitted_answer})
+            form = PictureForm(request.POST, prefix=prefix,instance=current_answers)
         else:
-            user_answer.objects.filter(player=player, question=question).delete()
+            continue
 
-        return redirect('thank_you')
-    else:
-        for question in questions:
-            prefix = f"question_{question.question_id}"
-            current_answers = user_answer.objects.filter(player=player,question=question,defaults={'answers':current_answers})
-            start_data=  {'submit_answer':current_answers.submit_answer} if current_answers else {}
+        hunt_data.append({"question":question,"form":form})
 
-        if question.question_type == "multiple choice":
-            form = MultipleChoiceForm(request.POST, prefix=prefix, choices = question.choices or [],current=current_answers)
-        elif question.question_type == "short answer":
-            form = ShortAnswerForm(request.POST, prefix=prefix,current=current_answers)
-        elif question.question_type == "picture":
-            form = PictureForm(request.POST, prefix=prefix,current=current_answers)
+        return render(request, "home/questions.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt,"questions":questions})
 
-        hunt_data.append({'question':question, 'form':form})
-
-    return render(request, "home/questions.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt,"questions":questions})
+       
 
 def submission(request):
     # take a tempory form of completed answers from the previus page
@@ -309,6 +305,6 @@ def submission(request):
 
     return render(request, "home/submission.html")
 
-def save_answer(request,question_id):
-    #
-    return redirect("home/start_hunt,html")
+def thank_you(request):
+    #this is the submission page accoriding to kastoori
+    return render(request, "home/thank_you.html ")
