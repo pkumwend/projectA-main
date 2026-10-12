@@ -66,6 +66,7 @@ class Answer(models.Model):
     answer = models.CharField(max_length=200,blank=True)
     picture = models.ImageField(blank=True,upload_to="hunts/")
     choice = models.ForeignKey(QuestionChoice,on_delete=models.SET_NULL,related_name="selected_answers",null=True,blank=True)
+    #is_correct = model.BooleanField(default=False)
     class Meta:
         unique_together = ('player','question') 
 

@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Thank you</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style_css/style.css' %}"
+    >
+</head>
+
+<body class="start-page">
+
+    <main class="container">
+
+        <!-- ECU logo and clock -->
+        <div class="hunt-top">
+            <img src="{% static 'style_css/ecu-logo-black.png' %}"
+                 alt="Edith Cowan University Logo"
+                 class="ecu-logo">
+
+            <div class="clock-display">
+                <span id="clock"></span>
+            </div>
+        </div>
+
+        <!-- Teal line -->
+        <div class="header-accent"></div>
+
+        <div class="start-content">
+            <h1>Your answers are submitted</h1>
+            <p>Thank you! Your teacher will review your answers. You can close this page.</p>
+            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'homepage' %}" class="back-link">start another session?</a>
+        </p>
+        </div>
+
+    </main>
+
+    <!-- Clock -->
+    <script>
+        function updateClock() {
+            const currentTime = new Date();
+
+            const formattedTime =
+                currentTime.toLocaleTimeString("en-AU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                });
+
+            document.getElementById("clock").textContent =
+                formattedTime.toUpperCase();
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>

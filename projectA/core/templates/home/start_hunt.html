@@ -38,44 +38,39 @@
         <div class="start-content">
             <h1>{{ hunt.hunt_name }}</h1>
 
-            <p>
-                Welcome {{ player.name }}!
-            </p>
-            {% if messages %}
-                {% for message in messages %}
-                {{ message }}
-                {% endfor %}
-            {% endif %}
-            <p>
-                Location: {{ hunt.location }}
-            </p>
-            <h2>Debug questions</h2>
+            <p>Welcome {{ player.name }}!</p>
 
-            {% for question in questions %}
-                <p>{{ question.description }}</p>
-            {% empty %}
-                <p>No questions are associated with this quiz.</p>
-            {% endfor %}
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <p>Location: {{ hunt.location }}</p>
+
+            {# THE OPENING FORM TAG WAS MISSING. enctype is required for photo uploads. #}
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                
+
                 {% for item in hunt_data %}
-                <section class="question">
-                    <h3>
-                        Question {{ forloop.counter }}
-                    </h3>
-                    <p>
-                        {{ item.question.description }}
-                    </p>
-                    {{ item.form.as_p }}
+                <section class="question-card">
+                    <h2>Question {{ forloop.counter }}</h2>
+                    <p class="question-text">{{ item.question.description }}</p>
+
+                    {{ item.form.non_field_errors }}
+                    {{ item.form.as_p }}   {# label, input and any error for this question #}
                 </section>
-                {%empty%}
-                    <p> there are no questions in this quiz</p>
-                {%endfor%}
-                <button type="submit">Review and submit</button>
+                {% empty %}
+                <p>This hunt has no questions yet. Ask your teacher to add some.</p>
+                {% endfor %}
+
+                {% if hunt_data %}
+                <button type="submit">Review my answers</button>
+                {% endif %}
             </form>
 
- 
         </div>
 
     </main>

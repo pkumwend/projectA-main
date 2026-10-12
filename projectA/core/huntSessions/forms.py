@@ -77,6 +77,7 @@ class MultipleChoiceForm(forms.ModelForm):
 
     def __init__(self, *args, question=None, **kwargs):
         super().__init__(*args, **kwargs)
+        #fields.empty_label = None
 
         if question is not None:
             self.fields["choice"].queryset = question.choices.all()

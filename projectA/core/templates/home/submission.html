@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complete Quiz</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{% static 'style_css/style.css' %}"
+    >
+</head>
+
+<body class="start-page">
+
+    <main class="container">
+
+        <!-- ECU logo and clock -->
+        <div class="hunt-top">
+            <img src="{% static 'style_css/ecu-logo-black.png' %}"
+                 alt="Edith Cowan University Logo"
+                 class="ecu-logo">
+
+            <div class="clock-display">
+                <span id="clock"></span>
+            </div>
+        </div>
+
+        <!-- Teal line -->
+        <div class="header-accent"></div>
+
+        <div class="start-content">
+            <h1>Submit Quiz</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <p>{{ player.name }}, check your answers for {{ hunt.hunt_name }}. After you confirm, you can't change them.</p>
+
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %} 
+                {% if unanswered %}
+                <p class="warning">You haven't answered {{ unanswered }} questio	n{{ unanswered|pluralize }}.</p>
+                {% endif %}
+
+                {# Rows with no response get the class "unanswered" so CSS can grey them out. #}
+                <ol class="answer-summary">
+                    {% for row in rows %}
+                    <li class="{% if not row.answered %}unanswered{% endif %}">
+                        <p class="question-text">{{ row.question.description }}</p>
+
+                        {% if row.question.question_type == "multiple choice" %}
+                            {% if row.answer and row.answer.choice %}
+                                <p class="answer-text">{{ row.answer.choice.option }}</p>
+                            {% else %}
+                                <p class="answer-text">No answer</p>
+                            {% endif %}
+
+                        {% elif row.question.question_type == "short answer" %}
+                            {% if row.answer and row.answer.answer %}
+                                <p class="answer-text">{{ row.answer.answer }}</p>
+                            {% else %}
+                                <p class="answer-text">No answer</p>
+                            {% endif %}
+
+                        {% elif row.question.question_type == "picture" %}
+                            {% if row.answer and row.answer.picture %}
+                                <img src="{{ row.answer.picture.url }}"
+                                     alt="Your photo for question {{ forloop.counter }}"
+                                     class="answer-photo" width="200">
+                            {% else %}
+                                <p class="answer-text">No photo uploaded</p>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+               
+                <button type="submit" name="action" value="confirm">
+                    Confirm and submit
+                </button>
+                <button type="submit" name="action" value="review">
+                    Return and review
+                </button>
+
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Clock -->
+    <script>
+        function updateClock() {
+            const currentTime = new Date();
+
+            const formattedTime =
+                currentTime.toLocaleTimeString("en-AU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                });
+
+            document.getElementById("clock").textContent =
+                formattedTime.toUpperCase();
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+
+</body>
+</html>

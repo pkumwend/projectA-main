@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render,get_object_or_404
 
 from django.db import transaction
+from django.utils import timezone
 
 from .forms import HuntForm
 from .models import Hunt
@@ -310,7 +311,7 @@ def start_hunt(request):
 
     if request.method == "POST":
         hunt_data = make_answer_forms(player,questions,request.POST,request.FILES)
-        results = [item["form"].is_valid()for item in hunt_data]
+        results = [item["form"].is_valid() for item in hunt_data]
 
         #create forms for player to enter answers as a transaction 
         #transfer to submission page where they can review answers before saving evrything
@@ -329,16 +330,52 @@ def start_hunt(request):
 
     return render(request, "home/start_hunt.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt})
 
-       
+def has_response(answer):
+    if answer is None:
+        return False
+    return bool(answer.choice_id or answer.answer.strip() or answer.picture)
 
 def submission(request):
-    # take a tempory form of completed answers from the previus page
-    #if confirmed to submit, create a porper record in database
-    #if not take answers and return to start hunt page with their already uploaded answers
-    #deternmine how to remove player from active status in active session details
+    #
+    #find player data and load results, else redirect to home page
+    player = get_player(request)
 
-    return render(request, "home/submission.html")
+    if player is None:
+        messages.error(request,"Enter a code to get started")
+        return redirect("homepage")
+    if player.submitted_at is not None:
+        return redirect("thank_you")
+
+    session = player.session
+    hunt = session.hunt
+
+    if session.status != "active":
+        messages.error(request,"session has ended")
+        return redirect("homepage")
+    
+    #for two button perform actions to confirm closure of quiz for specific player or return them to the hunt to continue answering
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action == "confirm":
+            player.submitted_at = timezone.now()
+            player.save(update_fields=["submitted_at"])
+            return redirect("thank_you")
+        if action == "review":
+            return redirect("start_hunt")
+
+    #loop throught the players answers and collcet data for questions that have not been answered
+    questions = hunt.questions.order_by("question_id")
+    saved_answers = {ans.question_id: ans for ans in player.answers.select_related("choice")}
+    rows =[]
+    unanswered = 0
+    for question in questions:
+        answer = saved_answers.get(question.question_id)
+        answered = has_response(answer)
+        if not answered:
+            unanswered += 1
+        rows.append({ "question":question,"answer":answer, "answered":answered })
+
+    return render(request, "home/submission.html",{"rows":rows,"unanswered":unanswered,"player":player,"session":session,"hunt":hunt})
 
 def thank_you(request):
-    #this is the submission page accoriding to kastoori
-    return render(request, "home/thank_you.html ")
+    return render(request, "home/thank_you.html")
