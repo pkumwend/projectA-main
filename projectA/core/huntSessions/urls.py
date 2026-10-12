@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
 
 
 urlpatterns = [
@@ -79,7 +82,7 @@ urlpatterns = [
 
     path("", views.homepage, name="homepage"),
     path("join/", views.join_hunt, name="join_hunt"),
-    path("questions/", views.start_hunt, name="start_hunt"),
+    path("start_hunt/", views.start_hunt, name="start_hunt"),
     path("submission/",views.submission,name="submission"),
 
     #path("questions/<int:question_id>/answer",views.save_answer,name="save_answer"),

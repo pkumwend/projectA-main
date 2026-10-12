@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render,get_object_or_404
 
+from django.db import transaction
+
 from .forms import HuntForm
 from .models import Hunt
 
@@ -75,6 +77,7 @@ def staff_logout(request):
 def create_question(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)
+        formset = QuestionFormSet(request.POST)
         
         if form.is_valid():
             question = form.save()
@@ -113,9 +116,8 @@ def edit_question(request,question_id):
 @login_required(login_url="staff_login")
 def delete_question(request,question_id):
     instance = get_object_or_404(Question,question_id=question_id)
-    form = QuestionForm(instance= instance)
+    
     if request.method == "POST":
-            form = QuestionForm(request.POST,instance=instance)
             instance.delete()
             return redirect("question_pool")
 
@@ -157,10 +159,7 @@ def delete_hunt(request,hunt_id):
 
     instance = get_object_or_404(Hunt,hunt_id=hunt_id)
 
-    form = HuntForm(instance= instance)
-
     if request.method == "POST":
-            form = HuntForm(request.POST,instance=instance)
             instance.delete()
             return redirect("manage_hunts")
 
@@ -196,7 +195,6 @@ def edit_session(request,Session_id):
 @login_required(login_url="staff_login")
 def manage_sessions(request):
     Sessions = HuntSession.objects.all()
-    hunts = Hunt.objects.all()
     return render(request, "sessions/manage_sessions.html", {"Sessions":Sessions})
 
 
@@ -208,9 +206,8 @@ def session_detail(request,Session_id):
 @login_required(login_url="staff_login")
 def delete_session(request,Session_id):
     instance = get_object_or_404(HuntSession,Session_id=Session_id)
-    form = HuntSessionForm(instance= instance)
+    
     if request.method == "POST":
-            form = HuntSessionForm(request.POST,instance=instance)
             instance.delete()
             return redirect("manage_sessions")
     return render(request, "sessions/delete_session.html", {'Session' : instance})
@@ -220,14 +217,18 @@ def homepage(request):
     if request.method == "POST":
         form = JoinCodeForm(request.POST)
         if form.is_valid():
-            join_code = form.cleaned_data["join_code"]
-            session = get_object_or_404(HuntSession,join_code=join_code)
+            join_code = form.cleaned_data["join_code"].strip()
+            hunt_session = HuntSession.objects.filter(join_code__iexact=join_code).first()
 
             #check if the session is active else redirect back to the the homepahge again
 
-            request.session["hunt_session_id"] = session.Session_id
-
-            return redirect("join_hunt")
+            if hunt_session is None:
+                form.add_error("join_code","No code matches any sessions on site, check and try again")
+            elif hunt_session.status != "active":
+                form.add_error("join_code","Session is not active, check with your teacher")
+            else:
+                request.session["hunt_session_id"] = hunt_session.pk
+                return redirect("join_hunt")
     else:
         form =  JoinCodeForm()
     return render(request, "home/home.html", {"form":form})
@@ -239,6 +240,8 @@ def join_hunt(request):
         return redirect("homepage")
 
     hunt_session = get_object_or_404(HuntSession,Session_id=session_id,status="active") 
+
+    #maybe check if the player has an active session or a session in porgress un submitted and redirect to that session from before
 
     
     if request.method == "POST":
@@ -254,41 +257,77 @@ def join_hunt(request):
         form = PlayerForm()
     return render(request, "home/join_hunt.html", {"form":form})
 
-def start_hunt(request):
-    #creating player instance and display questions
-    player_id = request.session.get("player_id")
-    player = get_object_or_404(Player,player_id=player_id)
-    session = player.session
-    hunt = session.hunt
-    questions = hunt.questions.all()
 
+def get_player(request):
+    #if a player hasnt finished a hunt, redirect them back to the hunt to continue
+    player_id = request.session.get("player_id")
+    if not player_id: 
+        return None
+    else:
+        return (Player.objects.filter(player_id=player_id).select_related("session__hunt").first())
+
+form_type = {"multiple choice":MultipleChoiceForm, "short answer":ShortAnswerForm,"picture":PictureForm}
+
+def make_answer_forms(player,questions,data=None,files=None):
+    #to apply the correct anser form for each question according to the type
+    saved_answers = {answer.question_id:answer for answer in player.answers.all()}
     hunt_data = []
 
-    
-
-    #create forms for player to enter answers as a transaction 
-    #transfer to submission page where they can review answers before saving evrything
-    
-    
     for question in questions:
-        prefix = f"question_{question.question_id}"
-
-        #check if theres already submitted answer and load them
-        current_answers = Answer.objects.filter(player=player,question=question).first()
-
-        if question.question_type == "multiple choice":
-            form = MultipleChoiceForm(request.POST, prefix=prefix,instance=current_answers)
-            form.fields['choice'].queryset = questions.choice.all()
-        elif question.question_type == "short answer":
-            form = ShortAnswerForm(request.POST, prefix=prefix,instance=current_answers)
-        elif question.question_type == "picture":
-            form = PictureForm(request.POST, prefix=prefix,instance=current_answers)
-        else:
+        form_class =  form_type.get(question.question_type)
+        if form_class == None:
             continue
+        kwargs = { "prefix":f"question_{question.question_id}","instance":saved_answers.get(question.question_id)}
 
-        hunt_data.append({"question":question,"form":form})
+        if form_class is MultipleChoiceForm:
+            kwargs["question"] = question
 
-    return render(request, "home/questions.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt,"questions":questions})
+        hunt_data.append({"question":question,"form":form_class(data,files,**kwargs)})
+
+    return hunt_data
+
+
+def start_hunt(request):
+    #creating player instance and display questions
+    player = get_player(request)
+    if player is None:
+        messages.error(request,"Enter a code to get started")
+        return redirect("homepage")
+    
+    session = player.session
+    hunt = session.hunt
+
+    # check if the player has already completed the hunt and condition of sessions if joinable
+    
+    if player.submitted_at is not None:
+        return redirect("thank_you")
+
+    if session.status != "active":
+        messages.error(request,"The session has ended")
+        return redirect("homepage")
+    
+    questions = hunt.questions.order_by("question_id")
+
+    if request.method == "POST":
+        hunt_data = make_answer_forms(player,questions,request.POST,request.FILES)
+        results = [item["form"].is_valid()for item in hunt_data]
+
+        #create forms for player to enter answers as a transaction 
+        #transfer to submission page where they can review answers before saving evrything
+        if all(results):
+            with transaction.atomic():
+                for item in hunt_data:
+                    #
+                    answer =item["form"].save(commit=False)
+                    answer.player = player 
+                    answer.question = item["question"]
+                    answer.save()
+            return redirect("submission")
+    else:
+        hunt_data = make_answer_forms(player,questions)
+
+
+    return render(request, "home/start_hunt.html",{"hunt_data":hunt_data,"player":player,"session":session,"hunt":hunt})
 
        
 

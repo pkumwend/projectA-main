@@ -64,7 +64,7 @@ class Answer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE,related_name="answers")
     question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name="submitted_answers")
     answer = models.CharField(max_length=200,blank=True)
-    picture = models.ImageField(blank=True,upload_to="media/hunts/")
+    picture = models.ImageField(blank=True,upload_to="hunts/")
     choice = models.ForeignKey(QuestionChoice,on_delete=models.SET_NULL,related_name="selected_answers",null=True,blank=True)
     class Meta:
         unique_together = ('player','question') 

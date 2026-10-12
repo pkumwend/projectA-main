@@ -41,7 +41,11 @@
             <p>
                 Welcome {{ player.name }}!
             </p>
-
+            {% if messages %}
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            {% endif %}
             <p>
                 Location: {{ hunt.location }}
             </p>

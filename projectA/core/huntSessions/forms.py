@@ -13,7 +13,7 @@ from .models import QuestionChoice, Answer
 #from PIL import Image
 #from django.core.files.uploadedfile import SimpleUploadedFile
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 #the model fors for the huntSessions app
@@ -65,12 +65,15 @@ class ShortAnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["answer"]
+        labels = {"anser" : "your answer"}
 
 class MultipleChoiceForm(forms.ModelForm):
+    # for the multiple choice type, create a form that displayes the multiple choices in a better way and only allow them to l=select one for now
     class Meta:
         model = Answer
         fields = ["choice"]
         widgets = {"choice": forms.RadioSelect}
+        labels = {"choice" : "choose one"}
 
     def __init__(self, *args, question=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -82,7 +85,12 @@ class PictureForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["picture"]
+        widgets = {"psicture": forms.ClearableFileInput(attrs={"accept":"image/*"})}
+        labels = {"picture":"upload a photo"}
         
+
+#a function for cleaning up picture submission and restricting 
+'''
 def CleanPicture():
         picture = self.cleaned_data.get('picture',False)
         #check the photo's parameters and only accpet what fits crieteria
@@ -107,3 +115,4 @@ def CleanPicture():
         else:
             raise forms.ValidationErrorraise(_("Couldn't read uploaded image"))
         return picture
+'''
