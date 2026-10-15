@@ -146,7 +146,7 @@
                 <!-- Resolve the staff-management URL without breaking this page if it is absent. -->
                 {% url 'manage_staff' as manage_staff_url %}
                 {% if manage_staff_url %}
-                    <a href="{{ manage_staff_url }}"
+                    <a href="/admin/"
                        class="dashboard-button">
                         Manage Staff
                     </a>
