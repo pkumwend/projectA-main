@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -14,46 +15,74 @@
 
 <body class="start-page">
 
-<main class="container">
+    <main class="container">
 
-    <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="hunt-top">
+            <img src="{% static 'style_css/ecu-logo-black.png' %}"
+                 alt="ECU Logo"
+                 class="ecu-logo">
 
-        <div class="clock-display"><span id="clock"></span></div>
-    </div>
+            <div class="clock-display">
+                <span id="clock"></span>
+            </div>
+        </div>
 
-    <div class="header-accent"></div>
+        <div class="header-accent"></div>
 
-    <div class="start-content">
+        <div class="start-content">
 
-        <h1>Edit Question</h1>
+            <h1>Edit Question</h1>
 
-        <p class="welcome-text start-text">Update the question details below</p>
+            <p class="welcome-text start-text">
+                Update the question details below
+            </p>
 
-        <form method="POST">
-            {% csrf_token %}
+            <form method="POST">
+                {% csrf_token %}
 
-            {{ form.as_p }}
+                {{ form.as_p }}
 
-            {% if form.question_type.value == "multiple choice" %}
-                <h2>Choices</h2>
-                {{ formset.management_form }}
-                {% for choice_form in formset %}
-                    {{ choice_form.as_p }}
-                {% endfor %}
+                {% if form.question_type.value == "multiple choice" %}
 
-            {% endif %}
+                    <h2>Choices</h2>
 
-            <button type="submit">Save Changes</button>
-        </form>
+                    {{ formset.management_form }}
 
-        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'question_pool' %}" class="back-link">Back to Question Pool</a>
-        </p>
-    </div>
+                    <div class="item-list">
 
-</main>
-<script src="{% static 'style_css/questions-page.js' %}"></script>
+                        {% for choice_form in formset %}
+
+                            <div class="item-card">
+
+                                {{ choice_form.as_p }}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+                <button type="submit" style="margin-top: 25px;">
+                    Save Changes
+                </button>
+
+            </form>
+
+            <div class="page-footer">
+                <a href="{% url 'question_pool' %}"
+                   class="btn btn-secondary">
+                    ← Back to Question Pool
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>
+

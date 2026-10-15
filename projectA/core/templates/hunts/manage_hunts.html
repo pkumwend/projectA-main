@@ -16,13 +16,9 @@
 
     <main class="container">
 
-        <div class="hunt-top">
+        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-            <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
-
-            <div class="clock-display"><span id="clock"></span>
-            </div>
-
+            <div class="clock-display"><span id="clock"></span></div>
         </div>
 
         <div class="header-accent"></div>
@@ -31,53 +27,47 @@
 
             <h1>Manage Hunts</h1>
 
-            <p class="welcome-text start-text">Create a new hunt or manage one of your existing hunts</p>
+            <p class="welcome-text start-text">Create a new hunt or manage an existing one</p>
 
-            <a href="{% url 'create_hunt' %}" class="button-link">Create New Hunt</a>
+            <div class="page-actions">
+                <a href="{% url 'create_hunt' %}" class="btn btn-primary">+ Create New Hunt</a>
+            </div>
 
             <h2>Existing Hunts</h2>
 
             {% if hunts %}
 
-                {% for hunt in hunts %}
+                <div class="item-list">
 
-                    <div class="question-row">
+                    {% for hunt in hunts %}
 
-                        <div class="question-content">
+                        <section class="item-card">
 
-                            <p>
-                                {{ hunt.hunt_name }}
-                            </p>
+                            <div><h3>{{ hunt.hunt_name }}</h3><p>Location: {{ hunt.location }}</p>
+                            </div>
 
-                            <p class="question-type">Location: {{ hunt.location }}</p>
+                            <div class="item-actions">
 
-                        </div>
+                                <a href="{% url 'edit_hunt' hunt.hunt_id %}" class="btn btn-edit">Edit Hunt</a>
 
-                        <div class="answer-content">
+                                <a href="{% url 'delete_hunt' hunt.hunt_id %}" class="btn btn-delete">Delete Hunt</a>
 
-                            <p>
-                                <a href="{% url 'edit_hunt' hunt.hunt_id %}" class="back-link">Edit Hunt</a>
-                            </p>
+                            </div>
 
-                            <p>
-                                <a href="{% url 'delete_hunt' hunt.hunt_id %}" class="back-link">Delete Hunt</a>
-                            </p>
+                        </section>
 
-                        </div>
+                    {% endfor %}
 
-                    </div>
-
-                {% endfor %}
+                </div>
 
             {% else %}
 
-                <p class="welcome-text">No hunts have been created yet</p>
+                <p class="welcome-text">No hunts have been created yet.</p>
 
             {% endif %}
 
-            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-                <a href="{% url 'staff_dashboard' %}" class="back-link">Back to Dashboard</a>
-            </p>
+            <div class="page-footer"><a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            </div>
 
         </div>
 

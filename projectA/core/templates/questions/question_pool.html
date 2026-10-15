@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -12,69 +13,71 @@
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
-<body>
+<body class="start-page">
 
-<main class="container">
+    <main class="container">
 
-    <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-        <div class="clock-display"><span id="clock"></span></div>
-    </div>
+            <div class="clock-display"><span id="clock"></span></div></div>
 
-    <div class="header-accent"></div>
+        <div class="header-accent"></div>
 
-    <div class="questions-content">
+        <div class="questions-content">
 
-        <h1>Question Pool</h1>
+            <h1>Question Pool</h1>
 
-        <p class="welcome-text start-text">Create, edit and manage questions</p>
+            <p class="welcome-text start-text">Create, edit and manage questions</p>
 
-        <a href="{% url 'create_question' %}" class="button-link">Create New Question</a>
+            <div class="page-actions">
+                <a href="{% url 'create_question' %}" class="btn btn-primary">+ Create New Question</a>
+            </div>
 
-        <h2>Questions</h2>
+            <h2>Questions</h2>
 
-        {% if questions %}
+            {% if questions %}
 
-            {% for question in questions %}
+                <div class="item-list">
 
-                <div class="question-row">
+                    {% for question in questions %}
 
-                    <div class="question-content">
-                        <p>Q: {{ question.description }}</p>
+                        <section class="item-card">
 
-                        <p class="question-type">
-                            Type: {{ question.question_type }}
-                        </p>
-                    </div>
+                            <h3>{{ question.description }}</h3>
 
-                    <div class="answer-content">
+                            <p>Type: {{ question.question_type }}</p>
 
-                        <a href="{% url 'edit_question' question.question_id %}" class="back-link">Edit Question</a>
+                            <div class="item-actions">
 
-                        <br><br>
+                                <a href="{% url 'edit_question' question.question_id %}"
+                                   class="btn btn-edit">Edit Question</a>
 
-                        <a href="{% url 'delete_question' question.question_id %}" class="back-link">Delete Question</a>
+                                <a href="{% url 'delete_question' question.question_id %}"
+                                   class="btn btn-delete">Delete Question</a>
 
-                    </div>
+                            </div>
+
+                        </section>
+
+                    {% endfor %}
 
                 </div>
 
-            {% endfor %}
+            {% else %}
 
-        {% else %}
+                <p class="welcome-text">No questions have been created yet.</p>
 
-            <p class="welcome-text">No questions have been created yet</p>
+            {% endif %}
 
-        {% endif %}
+            <div class="page-footer">
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            </div>
 
-        <p class="welcome-text back-dashboard"><a href="{% url 'staff_dashboard' %}" class="back-link">Back to Dashboard</a></p>
+        </div>
 
-    </div>
+    </main>
 
-</main>
-
-<script src="{% static 'style_css/questions-page.js' %}"></script>
+    <script src="{% static 'style_css/questions-page.js' %}"></script>
 
 </body>
 </html>

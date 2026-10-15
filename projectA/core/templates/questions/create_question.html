@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -9,7 +10,6 @@
     <title>Create Question | ECU Scavenger Hunt</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
@@ -17,12 +17,9 @@
 
     <main class="container">
 
-        <div class="hunt-top">
-
-            <img src="{% static 'style_css/ecu-logo-black.png' %}"class="ecu-logo">
+        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
             <div class="clock-display"><span id="clock"></span></div>
-
         </div>
 
         <div class="header-accent"></div>
@@ -37,20 +34,63 @@
                 {% csrf_token %}
 
                 {{ form.as_p }}
-                <h2>
-                    Choices
-                </h2>
-                {{formset.management_form}}
-                {%for choice_form in formset%}
-                    {{choice_form.as_p}}
-                {%endfor%}
 
-                <button type="submit">Add to Questions</button>
+                <div id="choices-section">
+
+                    <h2>Choices</h2>
+
+                    {{ formset.management_form }}
+
+                    <div class="item-list">
+
+                        {% for choice_form in formset %}
+
+                            <div class="item-card choice-card">
+
+                                {% for hidden in choice_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+
+                                {% for field in choice_form.visible_fields %}
+
+                                    <div class="choice-field">
+                                        {% if field.field.widget.input_type == "checkbox" %}
+
+                                            <label class="checkbox-label">
+                                                {{ field.label }}
+                                                {{ field }}
+                                            </label>
+
+                                        {% else %}
+
+                                            <label for="{{ field.id_for_label }}">
+                                                {{ field.label }}
+                                            </label>
+                                            {{ field }}
+
+                                        {% endif %}
+
+                                        {{ field.errors }}
+                                    </div>
+
+                                {% endfor %}
+
+                                {{ choice_form.non_field_errors }}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <div class="page-actions"><button type="submit">Add to Questions</button></div>
+
             </form>
 
-            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-                <a href="{% url 'question_pool' %}" class="back-link">Back to Question Pool</a>
-            </p>
+            <div class="page-footer"><a href="{% url 'question_pool' %}"class="btn btn-secondary">← Back to Question Pool</a>
+            </div>
 
         </div>
 

@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -16,35 +17,57 @@
 
     <main class="container">
 
-        <div class="hunt-top">
+        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
 
-            <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
-
-            <div class="clock-display"><span id="clock"></span>
-            </div>
-
+            <div class="clock-display"><span id="clock"></span></div>
         </div>
 
         <div class="header-accent"></div>
 
         <div class="start-content">
 
-            <h1>Create New NEW Hunt</h1>
+            <h1>Create New Hunt</h1>
 
             <p class="welcome-text start-text">Enter the hunt details below</p>
 
             <form method="POST">
                 {% csrf_token %}
 
-                {{ form.as_p }}
+                {{ form.non_field_errors }}
+
+                <div class="form-group">
+                    <label for="{{ form.hunt_name.id_for_label }}">Hunt name:</label>
+                    {{ form.hunt_name }}
+                    {{ form.hunt_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}">Location:</label>
+                    {{ form.location }}
+                    {{ form.location.errors }}
+                </div>
+
+                <div class="form-group"><label>Questions:</label>
+
+                    <p>Select the questions to include in this hunt</p>
+
+                    <div class="item-list">
+                        {% for checkbox in form.questions %}
+                            <label class="item-card question-option">
+                                {{ checkbox.tag }}
+                                <span>{{ checkbox.choice_label }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    {{ form.questions.errors }}
+                </div>
 
                 <button type="submit">Create Hunt</button>
-
             </form>
 
-            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-                <a href="{% url 'manage_hunts' %}" class="back-link">Back to Hunts</a>
-            </p>
+            <div class="page-footer"><a href="{% url 'manage_hunts' %}" class="btn btn-secondary">← Back to Manage Hunts</a>
+            </div>
 
         </div>
 

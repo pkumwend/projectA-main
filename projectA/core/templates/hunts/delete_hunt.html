@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -32,17 +33,24 @@
         <form method="POST">
             {% csrf_token %}
 
-            <p style="font-size: 18px;"><strong>Name:</strong> {{ hunt.hunt_name }}</p>
+            <p style="font-size: 18px;">
+                <strong>Name:</strong> {{ hunt.hunt_name }}
+            </p>
 
-            <p style="font-size: 18px;"><strong>Location:</strong> {{ hunt.location }}</p>
+            <p style="font-size: 18px;">
+                <strong>Location:</strong> {{ hunt.location }}
+            </p>
 
-            <button type="submit" style="background-color: rgb(233, 35, 5); color: white; font-size: 17px;"
-                   onmouseover="this.style.backgroundColor='red'"
-                   onmouseout="this.style.backgroundColor='rgb(233, 35, 5)'">Confirm Delete</button>
+            <button type="submit"
+                    style="background-color: rgb(233, 35, 5); color: white; font-size: 17px;"
+                    onmouseover="this.style.backgroundColor='red'"
+                    onmouseout="this.style.backgroundColor='rgb(233, 35, 5)'">Confirm Delete
+            </button>
         </form>
 
-        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'manage_hunts' %}" class="back-link">Back to Manage Hunts</a>
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;"><a href="{% url 'manage_hunts' %}"
+               class="btn btn-secondary"
+               style="font-size: 17px; font-weight: 600;">← Back to Manage Hunts</a>
         </p>
 
     </div>
