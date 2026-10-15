@@ -143,24 +143,11 @@
             <!-- Dashboard actions -->
             <div class="dashboard-actions">
 
-                <!-- Resolve the staff-management URL without breaking this page if it is absent. -->
-                {% url 'manage_staff' as manage_staff_url %}
-                {% if manage_staff_url %}
-                    <a href="/admin/"
-                       class="dashboard-button">
-                        Manage Staff
-                    </a>
-                {% else %}
-                    <button type="button"
-                            class="dashboard-button"
-                            aria-describedby="staff-management-note"
-                            disabled>
-                        Manage Staff
-                    </button>
-                    <p id="staff-management-note" class="dashboard-note">
-                        Staff management is not available yet.
-                    </p>
-                {% endif %}
+                <!-- Open the Django administration page. -->
+                <a href="/admin/"
+                   class="dashboard-button">
+                    Manage Staff
+                </a>
 
 
                 <a href="{% url 'manage_hunts' %}"
