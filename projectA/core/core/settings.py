@@ -10,12 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
-from pathlib import Path
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Read the private sender configuration beside manage.py on every startup.
+# Explicit server environment variables take precedence over the local file.
+load_dotenv(dotenv_path=BASE_DIR / '.env', override=False, encoding='utf-8-sig')
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,7 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'huntSessions',
-    'home'
+    'home',
+    'recovery.apps.RecoveryConfig',
 ]
 
 MIDDLEWARE = [
@@ -129,11 +136,48 @@ STATIC_URL = 'static/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+# Return to the existing staff login after password recovery.
+RECOVERY_LOGIN_URL = '/staff/login/'
+
+# Password reset links expire after one hour.
+PASSWORD_RESET_TIMEOUT = 60 * 60
+
+# Use console output for testing; select SMTP through environment variables.
+_recovery_email_backend = os.environ.get(
+    'DJANGO_EMAIL_BACKEND',
+    'django.core.mail.backends.console.EmailBackend',
+)
+_recovery_email_user = os.environ.get('DJANGO_EMAIL_HOST_USER', '')
+_recovery_email_password = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD', '').replace(' ', '')
+
+if _recovery_email_backend == 'django.core.mail.backends.smtp.EmailBackend' and not (
+    _recovery_email_user and _recovery_email_password
+):
+    raise ImproperlyConfigured(
+        'Set DJANGO_EMAIL_HOST_USER and DJANGO_EMAIL_HOST_PASSWORD before using SMTP.'
+    )
+
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': _recovery_email_backend,
+        'OPTIONS': (
+            {
+                'host': 'smtp.gmail.com',
+                'port': 587,
+                'username': _recovery_email_user,
+                'password': _recovery_email_password,
+                'use_tls': True,
+                'use_ssl': False,
+                'timeout': 15,
+            }
+            if _recovery_email_backend == 'django.core.mail.backends.smtp.EmailBackend'
+            else {}
+        ),
     },
 }
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+DEFAULT_FROM_EMAIL = (
+    f'ECU Scavenger Hunt <{_recovery_email_user}>'
+    if _recovery_email_user
+    else 'no-reply@example.com'
+)
