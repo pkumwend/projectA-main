@@ -202,7 +202,9 @@ def manage_sessions(request):
 @login_required(login_url="staff_login")
 def session_detail(request,Session_id):
     Session = get_object_or_404(HuntSession,Session_id=Session_id)
-    return render(request, "sessions/session_detail.html", {"Session":Session}) 
+    playing = Session.players.filter(submitted_at__isnull=True).count()
+    done = Session.players.filter(submitted_at__isnull=False).count()
+    return render(request, "sessions/session_detail.html", {"Session":Session,"playing":playing,"done":done}) 
 
 @login_required(login_url="staff_login")
 def delete_session(request,Session_id):
@@ -379,3 +381,21 @@ def submission(request):
 
 def thank_you(request):
     return render(request, "home/thank_you.html")
+
+############################### marking related ##################################################
+
+def view_submissions(request):
+    #a simple view to display all the session and how many hunts students ahve submitted, 
+    #each entry for a quiz should show the sessioin, total participants, submitted hunts and how manyhave been marked
+    #the process will be split into 3 pages,
+    #resue the manage session page, add a display for the submitted hunts as well
+    #add a link to the marking review page, it will take that hunt and display a list of all the players
+    #last page will be for individually marking each answer the player gave
+    #end of notes
+    return render (request,"marking/view_submissions.html")
+
+def mark_player(request,player_id):
+    #similar to the edit pages, take the player id and display all the answers they have given
+    #add a boolean for marking if the question is correct or not,
+    #later add a leader board that takes the completed marking players and puts them into a leader board for that quiz
+    return render(request, "marking/mark_player.html")
