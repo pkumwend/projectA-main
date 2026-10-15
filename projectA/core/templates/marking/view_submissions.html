@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ hunt.hunt_name }} Submissions | ECU Scavenger Hunt</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
+</head>
+
+<body class="start-page">
+
+<main class="container">
+
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}"
+             alt="Edith Cowan University Logo"
+             class="ecu-logo">
+
+        <div class="clock-display">
+            <span id="clock"></span>
+        </div>
+    </div>
+
+    <div class="header-accent"></div>
+
+    <div class="questions-content">
+
+        <h1>Manage Submissions</h1>
+
+        <p class="welcome-text start-text">
+            View and mark the players in the {{ hunt.hunt_name }} session (code {{ Session.join_code }}).
+        </p>
+
+        <h2>Players</h2>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if rows %}
+
+            {% for row in rows %}
+
+                <div class="question-row">
+
+                    <div class="question-content">
+                        <p><strong>{{ row.player.name }}</strong></p>
+                        <p>
+                            {% if row.player.submitted_at %}Submitted{% else %}In progress{% endif %}
+                            | Answered {{ row.answered }} of {{ total }}
+                            | Marked {{ row.marked }} of {{ row.answered }}
+                            | Score {{ row.correct }} / {{ total }}
+                        </p>
+                    </div>
+
+                    <div class="answer-content">
+                        <p>
+                            <a href="{% url 'mark_player' Session.Session_id row.player.player_id %}" class="back-link">
+                                Mark
+                            </a>
+                        </p>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="welcome-text">
+                No players have joined this session yet.
+            </p>
+
+        {% endif %}
+
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'manage_sessions' %}" class="back-link">
+                Back to Sessions
+            </a>
+        </p>
+
+    </div>
+
+</main>
+
+<script src="{% static 'style_css/questions-page.js' %}"></script>
+
+</body>
+</html>

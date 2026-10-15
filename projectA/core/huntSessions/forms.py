@@ -21,7 +21,7 @@ from django.utils.translation import gettext as _
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ["description","question_type"]
+        fields = ["description","question_type","model_answer"]
 class QuestionChoiceForm(forms.ModelForm):
     class Meta:
         model = QuestionChoice
@@ -65,7 +65,7 @@ class ShortAnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["answer"]
-        labels = {"anser" : "your answer"}
+        labels = {"answer" : "your answer"}
 
 class MultipleChoiceForm(forms.ModelForm):
     # for the multiple choice type, create a form that displayes the multiple choices in a better way and only allow them to l=select one for now
@@ -77,7 +77,7 @@ class MultipleChoiceForm(forms.ModelForm):
 
     def __init__(self, *args, question=None, **kwargs):
         super().__init__(*args, **kwargs)
-        #fields.empty_label = None
+        self.fields["choice"].empty_label = None
 
         if question is not None:
             self.fields["choice"].queryset = question.choices.all()
@@ -86,9 +86,17 @@ class PictureForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["picture"]
-        widgets = {"psicture": forms.ClearableFileInput(attrs={"accept":"image/*"})}
+        widgets = {"picture": forms.ClearableFileInput(attrs={"accept":"image/*"})}
         labels = {"picture":"upload a photo"}
         
+class MarkAnswersForm(forms.ModelForm):
+   class Meta:
+    model = Answer  
+    fields = ["is_correct"]
+    
+
+MarkAnswersFormSet = inlineformset_factory(Player, Answer,fields=["is_correct"], extra=0, can_delete=False)
+
 
 #a function for cleaning up picture submission and restricting 
 '''

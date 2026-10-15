@@ -50,7 +50,7 @@
 
             <p>Location: {{ hunt.location }}</p>
 
-            {# THE OPENING FORM TAG WAS MISSING. enctype is required for photo uploads. #}
+    
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
@@ -60,7 +60,7 @@
                     <p class="question-text">{{ item.question.description }}</p>
 
                     {{ item.form.non_field_errors }}
-                    {{ item.form.as_p }}   {# label, input and any error for this question #}
+                    {{ item.form.as_p }} 
                 </section>
                 {% empty %}
                 <p>This hunt has no questions yet. Ask your teacher to add some.</p>

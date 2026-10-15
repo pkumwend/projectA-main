@@ -20,7 +20,8 @@ locations = [("Joondalup","Joondalup"),
 
 class Question(models.Model):
     question_id = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=500)
+    model_answer = models.CharField(max_length=300, blank=True, default="")
     question_type = models.CharField(max_length=25,choices=question_types)
     def __str__(self):
         return self.description
@@ -66,8 +67,14 @@ class Answer(models.Model):
     answer = models.CharField(max_length=200,blank=True)
     picture = models.ImageField(blank=True,upload_to="hunts/")
     choice = models.ForeignKey(QuestionChoice,on_delete=models.SET_NULL,related_name="selected_answers",null=True,blank=True)
-    #is_correct = model.BooleanField(default=False)
+    is_correct = models.BooleanField(null=True)
     class Meta:
         unique_together = ('player','question') 
 
-  
+  #notes to consider later,
+'''
+changed the is_correct in the mcq model to be null, to avoid errors with toher is_correct and ,=marking related concerens
+
+
+
+'''

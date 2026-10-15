@@ -88,8 +88,8 @@ urlpatterns = [
     
     ########################## marking side ########################################
 
-    path("marking/view_submissions.html",views.view_submissions,name="view_submissions"),
-    path("marking/mark_player.html",views.mark_player,name="mark_player"),
+    path("marking/view_submissions/<int:Session_id>",views.view_submissions,name="view_submissions"),
+    path("marking/mark_player/<int:Session_id>/<int:player_id>",views.mark_player,name="mark_player"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -19,7 +19,7 @@ from .models import HuntSession
 from .forms import PlayerForm,ShortAnswerForm,MultipleChoiceForm,PictureForm
 from .models import Player,Answer
 
-from .forms import JoinCodeForm
+from .forms import JoinCodeForm,MarkAnswersForm,MarkAnswersFormSet
 
 ################################################################################
 #Admin and staff login section
@@ -384,18 +384,61 @@ def thank_you(request):
 
 ############################### marking related ##################################################
 
-def view_submissions(request):
-    #a simple view to display all the session and how many hunts students ahve submitted, 
-    #each entry for a quiz should show the sessioin, total participants, submitted hunts and how manyhave been marked
-    #the process will be split into 3 pages,
-    #resue the manage session page, add a display for the submitted hunts as well
-    #add a link to the marking review page, it will take that hunt and display a list of all the players
-    #last page will be for individually marking each answer the player gave
-    #end of notes
-    return render (request,"marking/view_submissions.html")
+@login_required(login_url="staff_login")
+def view_submissions(request,Session_id):
 
-def mark_player(request,player_id):
-    #similar to the edit pages, take the player id and display all the answers they have given
-    #add a boolean for marking if the question is correct or not,
-    #later add a leader board that takes the completed marking players and puts them into a leader board for that quiz
-    return render(request, "marking/mark_player.html")
+    Session = get_object_or_404(HuntSession,Session_id=Session_id)
+    hunt = Session.hunt
+    total = Session.hunt.questions.count()
+    
+
+    rows = []
+    for player in Session.players.prefetch_related("answers").order_by("name"):
+        #take each player instance adn collcet data from it
+        #from there increment the required fields to fill in data
+        #loop through the answers that the player has and put them all in a list 
+        given_answers = [ans for ans in player.answers.all() if has_response(ans)]
+        
+        #answered is the lnegth of given, which is a list of all the answered questions
+        answered = len(given_answers)
+        
+        marked = 0
+        correct = 0
+        #count the number of marked, answered and correct in the answers of the player
+        #solution: use nested loops to go through each answer and check if it satisfies the desired condtion
+        #increment the appropriate counter adn pass them into page
+        for ans in given_answers:
+            if ans.is_correct is not None:
+                #a marked answerd can only be true or false, null is the default that has yet to be seen
+                marked +=1
+            if ans.is_correct is True:
+                #an answer that is given and marked
+                correct += 1
+        rows.append({"player":player,"answered":answered,"marked":marked,"correct":correct})
+
+    return render (request,"marking/view_submissions.html",{"Session":Session,"player":player,"rows":rows,"total":total,"hunt":hunt})
+
+@login_required(login_url="staff_login")
+def mark_player(request,Session_id,player_id):
+   
+    session = get_object_or_404(HuntSession,Session_id=Session_id) # abit complciated, but get the sesion
+    player = get_object_or_404(Player,session=session,player_id=player_id)# then get the player accoding to that session
+    total = session.hunt.questions.count()
+    
+    answers = player.answers.exclude(answer="",choice__isnull=True,picture="").select_related("question", "choice").order_by("question_id")
+    formset = MarkAnswersFormSet(request.POST or None, instance=player, queryset=answers)
+
+    if request.method == "POST":
+        if formset.is_valid():
+            formset.save()
+            messages.success(request,"The player has been graded")
+            return redirect("view_submissions",Session_id)
+        else:
+            messages.error(request,"The marks were not saved, check questions and retry")   
+
+    answered = answers.count()
+    unanswered = total - answered
+    marked =  answers.filter(is_correct__isnull=False).count()
+    correct = answers.filter(is_correct=True).count()
+    
+    return render(request, "marking/mark_player.html",{"formset":formset,"player":player,"session":session,"total":total,"unanswered":unanswered,"answered":answered,"marked": marked, "correct": correct,})

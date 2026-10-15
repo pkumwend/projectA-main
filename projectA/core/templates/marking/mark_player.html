@@ -1,0 +1,130 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Marking {{ player.name }} | ECU Scavenger Hunt</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
+</head>
+
+<body class="start-page">
+
+<main class="container">
+
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}"
+             alt="Edith Cowan University Logo"
+             class="ecu-logo">
+
+        <div class="clock-display">
+            <span id="clock"></span>
+        </div>
+    </div>
+
+    <div class="header-accent"></div>
+
+    <div class="questions-content">
+
+        <h1>Mark {{ player.name }}'s answers</h1>
+
+        <p class="welcome-text start-text">
+            {% if player.submitted_at %}
+                Submitted {{ player.submitted_at|date:"j M Y, g:i A" }}.
+            {% else %}
+                This player has not submitted yet, so their answers may still change.
+            {% endif %}
+        </p>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <ul class="mark-summary">
+            <li>Answered: {{ answered }} of {{ total }}</li>
+            <li>Not answered: {{ unanswered }} </li>
+            <li>Marked: {{ marked }} of {{ answered }}</li>
+            <li>Correct so far: {{ correct }} of {{ total }}</li>
+        </ul>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            {{ formset.non_form_errors }}
+
+            {% for form in formset %}
+            {% with answer=form.instance question=form.instance.question %}
+
+                <div class="question-row">
+
+                    <div class="question-content">
+                        <p>{{ question.description }}</p>
+                        {% if question.model_answer %}
+                        <p class="model-answer">Model answer: {{ question.model_answer }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="answer-content">
+
+                        {% if question.question_type == "multiple choice" %}
+                            <p>Chosen: {{ answer.choice.option }}</p>
+                            <p>Correct option:
+                                {% for choice in question.choices.all %}
+                                {% if choice.is_correct %}
+                                {{ choice.option }} 
+                                {% endif %}
+                                {% endfor %}
+                            </p>
+
+                        {% elif question.question_type == "short answer" %}
+                            <p>{{ answer.answer }}</p>
+
+                        {% elif question.question_type == "picture" %}
+                            {% if answer.picture %}
+                                <a href="{{ answer.picture.url }}" target="_blank" rel="noopener">
+                                    <img src="{{ answer.picture.url }}"
+                                         alt="Photo submitted by {{ player.name }}"
+                                         class="answer-photo" width="150">
+                                </a>
+                            {% endif %}
+                        {% endif %}
+
+                        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+                        {{ form.is_correct.errors }}
+                        <label for="{{ form.is_correct.id_for_label }}">Mark:</label>
+                        {{ form.is_correct }}
+                    </div>
+
+                </div>
+
+            {% endwith %}
+            {% empty %}
+                <p class="welcome-text">This player has no answers to mark.</p>
+            {% endfor %}
+
+            {% if formset.forms %}
+            <button type="submit">Save marks</button>
+            {% endif %}
+        </form>
+
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'view_submissions' session.Session_id %}" class="back-link">Back to submissions</a>
+        </p>
+
+    </div>
+
+</main>
+
+<script src="{% static 'style_css/questions-page.js' %}"></script>
+
+</body>
+</html>
