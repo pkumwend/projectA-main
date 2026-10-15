@@ -84,9 +84,12 @@ urlpatterns = [
     path("join/", views.join_hunt, name="join_hunt"),
     path("start_hunt/", views.start_hunt, name="start_hunt"),
     path("submission/",views.submission,name="submission"),
-
-    #path("questions/<int:question_id>/answer",views.save_answer,name="save_answer"),
     path("home/thank_you.html", views.thank_you,name="thank_you"),
+    
+    ########################## marking side ########################################
+
+    path("marking/view_submissions.html",views.view_submissions,name="view_submissions"),
+    path("marking/mark_player.html",views.mark_player,name="mark_player"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
