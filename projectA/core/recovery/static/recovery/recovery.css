@@ -1,0 +1,130 @@
+.recovery-page .recovery-copy {
+    line-height: 1.6;
+}
+
+.recovery-page .recovery-form .form-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.recovery-page .recovery-form .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.recovery-page .recovery-form .form-group input.recovery-input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #bcc7c0;
+    border-radius: 6px;
+    font: inherit;
+    background: #fff;
+    color: #17221b;
+}
+
+.recovery-page .recovery-form .form-group input.recovery-input:focus {
+    outline: 2px solid #17804a;
+    outline-offset: 2px;
+}
+
+.recovery-page .recovery-form .form-group input.recovery-input[aria-invalid="true"] {
+    border-color: #b42318;
+}
+
+.recovery-page .recovery-help {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #536158;
+}
+
+.recovery-page .recovery-help ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.recovery-page .recovery-field-errors {
+    color: #b42318;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.recovery-page .recovery-field-errors p {
+    margin: 6px 0 0;
+}
+
+.recovery-page .recovery-notice {
+    margin: 20px 0;
+    padding: 14px 16px;
+    border: 1px solid #9fc9ad;
+    border-left: 4px solid #17804a;
+    border-radius: 6px;
+    background: #eef8f1;
+    color: #155b34;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.recovery-page .recovery-notice p {
+    margin: 0;
+}
+
+.recovery-page .recovery-notice-error {
+    border-color: #e6aaa4;
+    border-left-color: #b42318;
+    background: #fff1f0;
+    color: #8f1d14;
+}
+
+.recovery-page button.recovery-submit,
+.recovery-page a.recovery-button {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    padding: 13px 20px;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Submit buttons use the shared button backgrounds from style.css. */
+.recovery-page a.recovery-button {
+    background: #17804a;
+}
+
+.recovery-page a.recovery-button:hover {
+    background: #12663b;
+}
+
+.recovery-page .recovery-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.recovery-page a.recovery-link {
+    color: #17804a;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.recovery-page .recovery-link:focus-visible,
+.recovery-page .recovery-button:focus-visible,
+.recovery-page .recovery-submit:focus-visible {
+    outline: 2px solid #17804a;
+    outline-offset: 3px;
+}
