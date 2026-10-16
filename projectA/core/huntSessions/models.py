@@ -18,6 +18,8 @@ locations = [("Joondalup","Joondalup"),
              ("Bunbury","Bunbury"),
              ("City Campus","City Campus")]
 
+mark_types = [(True, "Correct"), (False, "Wrong"), (None, "Not marked")]
+
 class Question(models.Model):
     question_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=500)
@@ -67,7 +69,7 @@ class Answer(models.Model):
     answer = models.CharField(max_length=200,blank=True)
     picture = models.ImageField(blank=True,upload_to="hunts/")
     choice = models.ForeignKey(QuestionChoice,on_delete=models.SET_NULL,related_name="selected_answers",null=True,blank=True)
-    is_correct = models.BooleanField(null=True)
+    is_correct = models.BooleanField(null=True, blank=True, choices=mark_types)
     class Meta:
         unique_together = ('player','question') 
 
