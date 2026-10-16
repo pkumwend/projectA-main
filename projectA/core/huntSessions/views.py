@@ -432,7 +432,7 @@ def mark_player(request,Session_id,player_id):
     if request.method == "POST":
         if formset.is_valid():
             formset.save()
-            messages.success(request,"The player has been graded")
+            #messages.success(request,"The player has been graded")
             return redirect("view_submissions",Session_id)
         else:
             messages.error(request,"The marks were not saved, check questions and retry")   
