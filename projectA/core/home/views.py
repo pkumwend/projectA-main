@@ -65,4 +65,4 @@ def start_hunt(request):
     hunt = session.hunt
     questions = hunt.questions.all()
 
-    return render(request, "home/start_hunt.html",{"player":Player,"session":session,"hunt":hunt,"questions":questions})
+    return render(request, "home/start_hunt.html",{"player": player,"session": session,"hunt": hunt,"questions": questions})

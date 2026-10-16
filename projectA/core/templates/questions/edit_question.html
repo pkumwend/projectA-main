@@ -1,4 +1,3 @@
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -42,20 +41,19 @@
 
                 {{ form.as_p }}
 
+                <!-- Required for Django to process the choice formset -->
+                {{ formset.management_form }}
+
                 {% if form.question_type.value == "multiple choice" %}
 
                     <h2>Choices</h2>
-
-                    {{ formset.management_form }}
 
                     <div class="item-list">
 
                         {% for choice_form in formset %}
 
                             <div class="item-card">
-
                                 {{ choice_form.as_p }}
-
                             </div>
 
                         {% endfor %}

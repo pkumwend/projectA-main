@@ -1,382 +1,94 @@
-* { box-sizing: border-box; }
 
-body { /* set the overall appearance and layout of the webpage */
-    margin: 0;
-    min-height: 100vh;
-    font-family: Barlow, sans-serif;
-    background-color: #EFF4F2;
-    color: #000000;
+/* Student questions */
+.question-row { display:flex; flex-wrap:wrap; align-items:center; gap:20px; margin-bottom:21px; padding:25px; border:1px solid var(--line); border-left:5px solid var(--teal); border-radius:17px; }
+.question-content { flex:1 1 250px; }
+.answer-content { flex:1 1 220px; }
+.question-content p,.question-content p strong { margin:0; color:#333; font-size:18px; font-weight:500; }
+body.questions-page { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }
+.questions-page .sticky-header { width:100%; flex-shrink:0; }
+.questions-page .questions-container { width:calc(100% - 40px); max-width:750px; margin:30px auto; }
+.questions-page .question-row { align-items:flex-start; gap:24px; padding:24px; }
+.questions-page .question-content h3 { margin:0 0 12px; font-size:18px; }
+.questions-page .answer-content { min-width:0; }
+.questions-page .answer-content > p { margin:0; }
+.questions-page .answer-content > p > label { margin-bottom:10px; }
+.questions-page .answer-content:has(input[type="radio"]) > p { display:block; }
+.questions-page .answer-content:has(input[type="radio"]) > p > label { width:auto; white-space:nowrap; }
+.questions-page .answer-content div:has(> input[type="radio"]) { margin-bottom:8px; }
+.questions-page .answer-content label:has(> input[type="radio"]) { display:flex; align-items:center; gap:12px; margin:0; padding:10px 12px; border:1px solid #D6E2DD; border-radius:10px; background:var(--white); font-size:15px; font-weight:500; cursor:pointer; }
+.questions-page .answer-content label:has(> input[type="radio"]):hover { border-color:var(--teal); background:#F7FCFA; }
+.questions-page .answer-content input[type="radio"] { appearance:auto; -webkit-appearance:radio; width:16px; height:16px; flex-shrink:0; margin:0; padding:0; border:0; border-radius:50%; background:transparent; box-shadow:none; accent-color:var(--teal); }
+.questions-page .answer-content input[type="radio"]:focus { border:0; box-shadow:none; }
+.questions-page .answer-content input[type="radio"]:focus-visible { outline:2px solid var(--teal); outline-offset:3px; }
+.questions-page .answer-content input[type="text"],.questions-page .answer-content textarea,.questions-page .answer-content input[type="file"] { max-width:100%; font-size:15px; }
+.questions-page .answer-content textarea { min-height:90px; resize:vertical; }
+
+/* Login/dashboard compatibility — existing HTML class names */
+.staff-login-button,.start-content .dashboard-button,.start-content .Dashboard-button { display:block; width:100%; padding:14px; border-radius:14px; background:#000; color:#FFF; font:700 17px Barlow,sans-serif; line-height:1.3; text-align:center; text-decoration:none; cursor:pointer; }
+.staff-login-button:hover,.start-content .dashboard-button:hover,.start-content .Dashboard-button:hover { background:var(--teal); }
+.start-content .dashboard-actions,.start-content .Dashboard.actions { display:grid; gap:12px; width:100%; max-width:500px; margin:0 auto 16px; }
+.message { display:flex; align-items:center; gap:12px; width:100%; max-width:500px; margin:0 auto 22px; padding:14px 16px; border-radius:10px; font-size:16px; font-weight:700; text-align:left; animation:message-appear .25s ease-out; }
+.start-content .message.success { justify-content:center; text-align:center; }
+.message.error { color:#8B1E1E; background:#FFF0F0; border:2px solid #D32F2F; border-left:7px solid #D32F2F; box-shadow:0 4px 10px #d32f2f2e; }
+.message.error::before { content:"!"; display:flex; align-items:center; justify-content:center; flex-shrink:0; width:25px; height:25px; color:#FFF; background:#D32F2F; border-radius:50%; font-size:17px; font-weight:700; }
+@keyframes message-appear { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+/* Manage Hunts compatibility */
+.manage-hunts-page .questions-content { padding:40px; }
+.manage-hunts-page .start-text { margin:12px 0 25px; }
+.manage-hunts-create { margin-bottom:35px; }
+.manage-hunts-heading { margin-bottom:22px; }
+.manage-hunts-list { gap:18px; }
+.manage-hunt-card { display:flex; align-items:center; justify-content:space-between; gap:20px; border:1px solid #D6E2DD; border-left:5px solid var(--teal); }
+.manage-hunt-details { min-width:0; overflow-wrap:anywhere; }
+.manage-hunt-details h3 { margin:0 0 8px; font-size:19px; }
+.manage-hunt-details p { margin:0; color:#555; }
+.manage-hunt-actions { display:grid; gap:10px; min-width:130px; }
+.manage-hunts-footer { margin-top:30px; }
+
+/* Responsive layout */
+@media (max-width:600px) {
+  .page-actions .btn-primary { width:100%; }
+  .session-actions { grid-template-columns:1fr; }
+  .questions-page .question-row { flex-direction:column; gap:16px; padding:20px; }
+  .questions-page .question-content,.questions-page .answer-content { width:100%; flex:none; }
+  .manage-hunts-page .questions-content { padding:28px 20px; }
+  .manage-hunt-card { flex-direction:column; align-items:stretch; }
+  .manage-hunt-actions { grid-template-columns:repeat(2,1fr); }
+  .manage-hunts-create-button { width:100%; }
+}
+@media (max-width:480px) {
+  .container { width:calc(100% - 24px); margin:20px auto; }
+  .start-content { padding:30px 20px; }
+  .hunt-top { padding:16px 18px; gap:12px; }
+  .ecu-logo { width:105px; }
+  .clock-display { font-size:21px; }
+  .questions-content { padding:28px 20px; }
+  h1 { font-size:27px; }
+  h2 { font-size:22px; }
+  .group-section { width:100%; font-size:20px; }
+  .question-row { flex-direction:column; align-items:stretch; }
+  .question-content,.answer-content { flex:none; width:100%; }
+  .submit-button { width:100%; }
+  .questions-page .questions-container { width:calc(100% - 24px); margin:20px auto; }
 }
 
-.start-page { /* centre the start page content horizontally and vertically */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Submission page */
+.answer-summary { padding-left: 0; list-style: none; counter-reset: question; }
+
+.answer-summary .item-card {
+    counter-increment: question;
+    overflow-wrap: anywhere;
 }
 
-.container { /* style the main content container */
-    width: calc(100% - 40px);
-    max-width: 750px;
-    margin: 50px auto;
-    background-color: #FFFFFF;
-    border-radius: 40px;
-    box-shadow: 0 15px 15px #6191731a;
-    overflow: hidden;
-}
+.answer-summary .question-text::before { content: counter(question) ". "; }
+.answer-summary .answer-text { margin: 10px 0 0; font-weight: 400; }
+.answer-summary .unanswered { opacity: 0.7; }
+.answer-photo { max-width: 100%; height: auto; margin-top: 10px; border-radius: 10px; }
 
-.start-page .container { /* adjust the main container on the start page */
-    margin: 20px;
-}
-
-.start-container { /* set the maximum width of the start page container */
-    max-width: 650px;
-}
-
-.start-content { /* add spacing inside the start page content */
-    padding: 40px 35px;
-}
-
-.start-container form { /* set the width and position of the start page form */
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.form-group { /* add space below each form group */
-    margin-bottom: 30px;
-}
-
-.hunt-top { /* style and position the ecu logo and clock in the top header */
-    width: 100%;
-    background-color: #1A1919;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 20px 40px;
-}
-
-.ecu-logo { /* set the size and display of the logo */
-    width: 145px;
-    height: auto;
-    display: block;
-}
-
-.clock-display { /* style the time displayed in the header */
-    color: #FFFFFF;
-    font-size: 25px;
-    font-weight: bold;
-    white-space: nowrap;
-    margin-right: 10px;
-}
-
-.header-accent { /* teal line underneath the header */
-    width: 100%;
-    height: 7px;
-    background-color: #26B298; 
-}
-
-.sticky-header { /* keep the header visible while scrolling */
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.questions-content { /* add spacing around the content on the questions page */
-    padding: 50px;
-}
-
-h1 { /* style and centre the main page heading */
-    margin: 0;
-    text-align: center;
-    font-size: 33px;
-}
-
-h2 { /* style and centre the questions heading */
-    margin: 0 0 20px;
-    text-align: center;
-    font-size: 28px;
-}
-
-.group-section { /* style and position the student group name display */
-    width: fit-content;
-    max-width: 100%;
-    margin: 35px auto;
-    padding: 14px 22px;
-    background-color: #EFF4F2;
-    border-left: 6px solid #26B298;
-    border-radius: 20px;
-    font-size: 23px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.welcome-text { /* style the instruction text */
-    text-align: center;
-    color: #444444;
-    font-size: 20px;
-    margin: 0 0 30px;
-}
-
-.start-text { /* add space above the start page instruction text */
-    margin-top: 10px;
-}
-
-label { /* style the labels displayed above the input fields */
-    display: block;
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-input { /* style the input fields used for student responses */
-    width: 100%;
-    min-width: 0;
-    padding: 12px;
-    font: 17px Barlow, sans-serif;
-    border: 1px solid #D6D6D6;
+.warning {
+    padding: 12px 16px;
+    background-color: #FFF3E5;
+    border-left: 5px solid #E59B32;
     border-radius: 10px;
-    background-color: #EFF4F2;
-}
-
-input:focus { /* highlight an input field when it is selected */
-    border-color: #26B298;
-    outline: 2px solid #24A78E;
-    outline-offset: 2px;
-}
-
-button { /* style for the buttons used on the scavenger hunt pages */
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 14px;
-    background-color: #000000;
-    color: #FFFFFF;
-    font: bold 17px Barlow, sans-serif;
-    cursor: pointer;
-}
-
-button:hover { /* change button colour when hovered/tapped */
-    background-color: #26B298;
-}
-
-.question-row { /* style and arrange each question and its answer section */
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 20px;
-    padding: 25px;
-    margin-bottom: 21px;
-    background-color: #EFF4F2;
-    border: 1px solid #D6D6D6;
-    border-left: 5px solid #26B298;
-    border-radius: 17px;
-}
-
-/* set the flexible widths of the question and answer sections */
-.question-content {
-    flex: 1 1 250px;
-}
-
-.answer-content {
-    flex: 1 1 220px;
-}
-
-.question-content p { /* style the question text inside each question card */
-    margin: 0;
-    color: #333333;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.submit-button { /* set the size and position of the submit button */
-    display: block;
-    width: 220px;
-    margin: 30px auto 0;
-}
-
-
-/* create hunt page */
-
-.create-hunt-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.create-hunt-content form p {
-    margin-bottom: 20px;
-}
-
-.create-hunt-content label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.create-hunt-content input,
-.create-hunt-content select,
-.create-hunt-content textarea {
-    width: 100%;
-    padding: 12px;
-    font: 17px Barlow, sans-serif;
-    border: 1px solid #D6D6D6;
-    border-radius: 10px;
-    background-color: #EFF4F2;
-}
-
-
-/* mobile */
-
-@media (max-width: 480px) { /* adjust the layout for mobile screens 480px wide or smaller */
-
-    .container { /* adjust the container size and spacing for mobile screens */
-        width: calc(100% - 24px);
-        margin: 20px auto;
-    }
-
-    /* reduce the space around the start page container on mobile */
-    .start-page .container {
-        margin: 12px;
-    }
-
-    .start-content {
-        padding: 30px 20px;
-    }
-
-    .hunt-top { /* adjust the header spacing */
-        padding: 16px 18px;
-        gap: 12px;
-    }
-
-    .ecu-logo { /* adjust the ecu logo size */
-        width: 105px;
-    }
-
-    .clock-display { /* adjust the clock size */
-        font-size: 21px;
-    }
-
-    .questions-content { /* adjust the questions page spacing */
-        padding: 28px 20px;
-    }
-
-    h1 { /* reduce the main heading size */
-        font-size: 27px;
-    }
-
-    h2 { /* reduce the questions heading size */
-        font-size: 22px;
-    }
-
-    .group-section { /* adjust the group name display */
-        width: 100%;
-        font-size: 20px;
-    }
-
-    .question-row { /* stack the question and answer sections vertically on mobile */
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    /* make the question and answer sections use the full width on mobile */
-    .question-content,
-    .answer-content {
-        flex: none;
-        width: 100%;
-    }
-
-    .submit-button { /* make the submit button use the full width */
-        width: 100%;
-    }
-}
-
-/* Keep the login and dashboard links consistent with the form buttons. */
-.staff-login-button,
-.start-content .dashboard-button,
-.start-content .Dashboard-button {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    border-radius: 14px;
-    background-color: #000000;
-    color: #FFFFFF;
-    font: bold 17px Barlow, sans-serif;
-    line-height: 1.3;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.staff-login-button:hover,
-.start-content .dashboard-button:hover,
-.start-content .Dashboard-button:hover {
-    background-color: #26B298;
-}
-
-/* Stack dashboard links and align them with the Logout form. */
-.start-content .dashboard-actions,
-.start-content .Dashboard.actions {
-    display: grid;
-    gap: 12px;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto 16px;
-}
-
-.message {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto 22px;
-    padding: 14px 16px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    text-align: left;
-    animation: message-appear 0.25s ease-out;
-}
-
-/* Centre successful login messages on both welcome pages. */
-.start-content .message.success {
-    justify-content: center;
-    text-align: center;
-}
-
-.message.error {
-    color: #8B1E1E;
-    background-color: #FFF0F0;
-    border: 2px solid #D32F2F;
-    border-left: 7px solid #D32F2F;
-    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.18);
-}
-
-/* Warning icon */
-.message.error::before {
-    content: "!";
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 25px;
-    height: 25px;
-    color: #FFFFFF;
-    background-color: #D32F2F;
-    border-radius: 50%;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-@keyframes message-appear {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }

@@ -1,1 +1,4 @@
 projectA/core/.env
+
+__pycache__/
+*.pyc
