@@ -1,5 +1,5 @@
 
-/* Global layout */
+/* global layout */
 * { box-sizing: border-box; }
 
 body {
@@ -40,7 +40,7 @@ body {
 .header-accent { height: 7px; background-color: #26B298; }
 .sticky-header { position: sticky; top: 0; z-index: 10; }
 
-/* Headings and content */
+/* headings and content */
 .questions-content { padding: 50px; }
 h1 { margin: 0; text-align: center; font-size: 33px; }
 h2 { margin: 0 0 20px; text-align: center; font-size: 28px; }
@@ -61,7 +61,7 @@ h2 { margin: 0 0 20px; text-align: center; font-size: 28px; }
 .welcome-text { text-align: center; color: #444444; font-size: 20px; margin: 10px 0 30px; }
 .start-text { margin-top: 10px; }
 
-/* Forms and buttons */
+/* forms and buttons */
 label { display: block; margin-bottom: 8px; font-size: 16px; font-weight: 700; }
 
 input, select {
@@ -111,7 +111,7 @@ button:hover { background-color: #4BC5B1; }
 .btn-delete:hover { background: rgb(233, 35, 5); color: #FFFFFF; }
 .btn-secondary:hover { background: #DDEAE5; }
 
-/* Shared cards, choices and page actions */
+/* shared cards, choices and page actions */
 .question-row, .item-card {
     background-color: #EFF4F2;
     border-left: 5px solid #26B298;
@@ -157,7 +157,7 @@ button:hover { background-color: #4BC5B1; }
 .session-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; font-size: 16px; }
 .session-actions .btn { padding: 12px 10px; }
 
-/* Student question cards */
+/* student question cards */
 .question-row {
     display: flex;
     flex-wrap: wrap;
@@ -246,7 +246,7 @@ body.questions-page {
 
 .questions-page .answer-content textarea { min-height: 90px; resize: vertical; }
 
-/* Mobile layouts */
+/* mobile layouts */
 @media (max-width: 600px) {
     .page-actions .btn-primary { width: 100%; }
     .session-actions { grid-template-columns: 1fr; }
@@ -270,5 +270,72 @@ body.questions-page {
     .questions-page .questions-container { width: calc(100% - 24px); margin: 20px auto; }
 }
 
+/* submit Quiz Page */
+
+.answer-summary {
+    list-style: none;
+    counter-reset: question;
+    padding: 0;
+    margin: 24px 0;
+}
+
+.answer-summary .item-card {
+    counter-increment: question;
+    background-color: #EFF4F2;
+    border-left: 5px solid #26B298;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    overflow-wrap: anywhere;
+}
+
+.answer-summary .question-text { margin: 0; }
+
+.answer-summary .question-text::before {
+    content: counter(question) ". ";
+}
+
+.answer-summary .answer-text { margin: 10px 0 0; }
+
+.answer-summary .item-card.unanswered {
+    background-color: #FFF3E5;
+    border-left-color: #E59B32;
+}
+
+.answer-summary .unanswered .answer-text {
+    color: #B45309;
+    font-weight: 600;
+}
+
+.warning {
+    background-color: rgba(238, 34, 3, 0.933);
+    border-left: 5px solid rgb(233, 35, 5);
+    color: #fafafaf9;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin: 18px 0;
+    font-weight: 600;
+}
+
+.answer-photo {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.page-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.page-actions button {
+    width: 100%;
+    margin: 0;
+}
+
+.page-actions button:last-child {
+    background-color: #1A1919;
 
 
