@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -39,40 +40,65 @@
         <h2>Players</h2>
 
         {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
 
         {% if rows %}
 
-            {% for row in rows %}
+            <div class="item-list">
 
-                <div class="question-row">
+                {% for row in rows %}
 
-                    <div class="question-content">
-                        <p><strong>{{ row.player.name }}</strong></p>
-                        <p>
-                            {% if row.player.submitted_at %}Submitted{% else %}In progress{% endif %}
-                            | Answered {{ row.answered }} of {{ total }}
-                            | Marked {{ row.marked }} of {{ row.answered }}
-                            | Score {{ row.correct }} / {{ total }}
+                    <div class="item-card">
+
+                        <h3>
+                            <strong>{{ row.player.name }}</strong>
+                        </h3>
+
+                        <p style="font-size: 18px; margin-bottom: 12px; line-height: 1.6;">
+
+                            Status:
+                            {% if row.player.submitted_at %}
+                                Submitted
+                            {% else %}
+                                In progress
+                            {% endif %}
+
+                            &nbsp; | &nbsp;
+
+                            Answered:
+                            {{ row.answered }} of {{ total }}
+
+                            &nbsp; | &nbsp;
+
+                            Marked:
+                            {{ row.marked }} of {{ row.answered }}
+
+                            &nbsp; | &nbsp;
+
+                            Score:
+                            {{ row.correct }} / {{ total }}
+
                         </p>
-                    </div>
 
-                    <div class="answer-content">
-                        <p>
-                            <a href="{% url 'mark_player' Session.Session_id row.player.player_id %}" class="back-link">
+                        <div class="session-actions">
+
+                            <a href="{% url 'mark_player' Session.Session_id row.player.player_id %}"
+                               class="btn btn-edit">
                                 Mark
                             </a>
-                        </p>
+
+                        </div>
+
                     </div>
 
-                </div>
+                {% endfor %}
 
-            {% endfor %}
+            </div>
 
         {% else %}
 
@@ -83,9 +109,12 @@
         {% endif %}
 
         <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'manage_sessions' %}" class="back-link">
-                Back to Sessions
+
+            <a href="{% url 'manage_sessions' %}"
+               class="btn btn-secondary">
+                ← Back to Sessions
             </a>
+
         </p>
 
     </div>
@@ -96,3 +125,7 @@
 
 </body>
 </html>
+
+
+
+

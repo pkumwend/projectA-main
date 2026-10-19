@@ -62,13 +62,11 @@
 
         </div>
 
-         <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'view_submissions' Session.Session_id %}" class="back-link">View player submissions</a>
-        </p>
-
-        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'manage_sessions' %}" class="btn btn-secondary">← Back to Manage Sessions</a>
-        </p>
+                <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;"><a href="{% url 'view_submissions' Session.Session_id %}"
+                   class="btn btn-primary"
+                   style="padding: 15px 32px; font-size: 17px; min-width: 240px; text-align: center;">
+                      View player submissions</a>
+                </p>
 
     </div>
 

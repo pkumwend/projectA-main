@@ -103,8 +103,8 @@ button:hover { background-color: #4BC5B1; }
     text-decoration: none;
 }
 
-.btn-primary { background: #26B298; color: #FFFFFF; font-size: 17px; }
-.btn-secondary { background: #EFF4F2; color: #000000; font-size: 16px; font-weight: 600; }
+.btn-primary { background: #26B298; color: #FFFFFF; font-size: 19px; }
+.btn-secondary { background: #EFF4F2; color: #000000; font-size: 17px; font-weight: 600; }
 .btn-edit { background: #FFFFFF; color: #4BC5B1; border: 1px solid currentColor; }
 .btn-delete { background: #FFFFFF; color: rgb(233, 35, 5); border: 1px solid currentColor; }
 .btn-primary:hover, .btn-edit:hover { background: #4BC5B1; color: #FFFFFF; }
@@ -120,8 +120,8 @@ button:hover { background-color: #4BC5B1; }
 
 .item-list { display: grid; gap: 14px; }
 .item-card { padding: 22px; }
-.item-card h3 { margin: 0 0 8px; font-weight: 500; }
-.item-card p { margin: 0 0 16px; }
+.item-card h3 { margin: 0 0 8px; font-weight: 500; font-size: 20px; }
+.item-card p { margin: 0 0 16px; font-size: 18px; }
 .item-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .page-actions, .page-footer { text-align: center; margin: 30px 0; }
 

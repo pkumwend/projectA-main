@@ -64,18 +64,24 @@
                             Status: {{ Session.status }}
                         </p>
 
-                        <div class="session-actions">
+                        <div class="session-actions"
+                             style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px;">
 
-                            <a href="{% url 'session_detail' Session.Session_id %}" class="btn btn-edit">
+                            <a href="{% url 'session_detail' Session.Session_id %}"
+                               class="btn btn-edit"
+                               style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">
                                 View Session
                             </a>
 
-                            <a href="{% url 'edit_session' Session.Session_id %}" class="btn btn-edit">
+                            <a href="{% url 'edit_session' Session.Session_id %}"
+                               class="btn btn-edit"
+                               style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">
                                 Edit Session
                             </a>
-                        </p>
 
-                            <a href="{% url 'delete_session' Session.Session_id %}" class="btn btn-delete">
+                            <a href="{% url 'delete_session' Session.Session_id %}"
+                               class="btn btn-delete"
+                               style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">
                                 Delete Session
                             </a>
 
@@ -109,6 +115,7 @@
 
 </body>
 </html>
+
 
 
 

@@ -32,20 +32,26 @@
             </div>
         </div>
 
-        <!-- Teal line -->
+        <!-- teal line -->
         <div class="header-accent"></div>
 
         <div class="start-content">
-            <h1>Your answers are submitted</h1>
-            <p>Thank you! Your teacher will review your answers. You can close this page.</p>
+
+        <div style="text-align: center;">
+            <h1 style="font-size: 33px; margin-bottom: 15px;">Your answers are submitted</h1>
+
+            <p style="font-size: 21px;">Thank you! Your teacher will review your answers. You can close this page.</p>
+   
             <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'homepage' %}" class="back-link">start another session?</a>
-        </p>
+            <a href="{% url 'homepage' %}"  class="btn btn-primary" style="padding: 15px 32px; font-size: 19px; min-width: 240px; text-align: center;"
+            >Start another session?</a></p>
         </div>
+
+     
 
     </main>
 
-    <!-- Clock -->
+    <!-- clock -->
     <script>
         function updateClock() {
             const currentTime = new Date();
