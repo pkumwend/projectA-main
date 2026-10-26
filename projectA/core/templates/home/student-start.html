@@ -2,37 +2,34 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> <!-- character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobile responsiveness -->
     <title>ECU Scavenger Hunt</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- google font -->
+    <link rel="stylesheet" href="style.css"> <!-- main stylesheet -->
 </head>
 
 <body class="start-page">
-    <main class="container start-container">
-        <!-- top section displaying the ecu logo  -->
-        <div class="hunt-top"><img src="ecu-logo-black.png" alt="Edith Cowan University Logo" class="ecu-logo">
+    <main class="container start-container"> <!-- start page container -->
+        <div class="hunt-top"><img src="ecu-logo-black.png" alt="Edith Cowan University Logo" class="ecu-logo"> <!-- ecu header and logo -->
 
-            <div class="clock-display"><span id="clock"></span></div></div> <!-- display area for the current time -->
+            <div class="clock-display"><span id="clock"></span></div></div> <!-- current time display -->
 
-        <div class="header-accent"></div> <!-- teal line underneath top section -->
+        <div class="header-accent"></div> <!-- teal divider -->
 
-        <!-- start page content -->
-        <div class="start-content">
-            <h1>Welcome to ECU Scavenger Hunt!</h1><p class="welcome-text start-text">Enter your group name below to begin the scavenger hunt</p><form action="questions.html" method="get">
+        <div class="start-content"> <!-- welcome page content -->
+            <h1>Welcome to ECU Scavenger Hunt!</h1><p class="welcome-text start-text">Enter your group name below to begin the scavenger hunt</p><form action="questions.html" method="get"> <!-- navigate to questions page -->
 
-
-                <div class="form-group"><label for="groupName">Group Name</label><input type="text" id="groupName" name="groupName" placeholder="Enter your group name" required>
+                <div class="form-group"><label for="groupName">Group Name</label><input type="text" id="groupName" name="groupName" placeholder="Enter your group name" required> <!-- required group name input -->
                 </div>
 
-                <button type="submit">Start Scavenger Hunt</button>
-                
+                <button type="submit">Start Scavenger Hunt</button> <!-- start hunt button -->
+
             </form>
         </div>
     </main>
 
-    <script src="questions-page.js"></script>
+    <script src="questions-page.js"></script> <!-- page javascript -->
 
 </body>
 </html>

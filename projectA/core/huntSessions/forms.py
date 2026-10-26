@@ -82,7 +82,7 @@ class ShortAnswerForm(forms.ModelForm):
         model = Answer
         fields = ["answer"]
         labels = {"answer": "Your Answer"}
-
+        widgets = {"answer": forms.TextInput(attrs={"placeholder": "Type your answer here..."})}
 
 class MultipleChoiceForm(forms.ModelForm):
     # Display multiple-choice answers as radio buttons,

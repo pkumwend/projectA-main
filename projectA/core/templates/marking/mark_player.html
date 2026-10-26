@@ -1,5 +1,5 @@
 
-{% load static %}
+{% load static tz %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +38,7 @@
 
         <p class="welcome-text start-text">
             {% if player.submitted_at %}
-            Submitted {{ player.submitted_at|date:"j M Y, g:i A" }}.
+            Submitted {{ player.submitted_at|timezone:"Australia/Perth"|date:"j M Y, g:i A" }}.
             {% else %}
             This player has not submitted yet, so their answers may still change.
             {% endif %}

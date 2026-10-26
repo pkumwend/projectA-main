@@ -1,71 +1,71 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> <!-- character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobile responsiveness -->
     <title>{{ hunt.hunt_name }} - Questions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- google font -->
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}"> <!-- main stylesheet -->
 </head>
 
 <body class="start-page questions-page">
-<header class="sticky-header">
+<header class="sticky-header"> <!-- sticky header -->
     <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo" alt="Edith Cowan University Logo">
-        <div class="clock-display"><span id="clock"></span></div>
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo" alt="Edith Cowan University Logo"> <!-- ecu logo -->
+        <div class="clock-display"><span id="clock"></span></div> <!-- clock display -->
     </div>
-    <div class="header-accent"></div>
+    <div class="header-accent"></div> <!-- teal divider -->
 </header>
 
-<main class="container questions-container">
+<main class="container questions-container"> <!-- questions page container -->
     <div class="questions-content">
-        <h1>{{ hunt.hunt_name }}</h1>
-        <div class="group-section">Welcome, {{ player.name }}!</div>
+        <h1>{{ hunt.hunt_name }}</h1> <!-- hunt title -->
+        <div class="group-section">Welcome, {{ player.name }}!</div> <!-- team name -->
         <h2>Your Hunt Begins Now!</h2>
         <p class="welcome-text">Explore the campus and complete the challenges below 🏁</p>
-        <p class="hunt-location">Location: {{ hunt.location }}</p>
+        <p class="hunt-location">Location: {{ hunt.location }}</p> <!-- hunt location -->
 
-        {% if messages %}
+        {% if messages %} {# check for notification messages #}
         <ul class="messages">
-            {% for message in messages %}
+            {% for message in messages %} {# loop through messages #}
             <li>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for item in hunt_data %}
-            <section class="question-row">
+        <form method="post" enctype="multipart/form-data"> <!-- form supports photo uploads -->
+            {% csrf_token %} {# csrf protection #}
+            {% for item in hunt_data %} {# loop through hunt questions #}
+            <section class="question-row"> <!-- question card -->
                 <div class="question-content">
-                    <h3>Question {{ forloop.counter }}</h3>
-                    <p><strong>{{ item.question.description }}</strong></p>
+                    <h3>Question {{ forloop.counter }}</h3> <!-- question number -->
+                    <p><strong>{{ item.question.description }}</strong></p> <!-- question text -->
                 </div>
-                <div class="answer-content">
-                    {{ item.form.non_field_errors }}
-                    {{ item.form.as_p }}
-                    <div class="photo-preview" hidden>
+                <div class="answer-content"> <!-- answer fields -->
+                    {{ item.form.non_field_errors }} {# display form errors #}
+                    {{ item.form.as_p }} {# render answer inputs #}
+                    <div class="photo-preview" hidden> <!-- selected photo preview -->
                         <img alt="Selected photo preview">
-                        <p class="photo-preview-name"></p>
+                        <p class="photo-preview-name"></p> <!-- photo filename -->
                     </div>
                 </div>
             </section>
-            {% empty %}
+            {% empty %} {# display when no questions exist #}
             <p>This hunt has no questions yet. Ask your teacher to add some.</p>
             {% endfor %}
 
-            {% if hunt_data %}
-            <button type="submit" class="submit-button">Review My Answers</button>
+            {% if hunt_data %} {# show button when questions exist #}
+            <button type="submit" class="submit-button">Review My Answers</button> <!-- proceed to answer review -->
             {% endif %}
         </form>
     </div>
 </main>
 
-<script src="{% static 'style_css/questions-page.js' %}"></script>
+<script src="{% static 'style_css/questions-page.js' %}"></script> <!-- clock and photo preview javascript -->
 </body>
 </html>
+
 
 
 

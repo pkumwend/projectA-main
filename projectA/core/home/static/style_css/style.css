@@ -266,15 +266,22 @@ body.questions-page {
     margin-bottom: 14px;
     overflow-wrap: anywhere;
 }
-.answer-summary .question-text { margin: 0; }
+
+.answer-summary .question-text,
+.answer-summary .question-text strong,
+.answer-summary .question-text b {
+    margin: 0;
+    font-weight: 600;
+}
+
 .answer-summary .question-text::before { content: counter(question) ". "; }
 .answer-summary .answer-text { margin: 10px 0 0; }
 .answer-summary .item-card.unanswered {
-    background-color: #f8000022;
-    border-left-color: #e00303;
+    background-color: #f83a0022;
+    border-left-color: #ff0303;
 }
 .answer-summary .unanswered .answer-text {
-    color: #e50000;
+    color: #ee0101;
     font-weight: 600;
 }
 .warning {
@@ -388,4 +395,26 @@ body.questions-page {
 .start-content form p[hidden] {
     display: none;
 }
+
+/* Short answer input box */
+.question-row input[type="text"],
+.question-row textarea {
+    background-color: #ffffff;
+}
+
+/* Vertically center question number and description */
+.question-row .question-content {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+    align-self: stretch;
+}
+
+/* Submit Hunt - question headings */
+.review-question-card strong,
+.review-question-card b {
+    font-weight: 500;
+}
+
+
 

@@ -1,51 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> <!-- character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobile responsiveness -->
     <title>ECU Scavenger Hunt - Questions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- google font -->
+    <link rel="stylesheet" href="style.css"> <!-- main stylesheet -->
 </head>
 
 <body>
-    <!-- top section displaying the ecu logo -->
-    <header class="sticky-header">
+    <header class="sticky-header"> <!-- sticky ecu header -->
         <div class="hunt-top">
-            <img src="ecu-logo-black.png" alt="Edith Cowan University Logo" class="ecu-logo">
-            <div class="clock-display"><span id="clock"></span></div>
+            <img src="ecu-logo-black.png" alt="Edith Cowan University Logo" class="ecu-logo"> <!-- ecu logo -->
+            <div class="clock-display"><span id="clock"></span></div> <!-- clock display -->
         </div>
-        <div class="header-accent"></div> <!-- teal line underneath top section -->
+        <div class="header-accent"></div> <!-- teal divider -->
     </header>
 
-    <main class="container questions-container">
+    <main class="container questions-container"> <!-- questions page container -->
         <div class="questions-content">
-            <h1>ECU Scavenger Hunt</h1> <!-- main scavenger hunt content -->
+            <h1>ECU Scavenger Hunt</h1> <!-- page heading -->
 
-            <!-- displays student group name -->
-            <div class="group-section">Welcome, <span id="groupDisplay">Team Name</span></div>
+            <div class="group-section">Welcome, <span id="groupDisplay">Team Name</span></div> <!-- display team name -->
 
             <h2>Your Hunt Begins Now!</h2>
             <p class="welcome-text">Explore the campus and complete the challenges below 🏁</p>
 
-            <!-- short answer question -->
-            <section class="question-row">
+            <section class="question-row"> <!-- short answer question -->
                 <div class="question-content"><p><strong>How much is coffee at Building 10? ☕️</strong></p>
                 </div>
 
-                <!-- text input for the student's answer -->
-                <div class="answer-content">
+                <div class="answer-content"> <!-- text answer input -->
                     <label for="question1"></label><input type="text" id="question1" name="question1" placeholder="Enter your answer">
                 </div>
             </section>
 
-            <!-- photo question -->
-            <section class="question-row">
+            <section class="question-row"> <!-- photo question -->
                 <div class="question-content"><p><strong>Find Building 12 and take a photo 📸</strong></p>
                 </div>
 
-                <!-- photo upload input for the student's answer -->
-                <div class="answer-content">
+                <div class="answer-content"> <!-- photo upload input -->
                     <label for="photo">Upload Photo</label><input type="file" id="photo" name="photo" accept="image/*">
                 </div>
             </section>
@@ -54,6 +48,6 @@
         </div>
     </main>
 
-    <script src="questions-page.js"></script>
+    <script src="{% static 'style_css/questions-page.js' %}"></script> <!-- page javascript -->
 </body>
 </html>

@@ -1,39 +1,38 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"> <!-- character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- mobile responsiveness -->
     <title>Name Group</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- google font -->
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}"> <!-- main stylesheet -->
 </head>
 
 <body class="start-page">
 <main class="container">
 
-    <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}" alt="Edith Cowan University Logo" class="ecu-logo">
-        <div class="clock-display"><span id="clock"></span></div>
+    <div class="hunt-top"> <!-- ecu header -->
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" alt="Edith Cowan University Logo" class="ecu-logo"> <!-- ecu logo -->
+        <div class="clock-display"><span id="clock"></span></div> <!-- live clock -->
     </div>
 
-    <div class="header-accent"></div>
+    <div class="header-accent"></div> <!-- teal divider -->
 
-    <div class="start-content">
+    <div class="start-content"> <!-- team name page content -->
         <h1>Enter Your Team Name</h1>
         <p class="welcome-text">Choose a name for your team to begin the scavenger hunt!</p>
 
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <form method="POST"> <!-- team name form -->
+            {% csrf_token %} {# csrf protection #}
+            {{ form.as_p }} {# display team name field #}
             <button type="submit">Continue</button>
         </form>
     </div>
 
 </main>
 
-<script src="{% static 'style_css/questions-page.js' %}"></script>
+<script src="{% static 'style_css/questions-page.js' %}"></script> <!-- clock javascript -->
 </body>
 </html>
 
