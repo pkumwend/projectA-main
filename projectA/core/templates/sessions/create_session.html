@@ -1,56 +1,38 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Create Session | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body class="start-page">
+<main class="container">
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
+    <div class="header-accent"></div>
 
-    <main class="container">
+    <div class="start-content">
+        <h1>Create New Session</h1>
+        <p class="welcome-text start-text">Enter the session details below</p>
 
-        <div class="hunt-top">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Session</button>
+        </form>
 
-            <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
-
-            <div class="clock-display"><span id="clock"></span></div>
-
-        </div>
-
-        <div class="header-accent"></div>
-
-        <div class="start-content">
-
-            <h1>Create New Session</h1>
-
-            <p class="welcome-text start-text">Enter the session details below</p>
-
-            <form method="POST">
-                {% csrf_token %}
-
-                {{ form.as_p }}
-
-                <button type="submit">Create Session</button>
-
-            </form>
-
-            <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-                <a href="{% url 'manage_sessions' %}" class="btn btn-secondary">← Back to Manage Sessions</a> 
-            </p> 
-
-        </div>
-
-    </main>
-
-    <script src="{% static 'style_css/questions-page.js' %}"></script>
-
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'manage_sessions' %}" class="btn btn-secondary">← Back to Manage Sessions</a>
+        </p>
+    </div>
+</main>
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 </body>
 </html>

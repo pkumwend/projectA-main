@@ -1,38 +1,25 @@
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>{{ hunt.hunt_name }} Submissions | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
 </head>
 
 <body class="start-page">
-
 <main class="container">
-
     <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}"
-             alt="Edith Cowan University Logo"
-             class="ecu-logo">
-
-        <div class="clock-display">
-            <span id="clock"></span>
-        </div>
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" alt="Edith Cowan University Logo" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
     </div>
-
     <div class="header-accent"></div>
 
     <div class="questions-content">
-
         <h1>Manage Submissions</h1>
-
         <p class="welcome-text start-text">
             View and mark the players in the {{ hunt.hunt_name }} session (code {{ Session.join_code }}).
         </p>
@@ -40,91 +27,53 @@
         <h2>Players</h2>
 
         {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
 
         {% if rows %}
+        <div class="item-list">
+            {% for row in rows %}
+            <div class="item-card">
+                <h3><strong>{{ row.player.name }}</strong></h3>
 
-            <div class="item-list">
+                <p style="font-size: 18px; margin-bottom: 12px; line-height: 1.6;">
+                    Status:
+                    {% if row.player.submitted_at %}
+                    Submitted
+                    {% else %}
+                    In progress
+                    {% endif %}
+                    &nbsp; | &nbsp;
+                    Answered: {{ row.answered }} of {{ total }}
+                    &nbsp; | &nbsp;
+                    Marked: {{ row.marked }} of {{ row.answered }}
+                    &nbsp; | &nbsp;
+                    Score: {{ row.correct }} / {{ total }}
+                </p>
 
-                {% for row in rows %}
-
-                    <div class="item-card">
-
-                        <h3>
-                            <strong>{{ row.player.name }}</strong>
-                        </h3>
-
-                        <p style="font-size: 18px; margin-bottom: 12px; line-height: 1.6;">
-
-                            Status:
-                            {% if row.player.submitted_at %}
-                                Submitted
-                            {% else %}
-                                In progress
-                            {% endif %}
-
-                            &nbsp; | &nbsp;
-
-                            Answered:
-                            {{ row.answered }} of {{ total }}
-
-                            &nbsp; | &nbsp;
-
-                            Marked:
-                            {{ row.marked }} of {{ row.answered }}
-
-                            &nbsp; | &nbsp;
-
-                            Score:
-                            {{ row.correct }} / {{ total }}
-
-                        </p>
-
-                        <div class="session-actions">
-
-                            <a href="{% url 'mark_player' Session.Session_id row.player.player_id %}"
-                               class="btn btn-edit">
-                                Mark
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                {% endfor %}
-
+                <div class="session-actions">
+                    <a href="{% url 'mark_player' Session.Session_id row.player.player_id %}" class="btn btn-edit">Mark</a>
+                </div>
             </div>
-
+            {% endfor %}
+        </div>
         {% else %}
-
-            <p class="welcome-text">
-                No players have joined this session yet.
-            </p>
-
+        <p class="welcome-text">No players have joined this session yet.</p>
         {% endif %}
 
         <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-
-            <a href="{% url 'manage_sessions' %}"
-               class="btn btn-secondary">
-                ← Back to Sessions
-            </a>
-
+            <a href="{% url 'manage_sessions' %}" class="btn btn-secondary">← Back to Sessions</a>
         </p>
-
     </div>
-
 </main>
-
 <script src="{% static 'style_css/questions-page.js' %}"></script>
-
 </body>
 </html>
+
 
 
 

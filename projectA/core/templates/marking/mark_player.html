@@ -1,33 +1,24 @@
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Marking {{ player.name }} | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
-
     <style>
         .questions-content .item-card h3,
         .questions-content .item-card strong,
         .questions-content .item-card label {
             font-weight: 500;
         }
-
         .questions-content .item-card h3 {
             font-size: 19px;
             line-height: 1.5;
         }
-
-        .questions-content .item-card p {
-            font-size: 17px;
-        }
-
+        .questions-content .item-card p,
         .questions-content .item-card label {
             font-size: 17px;
         }
@@ -35,191 +26,118 @@
 </head>
 
 <body class="start-page">
-
 <main class="container">
-
     <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}"
-             alt="Edith Cowan University Logo"
-             class="ecu-logo">
-
-        <div class="clock-display">
-            <span id="clock"></span>
-        </div>
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" alt="Edith Cowan University Logo" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
     </div>
-
     <div class="header-accent"></div>
 
     <div class="questions-content">
-
         <h1>Mark {{ player.name }}'s Answers</h1>
 
         <p class="welcome-text start-text">
             {% if player.submitted_at %}
-                Submitted {{ player.submitted_at|date:"j M Y, g:i A" }}.
+            Submitted {{ player.submitted_at|date:"j M Y, g:i A" }}.
             {% else %}
-                This player has not submitted yet, so their answers may still change.
+            This player has not submitted yet, so their answers may still change.
             {% endif %}
         </p>
 
         {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
 
         <div class="item-card" style="margin-bottom: 25px;">
-
-            <h3 style="font-weight: 600; font-size: 19px; margin-bottom: 12px;">
-                Marking Summary
-            </h3>
-
+            <h3 style="font-weight: 600; font-size: 19px; margin-bottom: 12px;">Marking Summary</h3>
             <p style="font-size: 17px; line-height: 1.7; margin: 0;">
                 Answered: {{ answered }} of {{ total }}
-                &nbsp; | &nbsp;
-                Not answered: {{ unanswered }}
-                &nbsp; | &nbsp;
-                Marked: {{ marked }} of {{ answered }}
-                &nbsp; | &nbsp;
-                Correct: {{ correct }} of {{ total }}
+                &nbsp; | &nbsp; Not answered: {{ unanswered }}
+                &nbsp; | &nbsp; Marked: {{ marked }} of {{ answered }}
+                &nbsp; | &nbsp; Correct: {{ correct }} of {{ total }}
             </p>
-
         </div>
 
         <form method="POST">
             {% csrf_token %}
-
             {{ formset.management_form }}
             {{ formset.non_form_errors }}
 
             {% for form in formset %}
             {% with answer=form.instance question=form.instance.question %}
+            <div class="item-card" style="margin-bottom: 16px;">
+                <h3 style="font-weight: 500; font-size: 19px; line-height: 1.5; margin-bottom: 15px;">{{ question.description }}</h3>
 
-                <div class="item-card" style="margin-bottom: 16px;">
+                {% if question.model_answer %}
+                <p style="font-size: 17px; margin-bottom: 12px;">
+                    <strong style="font-weight: 500;">Model Answer</strong> {{ question.model_answer }}
+                </p>
+                {% endif %}
 
-                    <h3 style="font-weight: 500; font-size: 19px; line-height: 1.5; margin-bottom: 15px;">
-                        {{ question.description }}
-                    </h3>
-
-                    {% if question.model_answer %}
-                        <p style="font-size: 17px; margin-bottom: 12px;">
-                            <strong style="font-weight: 500;">Model Answer:</strong>
-                            {{ question.model_answer }}
-                        </p>
+                {% if question.question_type == "multiple choice" %}
+                <p style="font-size: 17px; margin-bottom: 10px;">
+                    <strong style="font-weight: 500;">Chosen Answer</strong> {{ answer.choice.option|default:"No answer" }}
+                </p>
+                <p style="font-size: 17px; margin-bottom: 15px;">
+                    <strong style="font-weight: 500;">Correct Answer</strong>
+                    {% for choice in question.choices.all %}
+                    {% if choice.is_correct %}
+                    {{ choice.option }}
                     {% endif %}
-
-                    {% if question.question_type == "multiple choice" %}
-
-                        <p style="font-size: 17px; margin-bottom: 10px;">
-                            <strong style="font-weight: 500;">Chosen Answer:</strong>
-                            {{ answer.choice.option|default:"No answer" }}
-                        </p>
-
-                        <p style="font-size: 17px; margin-bottom: 15px;">
-                            <strong style="font-weight: 500;">Correct Answer:</strong>
-                            {% for choice in question.choices.all %}
-                                {% if choice.is_correct %}
-                                    {{ choice.option }}
-                                {% endif %}
-                            {% endfor %}
-                        </p>
-
-                    {% elif question.question_type == "short answer" %}
-
-                        <p style="font-size: 17px; margin-bottom: 15px; overflow-wrap: anywhere;">
-                            <strong style="font-weight: 500;">Student Answer:</strong>
-                            {{ answer.answer|default:"No answer provided" }}
-                        </p>
-
-                    {% elif question.question_type == "picture" %}
-
-                        <p style="font-size: 17px; margin-bottom: 10px;">
-                            <strong style="font-weight: 500;">Submitted Photo:</strong>
-                        </p>
-
-                        {% if answer.picture %}
-
-                            <a href="{{ answer.picture.url }}"
-                               target="_blank"
-                               rel="noopener"
-                               style="display: inline-block; margin-bottom: 15px;">
-
-                                <img src="{{ answer.picture.url }}"
-                                     alt="Photo submitted by {{ player.name }}"
-                                     class="answer-photo"
-                                     style="display: block; max-width: 220px; width: 100%; height: auto;">
-
-                            </a>
-
-                        {% else %}
-
-                            <p style="font-size: 17px;">
-                                No photo submitted.
-                            </p>
-
-                        {% endif %}
-
-                    {% endif %}
-
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
                     {% endfor %}
-
-                    <div style="margin-top: 12px;">
-
-                        {{ form.is_correct.errors }}
-
-                        <label for="{{ form.is_correct.id_for_label }}"
-                               style="font-size: 17px; font-weight: 500;">
-                            Mark:
-                        </label>
-
-                        {{ form.is_correct }}
-
-                    </div>
-
-                </div>
-
-            {% endwith %}
-
-            {% empty %}
-
-                <p class="welcome-text">
-                    This player has no answers to mark.
                 </p>
 
+                {% elif question.question_type == "short answer" %}
+                <p style="font-size: 17px; margin-bottom: 15px; overflow-wrap: anywhere;">
+                    <strong style="font-weight: 500;">Student Answer:</strong> {{ answer.answer|default:"No answer provided" }}
+                </p>
+
+                {% elif question.question_type == "picture" %}
+                <p style="font-size: 17px; margin-bottom: 10px;"><strong style="font-weight: 500;">Submitted Photo:</strong></p>
+
+                {% if answer.picture %}
+                <a href="{{ answer.picture.url }}" target="_blank" rel="noopener" style="display: inline-block; margin-bottom: 15px;">
+                    <img src="{{ answer.picture.url }}" alt="Photo submitted by {{ player.name }}" class="answer-photo"
+                         style="display: block; max-width: 220px; width: 100%; height: auto;">
+                </a>
+                {% else %}
+                <p style="font-size: 17px;">No photo submitted.</p>
+                {% endif %}
+                {% endif %}
+
+                {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                <div style="margin-top: 12px;">
+                    {{ form.is_correct.errors }}
+                    <label for="{{ form.is_correct.id_for_label }}" style="font-size: 17px; font-weight: 500;">Mark:</label>
+                    {{ form.is_correct }}
+                </div>
+            </div>
+            {% endwith %}
+            {% empty %}
+            <p class="welcome-text">This player has no answers to mark.</p>
             {% endfor %}
 
             {% if formset.forms %}
-
-                <button type="submit" style="margin-top: 15px;">
-                    Save Marks
-                </button>
-
+            <button type="submit" style="margin-top: 15px;">Save Marks</button>
             {% endif %}
-
         </form>
 
-        <p class="welcome-text"
-           style="margin-top: 20px; margin-bottom: 0;">
-
-            <a href="{% url 'view_submissions' session.Session_id %}"
-               class="btn btn-secondary">
-                ← Back to Submissions
-            </a>
-
+        <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
+            <a href="{% url 'view_submissions' session.Session_id %}" class="btn btn-secondary">← Back to Submissions</a>
         </p>
-
     </div>
-
 </main>
-
 <script src="{% static 'style_css/questions-page.js' %}"></script>
-
 </body>
 </html>
+
 
 
 

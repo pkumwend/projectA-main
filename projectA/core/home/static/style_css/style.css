@@ -1,5 +1,5 @@
 
-/* global layout */
+/* Global layout */
 * { box-sizing: border-box; }
 
 body {
@@ -11,7 +11,6 @@ body {
 }
 
 .start-page { display: flex; align-items: center; justify-content: center; }
-
 .container {
     width: calc(100% - 40px);
     max-width: 750px;
@@ -21,7 +20,6 @@ body {
     box-shadow: 0 15px 15px #6191731a;
     overflow: hidden;
 }
-
 .start-content { padding: 40px 35px; }
 .start-container form { max-width: 500px; margin: 0 auto; }
 .form-group { margin-bottom: 30px; }
@@ -34,17 +32,15 @@ body {
     padding: 20px 40px;
     background-color: #1A1919;
 }
-
 .ecu-logo { width: 145px; height: auto; }
 .clock-display { color: #FFFFFF; font-size: 25px; font-weight: 700; white-space: nowrap; margin-right: 10px; }
 .header-accent { height: 7px; background-color: #26B298; }
 .sticky-header { position: sticky; top: 0; z-index: 10; }
 
-/* headings and content */
+/* Headings and content */
 .questions-content { padding: 50px; }
 h1 { margin: 0; text-align: center; font-size: 33px; }
 h2 { margin: 0 0 20px; text-align: center; font-size: 28px; }
-
 .group-section {
     width: fit-content;
     max-width: 100%;
@@ -57,13 +53,11 @@ h2 { margin: 0 0 20px; text-align: center; font-size: 28px; }
     font-weight: 700;
     text-align: center;
 }
-
 .welcome-text { text-align: center; color: #444444; font-size: 20px; margin: 10px 0 30px; }
 .start-text { margin-top: 10px; }
 
-/* forms and buttons */
+/* Forms and buttons */
 label { display: block; margin-bottom: 8px; font-size: 16px; font-weight: 700; }
-
 input, select {
     width: 100%;
     min-width: 0;
@@ -73,13 +67,11 @@ input, select {
     border-radius: 10px;
     background-color: #EFF4F2;
 }
-
 input:not([type="checkbox"]):not([type="radio"]):focus, select:focus {
     border-color: #26B298;
     outline: 2px solid #24A78E;
     outline-offset: 2px;
 }
-
 button {
     width: 100%;
     padding: 15px;
@@ -90,7 +82,6 @@ button {
     font: 700 17px Barlow, sans-serif;
     cursor: pointer;
 }
-
 button:hover { background-color: #4BC5B1; }
 .submit-button { display: block; width: 220px; margin: 30px auto 0; }
 
@@ -102,7 +93,6 @@ button:hover { background-color: #4BC5B1; }
     text-align: center;
     text-decoration: none;
 }
-
 .btn-primary { background: #26B298; color: #FFFFFF; font-size: 19px; }
 .btn-secondary { background: #EFF4F2; color: #000000; font-size: 17px; font-weight: 600; }
 .btn-edit { background: #FFFFFF; color: #4BC5B1; border: 1px solid currentColor; }
@@ -111,13 +101,12 @@ button:hover { background-color: #4BC5B1; }
 .btn-delete:hover { background: rgb(233, 35, 5); color: #FFFFFF; }
 .btn-secondary:hover { background: #DDEAE5; }
 
-/* shared cards, choices and page actions */
+/* Shared cards, choices and page actions */
 .question-row, .item-card {
     background-color: #EFF4F2;
     border-left: 5px solid #26B298;
     border-radius: 16px;
 }
-
 .item-list { display: grid; gap: 14px; }
 .item-card { padding: 22px; }
 .item-card h3 { margin: 0 0 8px; font-weight: 500; font-size: 20px; }
@@ -131,16 +120,13 @@ button:hover { background-color: #4BC5B1; }
     justify-content: space-between;
     font-weight: 500;
 }
-
 .question-option { gap: 15px; margin: 0; padding: 16px 20px; cursor: pointer; }
-
 .question-option input, .checkbox-label input, .item-card input[type="checkbox"] {
     width: 18px;
     height: 18px;
     padding: 0;
     accent-color: #26B298;
 }
-
 .question-option input { flex-shrink: 0; order: 2; }
 .choice-card { padding: 18px 20px; }
 .choice-field { margin-bottom: 12px; }
@@ -153,11 +139,10 @@ button:hover { background-color: #4BC5B1; }
     justify-content: space-between;
     gap: 15px;
 }
-
 .session-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; font-size: 16px; }
 .session-actions .btn { padding: 12px 10px; }
 
-/* student question cards */
+/* Student question cards */
 .question-row {
     display: flex;
     flex-wrap: wrap;
@@ -169,24 +154,20 @@ button:hover { background-color: #4BC5B1; }
     border-left: 5px solid #26B298;
     border-radius: 17px;
 }
-
 .question-content { flex: 1 1 250px; }
 .answer-content { flex: 1 1 220px; }
-
 .question-content p, .question-content p strong {
     margin: 0;
     color: #333333;
     font-size: 18px;
     font-weight: 500;
 }
-
 body.questions-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
 }
-
 .questions-page .sticky-header { width: 100%; flex-shrink: 0; }
 .questions-page .questions-container { width: calc(100% - 40px); max-width: 750px; margin: 30px auto; }
 .questions-page .question-row { align-items: flex-start; gap: 24px; padding: 24px; }
@@ -210,12 +191,10 @@ body.questions-page {
     font-weight: 500;
     cursor: pointer;
 }
-
 .questions-page .answer-content label:has(> input[type="radio"]):hover {
     border-color: #26B298;
     background-color: #F7FCFA;
 }
-
 .questions-page .answer-content input[type="radio"] {
     appearance: auto;
     -webkit-appearance: radio;
@@ -231,29 +210,25 @@ body.questions-page {
     outline: none;
     accent-color: #26B298;
 }
-
 .questions-page .answer-content input[type="radio"]:focus-visible {
     outline: 2px solid #26B298;
     outline-offset: 3px;
 }
-
 .questions-page .answer-content input[type="text"],
 .questions-page .answer-content textarea,
 .questions-page .answer-content input[type="file"] {
     max-width: 100%;
     font-size: 15px;
 }
-
 .questions-page .answer-content textarea { min-height: 90px; resize: vertical; }
 
-/* mobile layouts */
+/* Mobile layouts */
 @media (max-width: 600px) {
     .page-actions .btn-primary { width: 100%; }
     .session-actions { grid-template-columns: 1fr; }
     .questions-page .question-row { flex-direction: column; gap: 16px; padding: 20px; }
     .questions-page .question-content, .questions-page .answer-content { width: 100%; flex: none; }
 }
-
 @media (max-width: 480px) {
     .container { width: calc(100% - 24px); margin: 20px auto; }
     .start-content { padding: 30px 20px; }
@@ -270,7 +245,11 @@ body.questions-page {
     .questions-page .questions-container { width: calc(100% - 24px); margin: 20px auto; }
 }
 
-/* submit Quiz Page */
+/* Submit quiz page */
+.review-message {
+    font-size: 18px;
+    line-height: 1.5;
+}
 
 .answer-summary {
     list-style: none;
@@ -278,7 +257,6 @@ body.questions-page {
     padding: 0;
     margin: 24px 0;
 }
-
 .answer-summary .item-card {
     counter-increment: question;
     background-color: #EFF4F2;
@@ -288,25 +266,17 @@ body.questions-page {
     margin-bottom: 14px;
     overflow-wrap: anywhere;
 }
-
 .answer-summary .question-text { margin: 0; }
-
-.answer-summary .question-text::before {
-    content: counter(question) ". ";
-}
-
+.answer-summary .question-text::before { content: counter(question) ". "; }
 .answer-summary .answer-text { margin: 10px 0 0; }
-
 .answer-summary .item-card.unanswered {
-    background-color: #FFF3E5;
-    border-left-color: #E59B32;
+    background-color: #f8000022;
+    border-left-color: #e00303;
 }
-
 .answer-summary .unanswered .answer-text {
-    color: #B45309;
+    color: #e50000;
     font-weight: 600;
 }
-
 .warning {
     background-color: rgba(238, 34, 3, 0.933);
     border-left: 5px solid rgb(233, 35, 5);
@@ -317,25 +287,105 @@ body.questions-page {
     font-weight: 600;
 }
 
+.error-message {
+    padding: 12px 16px;
+    margin: 5px 0 15px;
+    background-color: #FFF0F0;
+    border-left: 4px solid #D93025;
+    border-radius: 8px;
+    color: #B42318;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+}
+
 .answer-photo {
-    max-width: 100%;
-    height: auto;
+    display: block;
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
     margin-top: 10px;
     border-radius: 10px;
 }
+.page-actions { display: flex; flex-direction: column; gap: 12px; }
+.page-actions button { width: 100%; margin: 0; }
+.page-actions button:last-child { background-color: #1A1919; }
 
-.page-actions {
+/* Student photo upload and preview */
+.questions-page .answer-content:has(input[type="file"]) {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-.page-actions button {
+    min-width: 0;
     width: 100%;
-    margin: 0;
 }
-
-.page-actions button:last-child {
-    background-color: #1A1919;
-
+.questions-page .answer-content:has(input[type="file"]) > p { margin: 0; }
+.questions-page .answer-content input[type="file"] {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    border: 1px dashed #26B298;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+}
+.questions-page .answer-content input[type="file"]::file-selector-button {
+    padding: 9px 12px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #26B298;
+    color: #FFFFFF;
+    font: 600 14px Barlow, sans-serif;
+    cursor: pointer;
+}
+.questions-page .photo-preview[hidden] { display: none; }
+.questions-page .photo-preview:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    max-width: 100%;
+}
+.questions-page .photo-preview img {
+    display: block;
+    width: 130px;
+    height: 130px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+.questions-page .photo-preview-name {
+    margin: 0;
+    max-width: 100%;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+.questions-page .remove-photo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.questions-page .remove-photo-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    accent-color: #26B298;
+}
+.questions-page .remove-photo-row label {
+    display: inline;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+#choices-section[hidden],
+.start-content form p[hidden] {
+    display: none;
+}
 

@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             name='Player',
             fields=[
                 ('player_id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=35)),
+                ('name', models.CharField(max_length=30)),
                 ('session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='players', to='huntSessions.huntsession')),
             ],
         ),

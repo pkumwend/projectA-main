@@ -1,79 +1,67 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Manage Hunts | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body class="start-page">
+<main class="container">
 
-    <main class="container">
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
 
-        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+    <div class="header-accent"></div>
 
-            <div class="clock-display"><span id="clock"></span></div>
+    <div class="questions-content">
+        <h1>Manage Hunts</h1>
+        <p class="welcome-text start-text">Create a new hunt or manage an existing one</p>
+
+        <div class="page-actions">
+            <a href="{% url 'create_hunt' %}" class="btn btn-primary">+ Create New Hunt</a>
         </div>
 
-        <div class="header-accent"></div>
+        <h2>Existing Hunts</h2>
 
-        <div class="questions-content">
-
-            <h1>Manage Hunts</h1>
-
-            <p class="welcome-text start-text">Create a new hunt or manage an existing one</p>
-
-            <div class="page-actions">
-                <a href="{% url 'create_hunt' %}" class="btn btn-primary">+ Create New Hunt</a>
-            </div>
-
-            <h2>Existing Hunts</h2>
-
-            {% if hunts %}
-
-                <div class="item-list">
-
-                    {% for hunt in hunts %}
-
-                        <section class="item-card">
-
-                            <div><h3>{{ hunt.hunt_name }}</h3><p>Location: {{ hunt.location }}</p>
-                            </div>
-
-                            <div class="item-actions">
-
-                                <a href="{% url 'edit_hunt' hunt.hunt_id %}" class="btn btn-edit">Edit Hunt</a>
-
-                                <a href="{% url 'delete_hunt' hunt.hunt_id %}" class="btn btn-delete">Delete Hunt</a>
-
-                            </div>
-
-                        </section>
-
-                    {% endfor %}
-
+        {% if hunts %}
+        <div class="item-list">
+            {% for hunt in hunts %}
+            <section class="item-card">
+                <div>
+                    <h3>{{ hunt.hunt_name }}</h3>
+                    <p>Location: {{ hunt.location }}</p>
                 </div>
 
-            {% else %}
-
-                <p class="welcome-text">No hunts have been created yet.</p>
-
-            {% endif %}
-
-            <div class="page-footer"><a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
-            </div>
-
+                <div class="item-actions">
+                    <a href="{% url 'edit_hunt' hunt.hunt_id %}" class="btn btn-edit">Edit Hunt</a>
+                    <a href="{% url 'delete_hunt' hunt.hunt_id %}" class="btn btn-delete">Delete Hunt</a>
+                </div>
+            </section>
+            {% endfor %}
         </div>
+        {% else %}
+        <p class="welcome-text">No hunts have been created yet.</p>
+        {% endif %}
 
-    </main>
+        <div class="page-footer">
+            {% if user.is_superuser %}
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            {% else %}
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            {% endif %}
+        </div>
+    </div>
 
-    <script src="{% static 'style_css/questions-page.js' %}"></script>
+</main>
 
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 </body>
 </html>
+

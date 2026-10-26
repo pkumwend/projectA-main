@@ -24,8 +24,8 @@ class QuestionChoiceForm(forms.ModelForm):
         model = QuestionChoice
         fields = ["option", "is_correct"]
         labels = {
-            "option": "answer option",
-            "is_correct": "correct answer"
+            "option": "Answer option",
+            "is_correct": "Correct answer"
         }
 
 
@@ -62,21 +62,26 @@ class HuntSessionForm(forms.ModelForm):
         model = HuntSession
         fields = ["hunt", "status", "join_code"]
 
-
 class JoinCodeForm(forms.Form):
-    join_code = forms.CharField(max_length=6, min_length=6)
-
+    join_code = forms.CharField(max_length=6, min_length=6, label= "Join Code",
+        widget=forms.TextInput(attrs={"placeholder": "Enter the join code"}))
 
 class PlayerForm(forms.ModelForm):
     class Meta:
         model = Player
         fields = ["name"]
+        labels = {"name": "Team Name"}
+        widgets = {"name": forms.TextInput(attrs={
+            "placeholder": "Enter your team name",
+            "minlength": 2,
+            "maxlength": 30
+        })}
 
 class ShortAnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ["answer"]
-        labels = {"answer": "your answer"}
+        labels = {"answer": "Your Answer"}
 
 
 class MultipleChoiceForm(forms.ModelForm):
@@ -87,7 +92,7 @@ class MultipleChoiceForm(forms.ModelForm):
         model = Answer
         fields = ["choice"]
         widgets = {"choice": forms.RadioSelect}
-        labels = {"choice": "Select an option:"}
+        labels = {"choice": "Select an Option:"}
 
     def __init__(self, *args, question=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -106,7 +111,7 @@ class PictureForm(forms.ModelForm):
                 attrs={"accept": "image/*"}
             )
         }
-        labels = {"picture": "Upload a photo"}
+        labels = {"picture": "Upload a Photo"}
 
 class MarkAnswersForm(forms.ModelForm):
     class Meta:

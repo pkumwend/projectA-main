@@ -1,120 +1,66 @@
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Manage Sessions | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}?v=2">
 </head>
 
 <body class="start-page">
-
 <main class="container">
-
     <div class="hunt-top">
-        <img src="{% static 'style_css/ecu-logo-black.png' %}"
-             alt="Edith Cowan University Logo"
-             class="ecu-logo">
-
-        <div class="clock-display">
-            <span id="clock"></span>
-        </div>
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" alt="Edith Cowan University Logo" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
     </div>
-
     <div class="header-accent"></div>
 
     <div class="questions-content">
-
         <h1>Manage Sessions</h1>
-
-        <p class="welcome-text start-text">
-            View and manage currently active scavenger hunt sessions.
-        </p>
+        <p class="welcome-text start-text">View and manage currently active scavenger hunt sessions.</p>
 
         <div class="page-actions">
-            <a href="{% url 'create_session' %}" class="btn btn-primary">
-                + Create New Session
-            </a>
+            <a href="{% url 'create_session' %}" class="btn btn-primary">+ Create New Session</a>
         </div>
 
         <h2>Available Hunt Sessions</h2>
 
         {% if Sessions %}
+        <div class="item-list">
+            {% for Session in Sessions %}
+            <div class="item-card">
+                <h3>{{ Session.Hunt.hunt_name }}</h3>
+                <p>Join Code <strong>{{ Session.join_code }}</strong></p>
+                <p>Status: {{ Session.status }}</p>
 
-            <div class="item-list">
-
-                {% for Session in Sessions %}
-
-                    <div class="item-card">
-
-                        <h3>{{ Session.Hunt.hunt_name }}</h3>
-
-                        <p>
-                            Join Code:
-                            <strong>{{ Session.join_code }}</strong>
-                        </p>
-
-                        <p>
-                            Status: {{ Session.status }}
-                        </p>
-
-                        <div class="session-actions"
-                             style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px;">
-
-                            <a href="{% url 'session_detail' Session.Session_id %}"
-                               class="btn btn-edit"
-                               style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">
-                                View Session
-                            </a>
-
-                            <a href="{% url 'edit_session' Session.Session_id %}"
-                               class="btn btn-edit"
-                               style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">
-                                Edit Session
-                            </a>
-
-                            <a href="{% url 'delete_session' Session.Session_id %}"
-                               class="btn btn-delete"
-                               style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">
-                                Delete Session
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                {% endfor %}
-
+                <div class="session-actions" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px;">
+                    <a href="{% url 'session_detail' Session.Session_id %}" class="btn btn-edit" style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">View Session</a>
+                    <a href="{% url 'edit_session' Session.Session_id %}" class="btn btn-edit" style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">Edit Session</a>
+                    <a href="{% url 'delete_session' Session.Session_id %}" class="btn btn-delete" style="font-size: 16px; padding: 12px 5px; white-space: nowrap;">Delete Session</a>
+                </div>
             </div>
-
+            {% endfor %}
+        </div>
         {% else %}
-
-            <p class="welcome-text">
-                There are currently no sessions.
-            </p>
-
+        <p class="welcome-text">There are currently no sessions.</p>
         {% endif %}
 
         <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">
-                ← Back to Dashboard
-            </a>
+            {% if user.is_superuser %}
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            {% else %}
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            {% endif %}
         </p>
-
     </div>
-
 </main>
-
 <script src="{% static 'style_css/questions-page.js' %}"></script>
-
 </body>
 </html>
+
 
 
 

@@ -1,75 +1,44 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Thank you</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link
-        rel="stylesheet"
-        href="{% static 'style_css/style.css' %}"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body class="start-page">
+<main class="container">
 
-    <main class="container">
+    <!-- ECU logo and clock -->
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
 
-        <!-- ECU logo and clock -->
-        <div class="hunt-top">
-            <img src="{% static 'style_css/ecu-logo-black.png' %}"
-                 alt="Edith Cowan University Logo"
-                 class="ecu-logo">
+    <!-- teal line -->
+    <div class="header-accent"></div>
 
-            <div class="clock-display">
-                <span id="clock"></span>
-            </div>
-        </div>
-
-        <!-- teal line -->
-        <div class="header-accent"></div>
-
-        <div class="start-content">
-
+    <div class="start-content">
         <div style="text-align: center;">
             <h1 style="font-size: 33px; margin-bottom: 15px;">Your answers are submitted</h1>
 
-            <p style="font-size: 21px;">Thank you! Your teacher will review your answers. You can close this page.</p>
-   
+            <p style="font-size: 21px; margin-top: 50px; margin-bottom: 30px;">
+                Thank you! Your teacher will review your answers. You can close this page.
+            </p>
+
             <p class="welcome-text" style="margin-top: 20px; margin-bottom: 0;">
-            <a href="{% url 'homepage' %}"  class="btn btn-primary" style="padding: 15px 32px; font-size: 19px; min-width: 240px; text-align: center;"
-            >Start another session?</a></p>
+                <a href="{% url 'homepage' %}" class="btn btn-primary" style="padding: 15px 32px; font-size: 19px; min-width: 240px; text-align: center;">Start another session?</a>
+            </p>
         </div>
+    </div>
 
-     
+</main>
 
-    </main>
-
-    <!-- clock -->
-    <script>
-        function updateClock() {
-            const currentTime = new Date();
-
-            const formattedTime =
-                currentTime.toLocaleTimeString("en-AU", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true
-                });
-
-            document.getElementById("clock").textContent =
-                formattedTime.toUpperCase();
-        }
-
-        updateClock();
-        setInterval(updateClock, 1000);
-    </script>
-
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 </body>
 </html>
+

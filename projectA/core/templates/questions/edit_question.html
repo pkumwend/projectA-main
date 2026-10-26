@@ -1,86 +1,54 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Edit Question | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body class="start-page">
+<main class="container">
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" alt="ECU Logo" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
+    <div class="header-accent"></div>
 
-    <main class="container">
+    <div class="start-content">
+        <h1>Edit Question</h1>
+        <p class="welcome-text start-text">Update the question details below</p>
 
-        <div class="hunt-top">
-            <img src="{% static 'style_css/ecu-logo-black.png' %}"
-                 alt="ECU Logo"
-                 class="ecu-logo">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ formset.management_form }}
 
-            <div class="clock-display">
-                <span id="clock"></span>
-            </div>
-        </div>
-
-        <div class="header-accent"></div>
-
-        <div class="start-content">
-
-            <h1>Edit Question</h1>
-
-            <p class="welcome-text start-text">
-                Update the question details below
-            </p>
-
-            <form method="POST">
-                {% csrf_token %}
-
-                {{ form.as_p }}
-
-                <!-- Required for Django to process the choice formset -->
-                {{ formset.management_form }}
-
-                {% if form.question_type.value == "multiple choice" %}
-
-                    <h2>Choices</h2>
-
-                    <div class="item-list">
-
-                        {% for choice_form in formset %}
-
-                            <div class="item-card">
-                                {{ choice_form.as_p }}
-                            </div>
-
-                        {% endfor %}
-
-                    </div>
-
-                {% endif %}
-
-                <button type="submit" style="margin-top: 25px;">
-                    Save Changes
-                </button>
-
-            </form>
-
-            <div class="page-footer">
-                <a href="{% url 'question_pool' %}"
-                   class="btn btn-secondary">
-                    ← Back to Question Pool
-                </a>
+            <div id="choices-section">
+                <h2>Choices</h2>
+                <div class="item-list">
+                    {% for choice_form in formset %}
+                    <div class="item-card">{{ choice_form.as_p }}</div>
+                    {% endfor %}
+                </div>
             </div>
 
+            <button type="submit" style="margin-top: 25px;">Save Changes</button>
+        </form>
+
+        <div class="page-footer">
+            <a href="{% url 'question_pool' %}" class="btn btn-secondary">← Back to Question Pool</a>
         </div>
+    </div>
+</main>
 
-    </main>
-
-    <script src="{% static 'style_css/questions-page.js' %}"></script>
-
+<script src="{% static 'style_css/questions-page.js' %}"></script>
+<script src="{% static 'style_css/edit-question.js' %}"></script>
 </body>
 </html>
+
+
 

@@ -1,102 +1,80 @@
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Create Question | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body class="start-page">
+<main class="container">
 
-    <main class="container">
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
 
-        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+    <div class="header-accent"></div>
 
-            <div class="clock-display"><span id="clock"></span></div>
-        </div>
+    <div class="start-content">
+        <h1>Create New Question</h1>
+        <p class="welcome-text start-text">Enter the question details below</p>
 
-        <div class="header-accent"></div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-        <div class="start-content">
+            <div id="choices-section">
+                <h2>Choices</h2>
+                {{ formset.management_form }}
 
-            <h1>Create New Question</h1>
-
-            <p class="welcome-text start-text">Enter the question details below</p>
-
-            <form method="POST">
-                {% csrf_token %}
-
-                {{ form.as_p }}
-
-                <div id="choices-section">
-
-                    <h2>Choices</h2>
-
-                    {{ formset.management_form }}
-
-                    <div class="item-list">
-
-                        {% for choice_form in formset %}
-
-                            <div class="item-card choice-card">
-
-                                {% for hidden in choice_form.hidden_fields %}
-                                    {{ hidden }}
-                                {% endfor %}
-
-                                {% for field in choice_form.visible_fields %}
-
-                                    <div class="choice-field">
-                                        {% if field.field.widget.input_type == "checkbox" %}
-
-                                            <label class="checkbox-label">
-                                                {{ field.label }}
-                                                {{ field }}
-                                            </label>
-
-                                        {% else %}
-
-                                            <label for="{{ field.id_for_label }}">
-                                                {{ field.label }}
-                                            </label>
-                                            {{ field }}
-
-                                        {% endif %}
-
-                                        {{ field.errors }}
-                                    </div>
-
-                                {% endfor %}
-
-                                {{ choice_form.non_field_errors }}
-
-                            </div>
-
+                <div class="item-list">
+                    {% for choice_form in formset %}
+                    <div class="item-card choice-card">
+                        {% for hidden in choice_form.hidden_fields %}
+                        {{ hidden }}
                         {% endfor %}
 
+                        {% for field in choice_form.visible_fields %}
+                        <div class="choice-field">
+                            {% if field.field.widget.input_type == "checkbox" %}
+                            <label class="checkbox-label">
+                                {{ field.label }}
+                                {{ field }}
+                            </label>
+                            {% else %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% endif %}
+                            {{ field.errors }}
+                        </div>
+                        {% endfor %}
+
+                        {{ choice_form.non_field_errors }}
                     </div>
-
+                    {% endfor %}
                 </div>
-
-                <div class="page-actions"><button type="submit">Add to Questions</button></div>
-
-            </form>
-
-            <div class="page-footer"><a href="{% url 'question_pool' %}"class="btn btn-secondary">← Back to Question Pool</a>
             </div>
 
+            <div class="page-actions">
+                <button type="submit">Add to Questions</button>
+            </div>
+        </form>
+
+        <div class="page-footer">
+            <a href="{% url 'question_pool' %}" class="btn btn-secondary">← Back to Question Pool</a>
         </div>
+    </div>
 
-    </main>
+</main>
 
-    <script src="{% static 'style_css/questions-page.js' %}"></script>
-
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 </body>
 </html>
+
+
+

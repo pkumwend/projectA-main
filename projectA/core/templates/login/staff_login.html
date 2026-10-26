@@ -1,18 +1,14 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Staff Login | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
-
     <style>
-        /* Show login errors as prominent red notices. */
         .start-page .start-content .message.error {
             box-sizing: border-box;
             margin: 18px 0 22px;
@@ -31,66 +27,44 @@
 </head>
 
 <body class="start-page">
-
 <main class="container">
-
     <div class="hunt-top">
-
         <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
-
-        <div class="clock-display"><span id="clock"></span>
-        </div>
-
+        <div class="clock-display"><span id="clock"></span></div>
     </div>
-
     <div class="header-accent"></div>
 
     <div class="start-content">
-
         <h1>Staff Login</h1>
-
         <p class="welcome-text start-text">Staff and administrator login</p>
 
         {% if messages %}
-            {% for message in messages %}
-                <p class="message {{ message.tags }}" role="alert">
-                    {{ message }}
-                </p>
-            {% endfor %}
+        {% for message in messages %}
+        <p class="message {{ message.tags }}" role="alert">{{ message }}</p>
+        {% endfor %}
         {% endif %}
 
         <form method="post">
             {% csrf_token %}
 
             <div class="form-group">
-
                 <label for="username">Username</label>
-
                 <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" required>
-
             </div>
 
             <div class="form-group">
-
                 <label for="password">Password</label>
-
                 <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
 
                 <div class="forgot-password-row" style="margin-top: 8px; text-align: left;">
                     <a href="{% url 'recovery:forgot_password' %}" style="display: inline-block; color: #17804a; font-size: 0.9rem; font-weight: 600; text-decoration: underline;">Forgot password?</a>
                 </div>
-
             </div>
 
             <button type="submit">Login</button>
-
         </form>
-
     </div>
-
 </main>
-
 <script src="{% static 'style_css/questions-page.js' %}"></script>
-
 </body>
 </html>

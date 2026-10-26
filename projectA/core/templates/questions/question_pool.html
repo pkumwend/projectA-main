@@ -1,83 +1,61 @@
 
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Question Pool | ECU Scavenger Hunt</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style_css/style.css' %}">
 </head>
 
 <body class="start-page">
+<main class="container">
+    <div class="hunt-top">
+        <img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
+        <div class="clock-display"><span id="clock"></span></div>
+    </div>
+    <div class="header-accent"></div>
 
-    <main class="container">
+    <div class="questions-content">
+        <h1>Question Pool</h1>
+        <p class="welcome-text start-text">Create, edit and manage questions</p>
 
-        <div class="hunt-top"><img src="{% static 'style_css/ecu-logo-black.png' %}" class="ecu-logo">
-
-            <div class="clock-display"><span id="clock"></span></div></div>
-
-        <div class="header-accent"></div>
-
-        <div class="questions-content">
-
-            <h1>Question Pool</h1>
-
-            <p class="welcome-text start-text">Create, edit and manage questions</p>
-
-            <div class="page-actions">
-                <a href="{% url 'create_question' %}" class="btn btn-primary">+ Create New Question</a>
-            </div>
-
-            <h2>Questions</h2>
-
-            {% if questions %}
-
-                <div class="item-list">
-
-                    {% for question in questions %}
-
-                        <section class="item-card">
-
-                            <h3>{{ question.description }}</h3>
-
-                            <p>Type: {{ question.question_type }}</p>
-
-                            <div class="item-actions">
-
-                                <a href="{% url 'edit_question' question.question_id %}"
-                                   class="btn btn-edit">Edit Question</a>
-
-                                <a href="{% url 'delete_question' question.question_id %}"
-                                   class="btn btn-delete">Delete Question</a>
-
-                            </div>
-
-                        </section>
-
-                    {% endfor %}
-
-                </div>
-
-            {% else %}
-
-                <p class="welcome-text">No questions have been created yet.</p>
-
-            {% endif %}
-
-            <div class="page-footer">
-                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
-            </div>
-
+        <div class="page-actions">
+            <a href="{% url 'create_question' %}" class="btn btn-primary">+ Create New Question</a>
         </div>
 
-    </main>
+        <h2>Questions</h2>
 
-    <script src="{% static 'style_css/questions-page.js' %}"></script>
+        {% if questions %}
+        <div class="item-list">
+            {% for question in questions %}
+            <section class="item-card">
+                <h3>{{ question.description }}</h3>
+                <p>Type: {{ question.question_type }}</p>
 
+                <div class="item-actions">
+                    <a href="{% url 'edit_question' question.question_id %}" class="btn btn-edit">Edit Question</a>
+                    <a href="{% url 'delete_question' question.question_id %}" class="btn btn-delete">Delete Question</a>
+                </div>
+            </section>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="welcome-text">No questions have been created yet.</p>
+        {% endif %}
+
+        <div class="page-footer">
+            {% if user.is_superuser %}
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            {% else %}
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
+            {% endif %}
+        </div>
+    </div>
+</main>
+<script src="{% static 'style_css/questions-page.js' %}"></script>
 </body>
 </html>
+

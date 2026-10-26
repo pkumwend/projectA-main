@@ -32,7 +32,7 @@ def homepage(request):
             #session = get_object_or_404(HuntSession,join_code=join_code)
 
             if session is None:
-                messages.error(request, "Incorrect code, Please check the join code and try again")
+                messages.error(request, "Incorrect join code. Please check the code and try again")
                 return redirect("homepage")
 
             request.session["hunt_session_id"] = session.Session_id
