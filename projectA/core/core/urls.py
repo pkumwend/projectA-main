@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('huntSessions.urls')),
+    path('', include('recovery.urls')),
 ]
 
 if settings.DEBUG:
